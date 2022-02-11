@@ -5,6 +5,10 @@
  */
 package modelo;
 
+import java.awt.Image;
+
+
+
 /**
  *
  * @author Manolo
@@ -14,7 +18,7 @@ public class Usuario {
     private String username;
     private String password;
     private String telefono;
-    private String imagenUsuario;
+    private Image imagenUsuario;
     private String rol;
 
     public String getNombreCompleto() {
@@ -49,11 +53,11 @@ public class Usuario {
         this.telefono = telefono;
     }
 
-    public String getImagenUsuario() {
+    public Image getImagenUsuario() {
         return imagenUsuario;
     }
 
-    public void setImagenUsuario(String imagenUsuario) {
+    public void setImagenUsuario(Image imagenUsuario) {
         this.imagenUsuario = imagenUsuario;
     }
 

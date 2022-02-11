@@ -6,6 +6,10 @@
 package vista;
 
 import controlador.UsuarioController;
+import java.awt.Image;
+import java.awt.Toolkit;
+import javax.swing.ImageIcon;
+import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 
 /**
@@ -13,7 +17,6 @@ import javax.swing.JOptionPane;
  * @author Manolo
  */
 public class Registro extends javax.swing.JDialog {
-
     /**
      * Creates new form registro
      */
@@ -45,6 +48,8 @@ public class Registro extends javax.swing.JDialog {
         tfTelefono = new javax.swing.JTextField();
         btnElegirImagen = new javax.swing.JButton();
         btnGuardar = new javax.swing.JButton();
+        tfRutaImagenUsuario = new javax.swing.JTextField();
+        lblCancelarImagen = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Padel Land - Registro de usuario");
@@ -66,11 +71,27 @@ public class Registro extends javax.swing.JDialog {
         jLabel7.setText("Imagen de usuario: ");
 
         btnElegirImagen.setText("Elegir imagen");
+        btnElegirImagen.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnElegirImagenActionPerformed(evt);
+            }
+        });
 
         btnGuardar.setText("GUARDAR");
         btnGuardar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnGuardarActionPerformed(evt);
+            }
+        });
+
+        tfRutaImagenUsuario.setEditable(false);
+
+        lblCancelarImagen.setFont(new java.awt.Font("Tahoma", 0, 15)); // NOI18N
+        lblCancelarImagen.setForeground(new java.awt.Color(255, 0, 0));
+        lblCancelarImagen.setText("X");
+        lblCancelarImagen.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblCancelarImagenMouseClicked(evt);
             }
         });
 
@@ -80,10 +101,6 @@ public class Registro extends javax.swing.JDialog {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(54, 54, 54)
-                        .addComponent(jLabel1)
-                        .addGap(0, 46, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addContainerGap()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -96,13 +113,23 @@ public class Registro extends javax.swing.JDialog {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(btnGuardar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(tfUserName)
-                                .addComponent(tfApellidos, javax.swing.GroupLayout.DEFAULT_SIZE, 112, Short.MAX_VALUE)
-                                .addComponent(tfPassword)
-                                .addComponent(tfTelefono))
+                            .addComponent(tfUserName)
+                            .addComponent(tfApellidos, javax.swing.GroupLayout.DEFAULT_SIZE, 112, Short.MAX_VALUE)
+                            .addComponent(tfPassword)
+                            .addComponent(tfTelefono)
                             .addComponent(tfNombre, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(btnElegirImagen, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 112, Short.MAX_VALUE))))
+                            .addComponent(btnElegirImagen, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 112, Short.MAX_VALUE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(54, 54, 54)
+                                .addComponent(jLabel1))
+                            .addGroup(layout.createSequentialGroup()
+                                .addContainerGap()
+                                .addComponent(tfRutaImagenUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(lblCancelarImagen)))
+                        .addGap(0, 13, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -134,7 +161,11 @@ public class Registro extends javax.swing.JDialog {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel7)
                     .addComponent(btnElegirImagen))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 45, Short.MAX_VALUE)
+                .addGap(32, 32, 32)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(tfRutaImagenUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblCancelarImagen))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 38, Short.MAX_VALUE)
                 .addComponent(btnGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(19, 19, 19))
         );
@@ -154,7 +185,7 @@ public class Registro extends javax.swing.JDialog {
         String username = tfUserName.getText();
         String password = new String(tfPassword.getPassword());
         String telefono = tfTelefono.getText();
-        String imagenUsuario = "img/defecto.png";
+        String imagenUsuario = "C:\\Users\\Manolo\\Downloads\\Fotos para imprimir\\IMG-20211218-WA0000.jpg";
         String rol = "basico";
         
         //A continuación se harían las validaciones pertinentes previas a insertarlo en la BD
@@ -179,6 +210,10 @@ public class Registro extends javax.swing.JDialog {
             mensaje+= "El campo telefono no puede estar vacío";
         }
         
+        if (tfRutaImagenUsuario.getText().length() != 0){
+            imagenUsuario = tfRutaImagenUsuario.getText();
+        }
+        
         if (guardar){
             UsuarioController userController = new UsuarioController();
             userController.insertarUsuario(nombre + apellidos, username, password, telefono, imagenUsuario, rol);
@@ -190,9 +225,24 @@ public class Registro extends javax.swing.JDialog {
         } else{
             JOptionPane.showMessageDialog(null, mensaje);
         }
-        
-        //Aquí si todo ha ido bien insertamos el registro
     }//GEN-LAST:event_btnGuardarActionPerformed
+
+    private void btnElegirImagenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnElegirImagenActionPerformed
+        // TODO add your handling code here:
+        String rutaImagen;
+        final JFileChooser elegirImagen = new JFileChooser();
+        elegirImagen.setMultiSelectionEnabled(false);
+        int o = elegirImagen.showOpenDialog(this);
+        if(o == JFileChooser.APPROVE_OPTION){
+            rutaImagen = elegirImagen.getSelectedFile().getAbsolutePath();
+            tfRutaImagenUsuario.setText(rutaImagen);
+        }
+    }//GEN-LAST:event_btnElegirImagenActionPerformed
+
+    private void lblCancelarImagenMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblCancelarImagenMouseClicked
+        // TODO add your handling code here:
+        tfRutaImagenUsuario.setText("");
+    }//GEN-LAST:event_lblCancelarImagenMouseClicked
 
     /**
      * @param args the command line arguments
@@ -247,9 +297,11 @@ public class Registro extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel lblCancelarImagen;
     private javax.swing.JTextField tfApellidos;
     private javax.swing.JTextField tfNombre;
     private javax.swing.JPasswordField tfPassword;
+    private javax.swing.JTextField tfRutaImagenUsuario;
     private javax.swing.JTextField tfTelefono;
     private javax.swing.JTextField tfUserName;
     // End of variables declaration//GEN-END:variables
