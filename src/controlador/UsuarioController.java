@@ -12,6 +12,7 @@ import java.sql.SQLException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.Types;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javasql.Conexion;
@@ -50,16 +51,19 @@ public class UsuarioController {
             sql = "insert into usuarios(nombreCompleto, username, password, telefono, imagenUsuario, rol) values(?,?,?,?,?,?)";
             
             con.setAutoCommit(false);
-            File file = new File(imagenUsuario);
-            fis = new FileInputStream(file);
             ps = con.prepareStatement(sql);
             ps.setString(1, user.getNombreCompleto());
             ps.setString(2, user.getUsername());
             ps.setString(3, user.getPassword());
             ps.setString(4, user.getTelefono());
-            ps.setBinaryStream(5, fis, file.length());
+            if (imagenUsuario != null){
+                File file = new File(imagenUsuario);
+                fis = new FileInputStream(file);
+                ps.setBinaryStream(5, fis, file.length());
+            }else{
+                ps.setNull(5, Types.NULL);
+            }
             ps.setString(6, user.getRol());
-            
             ps.executeUpdate();
             con.commit();
             JOptionPane.showMessageDialog(null, "Se han insertado los datos");
@@ -70,7 +74,8 @@ public class UsuarioController {
         }finally{
             try {
                 ps.close();
-		fis.close();
+                if (fis != null)
+                    fis.close();
             } catch (Exception ex) {
                 Logger.getLogger(UsuarioController.class.getName()).log(Level.SEVERE, null, ex);
 	}

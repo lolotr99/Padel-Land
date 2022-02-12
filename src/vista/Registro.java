@@ -6,9 +6,6 @@
 package vista;
 
 import controlador.UsuarioController;
-import java.awt.Image;
-import java.awt.Toolkit;
-import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 
@@ -185,7 +182,7 @@ public class Registro extends javax.swing.JDialog {
         String username = tfUserName.getText();
         String password = new String(tfPassword.getPassword());
         String telefono = tfTelefono.getText();
-        String imagenUsuario = "C:\\Users\\Manolo\\Downloads\\Fotos para imprimir\\IMG-20211218-WA0000.jpg";
+        String imagenUsuario = null;
         String rol = "basico";
         
         //A continuación se harían las validaciones pertinentes previas a insertarlo en la BD
