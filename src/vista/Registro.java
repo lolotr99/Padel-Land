@@ -6,8 +6,15 @@
 package vista;
 
 import controlador.UsuarioController;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import modelo.Usuarios;
+import utilidades.CifradoUtils;
 
 /**
  *
@@ -213,17 +220,36 @@ public class Registro extends javax.swing.JDialog {
         
         if (guardar){
             UsuarioController userController = new UsuarioController();
-            userController.insertarUsuario(nombre + apellidos, username, password, telefono, imagenUsuario, rol);
-            tfNombre.setText("");
-            tfApellidos.setText("");
-            tfUserName.setText("");
-            tfPassword.setText("");
-            tfTelefono.setText("");
+            Usuarios user=null;
+            String passwordCifrada = CifradoUtils.getMD5(password); 
+            
+            if (imagenUsuario != null)
+                user = new Usuarios(nombre, username, passwordCifrada, telefono, imagenUsuario, rol,null);
+            else
+                user = new Usuarios(nombre+apellidos, username, passwordCifrada, telefono, rol);
+            
+            if (userController.insertUsuario(user) != 0){
+                //Se ha insertado correctamente
+                MisDatos md = new MisDatos(null,true);
+                md.setVisible(true);
+            } else {
+                //No se ha insertado
+                limpiarCamposRegistro();
+            }
         } else{
             JOptionPane.showMessageDialog(null, mensaje);
         }
     }//GEN-LAST:event_btnGuardarActionPerformed
 
+    private void limpiarCamposRegistro(){
+        tfNombre.setText("");
+        tfApellidos.setText("");
+        tfUserName.setText("");
+        tfPassword.setText("");
+        tfRutaImagenUsuario.setText("");
+        tfTelefono.setText("");
+    }
+    
     private void btnElegirImagenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnElegirImagenActionPerformed
         // TODO add your handling code here:
         String rutaImagen;

@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 12-feb-2022 12:26:16 by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="modelo.Reservas" table="reservas" catalog="padel_land" optimistic-lock="version">
+        <id name="id" type="long">
+            <column name="id" />
+            <generator class="assigned" />
+        </id>
+        <many-to-one name="horarios" class="modelo.Horarios" fetch="select">
+            <column name="idHorario" not-null="true" />
+        </many-to-one>
+        <many-to-one name="pistas" class="modelo.Pistas" fetch="select">
+            <column name="idPista" not-null="true" />
+        </many-to-one>
+        <many-to-one name="usuarios" class="modelo.Usuarios" fetch="select">
+            <column name="idUsuario" not-null="true" />
+        </many-to-one>
+        <property name="dia" type="date">
+            <column name="dia" length="10" unique="true" />
+        </property>
+    </class>
+</hibernate-mapping>
