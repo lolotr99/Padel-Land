@@ -58,6 +58,15 @@ public class UsuarioController {
         terminarOperacion();
         return usuario;
     }
+    
+    public Usuarios obtenerUsuarioPorUserName(String username){
+        Usuarios usuario = null;
+        iniciarOperacion();
+        usuario = (Usuarios)sesion.createQuery("from Usuarios U WHERE U.username='"+username+"'").uniqueResult();
+        terminarOperacion();
+        return usuario;
+    }
+    
     public List<Usuarios> getListaUsuarios(){
         List<Usuarios> listaUsuarios = null;
         iniciarOperacion();
