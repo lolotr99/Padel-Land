@@ -20,7 +20,7 @@
         <property name="telefono" type="string">
             <column name="telefono" length="191" not-null="true" />
         </property>
-        <property name="imagenUsuario" type="string">
+        <property name="imagenUsuario" type="blob">
             <column name="imagenUsuario" />
         </property>
         <property name="rol" type="string">

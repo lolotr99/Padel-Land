@@ -6,7 +6,10 @@
 package controlador;
 
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import modelo.Pistas;
+import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import utilidades.NewHibernateUtil;
 /**
@@ -17,46 +20,74 @@ public class PistaController {
     private Session sesion;
     
     private void iniciarOperacion(){
-        sesion = NewHibernateUtil.getSessionFactory().openSession();
-        sesion.beginTransaction();
+        try{
+            sesion = NewHibernateUtil.getSessionFactory().openSession();
+            sesion.beginTransaction();
+        }catch (HibernateException ex){
+             Logger.getLogger(PistaController.class.getName()).log(Level.SEVERE,null,ex);
+        }
     }
     private void terminarOperacion(){
-        sesion.getTransaction().commit();
-        sesion.close();
+        try{
+            sesion.getTransaction().commit();
+            sesion.close();
+        }catch (HibernateException ex){
+             Logger.getLogger(PistaController.class.getName()).log(Level.SEVERE,null,ex);
+        }
     }
     
     private long insertarPista(Pistas pista) {
         long id = 0;
         iniciarOperacion();
-        id = (long) sesion.save(pista);
+        try{
+            id = (long) sesion.save(pista);
+       }catch (Exception ex){
+           Logger.getLogger(PistaController.class.getName()).log(Level.SEVERE,null,ex);
+        }
         terminarOperacion();
         return id;
     }
     
     private void updatePista(Pistas pista){
         iniciarOperacion();
-        sesion.update(pista);
+        try{
+            sesion.update(pista);
+        }catch (Exception ex){
+           Logger.getLogger(PistaController.class.getName()).log(Level.SEVERE,null,ex);
+        }
         terminarOperacion();
     }
     
     private void deletePista(Pistas pista){
         iniciarOperacion();
-        sesion.delete(pista);
+        try{
+            sesion.delete(pista);
+        }catch (Exception ex){
+           Logger.getLogger(PistaController.class.getName()).log(Level.SEVERE,null,ex);
+        }
         terminarOperacion();
     }
     
     private Pistas selectPista(long idPista){
-        Pistas pista;
+        Pistas pista = null;
         iniciarOperacion();
-        pista = (Pistas) sesion.get(Pistas.class, idPista);
+        try{
+            pista = (Pistas) sesion.get(Pistas.class, idPista);
+        }catch (Exception ex){
+           Logger.getLogger(PistaController.class.getName()).log(Level.SEVERE,null,ex);
+        }
         terminarOperacion();
         return pista;
     }
     
     private List<Pistas> getListaPistas(){
-        List<Pistas> listaPistas;
+        List<Pistas> listaPistas = null;
         iniciarOperacion();
-        listaPistas = sesion.createQuery("from Pistas").list();
+        try{
+            listaPistas = sesion.createQuery("from Pistas").list();
+        }catch (Exception ex){
+           Logger.getLogger(PistaController.class.getName()).log(Level.SEVERE,null,ex);
+        }
         terminarOperacion();
         return listaPistas;
     }
