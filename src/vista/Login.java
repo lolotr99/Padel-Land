@@ -162,15 +162,15 @@ public class Login extends javax.swing.JFrame {
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+            .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanelTitle, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addContainerGap()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jLabelMinimizar)
-                            .addComponent(jLabelCerrar)))
-                    .addComponent(jPanelTitle, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(jLabelCerrar))))
+                .addContainerGap(20, Short.MAX_VALUE))
         );
 
         jLabelPassword.setOpaque(true);
@@ -405,7 +405,11 @@ public class Login extends javax.swing.JFrame {
                         //Cerramos el formulario actual
                         this.dispose();
                     }else if (usuario.getRol().equals("administrador")){
-
+                        AdminForm af = new AdminForm();
+                        af.setVisible(true);
+                        af.pack();
+                        af.setLocationRelativeTo(null);
+                        this.dispose();
                     }
                 }else{
                     JOptionPane.showMessageDialog(null,"Usuario/Contraseña son inválidos","Error de inicio de sesión",2);
