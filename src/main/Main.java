@@ -5,7 +5,7 @@
  */
 package main;
 
-import vista.Login;
+import vista.basico.Login;
 
 /**
  *

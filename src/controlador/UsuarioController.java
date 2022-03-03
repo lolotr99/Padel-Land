@@ -12,6 +12,8 @@ import java.sql.Blob;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
 import modelo.Usuarios;
 import org.hibernate.Hibernate;
 import org.hibernate.HibernateException;
@@ -43,6 +45,7 @@ public class UsuarioController {
             Logger.getLogger(UsuarioController.class.getName()).log(Level.SEVERE,null,ex);
         }
     }
+    
     
     public long insertUsuario(Usuarios usuario){
         long id=0;
@@ -119,6 +122,35 @@ public class UsuarioController {
         terminarOperacion();
         return listaUsuarios;
     }
+    
+    public List<Usuarios> getUsuariosBusqueda(String value){
+        List<Usuarios> listaUsuarios = null;
+        iniciarOperacion();
+        String query = "from Usuarios U WHERE concat(U.nombreCompleto, U.username, U.telefono, U.rol) like '%"+value+"%'";        
+        try{            
+            listaUsuarios = sesion.createQuery(query).list();
+        }catch(Exception ex){
+            Logger.getLogger(UsuarioController.class.getName()).log(Level.SEVERE,null,ex);
+        }
+        terminarOperacion();
+        return listaUsuarios;
+    }
+    
+    public void fillUsersJTable(JTable tabla, String valorBusqueda){
+        List<Usuarios> listaUser = getUsuariosBusqueda(valorBusqueda);
+        Object[] row;
+        DefaultTableModel model = (DefaultTableModel)tabla.getModel();
+        for(Usuarios user : listaUser){
+            row = new Object[4];
+            row[0] = user.getNombreCompleto();
+            row[1] = user.getUsername();
+            row[2] = user.getTelefono();
+            row[3] = user.getRol();
+            
+            model.addRow(row);
+        }
+    }
+
     
     public Blob obtenerBlob(FileInputStream inputStream, File file) throws IOException{
         return Hibernate.getLobCreator(sesion).createBlob(new SelfClosingInputStream(inputStream), file.length());
