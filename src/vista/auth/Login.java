@@ -125,7 +125,7 @@ public class Login extends javax.swing.JFrame {
             }
         });
 
-        jPanelTitle.setBackground(new java.awt.Color(0, 255, 51));
+        jPanelTitle.setBackground(new java.awt.Color(23, 255, 108));
 
         jLabel3.setFont(new java.awt.Font("Arial", 0, 48)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));
@@ -410,6 +410,7 @@ public class Login extends javax.swing.JFrame {
                         af.setVisible(true);
                         af.pack();
                         af.setLocationRelativeTo(null);
+                        af.jLabelBienvenida.setText("<html><body>¡Bienvenido #"+usuario.getUsername()+"#!<br>Esta es la vista de Administrador de Padel Land</body></html>");
                         this.dispose();
                     }
                 }else{

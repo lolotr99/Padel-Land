@@ -141,11 +141,12 @@ public class UsuarioController {
         Object[] row;
         DefaultTableModel model = (DefaultTableModel)tabla.getModel();
         for(Usuarios user : listaUser){
-            row = new Object[4];
-            row[0] = user.getNombreCompleto();
-            row[1] = user.getUsername();
-            row[2] = user.getTelefono();
-            row[3] = user.getRol();
+            row = new Object[5];
+            row[0] = user.getId();
+            row[1] = user.getNombreCompleto();
+            row[2] = user.getUsername();
+            row[3] = user.getTelefono();
+            row[4] = user.getRol();
             
             model.addRow(row);
         }
