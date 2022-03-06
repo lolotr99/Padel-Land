@@ -2,6 +2,7 @@ package modelo;
 // Generated 12-feb-2022 12:26:16 by Hibernate Tools 4.3.1
 
 
+import java.sql.Blob;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -13,19 +14,20 @@ public class Pistas  implements java.io.Serializable {
 
      private long id;
      private String nombrePista;
+     private Blob imagenPista;
      private Set reservases = new HashSet(0);
 
     public Pistas() {
     }
 
 	
-    public Pistas(long id, String nombrePista) {
-        this.id = id;
+    public Pistas(String nombrePista, Blob imagenPista) {
         this.nombrePista = nombrePista;
+        this.imagenPista = imagenPista;
     }
-    public Pistas(long id, String nombrePista, Set reservases) {
-       this.id = id;
+    public Pistas(String nombrePista, Blob imagenPista, Set reservases) {
        this.nombrePista = nombrePista;
+       this.imagenPista = imagenPista;
        this.reservases = reservases;
     }
    
@@ -36,6 +38,7 @@ public class Pistas  implements java.io.Serializable {
     public void setId(long id) {
         this.id = id;
     }
+    
     public String getNombrePista() {
         return this.nombrePista;
     }
@@ -43,6 +46,15 @@ public class Pistas  implements java.io.Serializable {
     public void setNombrePista(String nombrePista) {
         this.nombrePista = nombrePista;
     }
+    
+    public Blob getImagenPista() {
+        return this.imagenPista;
+    }
+    
+    public void setImagenPista(Blob imagenPista){
+        this.imagenPista = imagenPista;
+    }
+    
     public Set getReservases() {
         return this.reservases;
     }
@@ -50,10 +62,6 @@ public class Pistas  implements java.io.Serializable {
     public void setReservases(Set reservases) {
         this.reservases = reservases;
     }
-
-
-
-
 }
 
 

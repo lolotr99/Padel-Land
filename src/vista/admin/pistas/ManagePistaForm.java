@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package vista.admin.users;
+package vista.admin.pistas;
 
 import com.sun.glass.events.KeyEvent;
 import controlador.UsuarioController;
@@ -28,7 +28,7 @@ import vista.basico.Registro;
  *
  * @author Manolo
  */
-public class ManageUserForm extends javax.swing.JFrame {
+public class ManagePistaForm extends javax.swing.JFrame {
 
     /**
      * Creates new form ManageUserForm
@@ -37,7 +37,7 @@ public class ManageUserForm extends javax.swing.JFrame {
     String img_path = null;
     DefaultTableModel model;
     
-    public ManageUserForm() {
+    public ManagePistaForm() {
         initComponents();
         
         model = (DefaultTableModel) jTableUsuarios.getModel();
@@ -347,7 +347,7 @@ public class ManageUserForm extends javax.swing.JFrame {
 
     private void jButtonAnadirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAnadirActionPerformed
         // TODO add your handling code here:
-        AddUserForm addUF = new AddUserForm();
+        AddPistaForm addUF = new AddPistaForm();
         addUF.setVisible(true);
         addUF.pack();
         addUF.setLocationRelativeTo(null);
@@ -407,9 +407,9 @@ public class ManageUserForm extends javax.swing.JFrame {
                     FileInputStream fis = new FileInputStream(file);
                     imageBlob = userController.obtenerBlob(fis, file);
                 } catch (FileNotFoundException ex) {
-                    Logger.getLogger(ManageUserForm.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(Registro.class.getName()).log(Level.SEVERE, null, ex);
                 } catch (IOException ex) {
-                    Logger.getLogger(ManageUserForm.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(Registro.class.getName()).log(Level.SEVERE, null, ex);
                 }
                 user.setNombreCompleto(nombreCompleto);
                 user.setUsername(username);
@@ -430,7 +430,7 @@ public class ManageUserForm extends javax.swing.JFrame {
             userController.updateUsuario(user);
             JOptionPane.showMessageDialog(null, "Usuario modificado correctamente");
             jTableUsuarios.setModel(new DefaultTableModel(null,new Object[]{"Id", "Nombre completo", "Nombre usuario", "Nº de Telefono", "Rol"}));
-            userController.fillUsersJTable(ManageUserForm.jTableUsuarios, "");
+            userController.fillUsersJTable(ManagePistaForm.jTableUsuarios, "");
         }
     }//GEN-LAST:event_jButtonActualizarActionPerformed
 
@@ -522,20 +522,27 @@ public class ManageUserForm extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(ManageUserForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ManagePistaForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(ManageUserForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ManagePistaForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(ManageUserForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ManagePistaForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(ManageUserForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ManagePistaForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new ManageUserForm().setVisible(true);
+                new ManagePistaForm().setVisible(true);
             }
         });
     }

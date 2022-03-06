@@ -5,13 +5,19 @@
  */
 package controlador;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.sql.Blob;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import modelo.Pistas;
+import org.hibernate.Hibernate;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import utilidades.NewHibernateUtil;
+import utilidades.SelfClosingInputStream;
 /**
  *
  * @author Manolo
@@ -36,7 +42,7 @@ public class PistaController {
         }
     }
     
-    private long insertarPista(Pistas pista) {
+    public long insertarPista(Pistas pista) {
         long id = 0;
         iniciarOperacion();
         try{
@@ -48,7 +54,7 @@ public class PistaController {
         return id;
     }
     
-    private void updatePista(Pistas pista){
+    public void updatePista(Pistas pista){
         iniciarOperacion();
         try{
             sesion.update(pista);
@@ -58,7 +64,7 @@ public class PistaController {
         terminarOperacion();
     }
     
-    private void deletePista(Pistas pista){
+    public void deletePista(Pistas pista){
         iniciarOperacion();
         try{
             sesion.delete(pista);
@@ -68,7 +74,7 @@ public class PistaController {
         terminarOperacion();
     }
     
-    private Pistas selectPista(long idPista){
+    public Pistas selectPista(long idPista){
         Pistas pista = null;
         iniciarOperacion();
         try{
@@ -80,7 +86,7 @@ public class PistaController {
         return pista;
     }
     
-    private List<Pistas> getListaPistas(){
+    public List<Pistas> getListaPistas(){
         List<Pistas> listaPistas = null;
         iniciarOperacion();
         try{
@@ -90,5 +96,12 @@ public class PistaController {
         }
         terminarOperacion();
         return listaPistas;
+    }
+    
+    public Blob obtenerBlob(FileInputStream inputStream, File file) throws IOException{
+        iniciarOperacion();
+        Blob blob = Hibernate.getLobCreator(sesion).createBlob(new SelfClosingInputStream(inputStream), file.length());
+        terminarOperacion();
+        return blob;
     }
 }

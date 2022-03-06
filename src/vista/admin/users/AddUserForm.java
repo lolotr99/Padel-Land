@@ -19,7 +19,6 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
 import modelo.Usuarios;
 import utilidades.CifradoUtils;
-import vista.basico.Registro;
 
 /**
  *
@@ -264,9 +263,9 @@ public class AddUserForm extends javax.swing.JFrame {
                         FileInputStream fis = new FileInputStream(file);
                         imageBlob = userController.obtenerBlob(fis, file);
                     } catch (FileNotFoundException ex) {
-                        Logger.getLogger(Registro.class.getName()).log(Level.SEVERE, null, ex);
+                        Logger.getLogger(AddUserForm.class.getName()).log(Level.SEVERE, null, ex);
                     } catch (IOException ex) {
-                        Logger.getLogger(Registro.class.getName()).log(Level.SEVERE, null, ex);
+                        Logger.getLogger(AddUserForm.class.getName()).log(Level.SEVERE, null, ex);
                     }
                     user = new Usuarios(nombreCompleto, username, password, telefono, imageBlob, rol, null);
                 }else{

@@ -154,6 +154,9 @@ public class UsuarioController {
 
     
     public Blob obtenerBlob(FileInputStream inputStream, File file) throws IOException{
-        return Hibernate.getLobCreator(sesion).createBlob(new SelfClosingInputStream(inputStream), file.length());
+        iniciarOperacion();
+        Blob blob = Hibernate.getLobCreator(sesion).createBlob(new SelfClosingInputStream(inputStream), file.length());
+        terminarOperacion();
+        return blob;
     }
 }
