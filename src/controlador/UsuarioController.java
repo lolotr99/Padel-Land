@@ -12,6 +12,8 @@ import java.sql.Blob;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
 import modelo.Usuarios;
 import org.hibernate.Hibernate;
 import org.hibernate.HibernateException;
@@ -43,6 +45,7 @@ public class UsuarioController {
             Logger.getLogger(UsuarioController.class.getName()).log(Level.SEVERE,null,ex);
         }
     }
+    
     
     public long insertUsuario(Usuarios usuario){
         long id=0;
@@ -120,7 +123,40 @@ public class UsuarioController {
         return listaUsuarios;
     }
     
+    public List<Usuarios> getUsuariosBusqueda(String value){
+        List<Usuarios> listaUsuarios = null;
+        iniciarOperacion();
+        String query = "from Usuarios U WHERE concat(U.nombreCompleto, U.username, U.telefono, U.rol) like '%"+value+"%'";        
+        try{            
+            listaUsuarios = sesion.createQuery(query).list();
+        }catch(Exception ex){
+            Logger.getLogger(UsuarioController.class.getName()).log(Level.SEVERE,null,ex);
+        }
+        terminarOperacion();
+        return listaUsuarios;
+    }
+    
+    public void fillUsersJTable(JTable tabla, String valorBusqueda){
+        List<Usuarios> listaUser = getUsuariosBusqueda(valorBusqueda);
+        Object[] row;
+        DefaultTableModel model = (DefaultTableModel)tabla.getModel();
+        for(Usuarios user : listaUser){
+            row = new Object[5];
+            row[0] = user.getId();
+            row[1] = user.getNombreCompleto();
+            row[2] = user.getUsername();
+            row[3] = user.getTelefono();
+            row[4] = user.getRol();
+            
+            model.addRow(row);
+        }
+    }
+
+    
     public Blob obtenerBlob(FileInputStream inputStream, File file) throws IOException{
-        return Hibernate.getLobCreator(sesion).createBlob(new SelfClosingInputStream(inputStream), file.length());
+        iniciarOperacion();
+        Blob blob = Hibernate.getLobCreator(sesion).createBlob(new SelfClosingInputStream(inputStream), file.length());
+        terminarOperacion();
+        return blob;
     }
 }
