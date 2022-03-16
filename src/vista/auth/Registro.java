@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package vista.basico;
+package vista.auth;
 
 import controlador.UsuarioController;
 import java.awt.Color;
@@ -445,7 +445,7 @@ public class Registro extends javax.swing.JFrame {
             if (!checkUsername(username)){
                 Usuarios user;
                 String nombreCompleto = jTextFieldNombreCompleto.getText();
-                String password = CifradoUtils.getMD5(String.valueOf(jPasswordField.getPassword()));
+                String password = CifradoUtils.getHash(String.valueOf(jPasswordField.getPassword()));
                 String telefono = jTextFieldTelefono.getText();
                 String rol = "basico";
                 if (image_path != null && !image_path.equals("")){

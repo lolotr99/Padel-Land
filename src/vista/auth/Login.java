@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package vista.basico;
+package vista.auth;
 
 import vista.admin.AdminForm;
 import controlador.UsuarioController;
@@ -16,7 +16,9 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.border.Border;
 import modelo.Usuarios;
+import utilidades.BCrypt;
 import utilidades.CifradoUtils;
+import vista.basico.MisDatos;
 
 /**
  *
@@ -396,25 +398,29 @@ public class Login extends javax.swing.JFrame {
         
             userController = new UsuarioController();
             try {
-                Usuarios usuario = userController.obtenerUsuarioPorUsernameAndPassword(username, CifradoUtils.getMD5(password));
+                Usuarios usuario = userController.obtenerUsuarioPorUserName(username);
                 if (usuario != null){
-                    if (usuario.getRol().equals("basico")){
-                        MisDatos md = new MisDatos(this, rootPaneCheckingEnabled);
-                        md.setVisible(true);
-                        md.pack();
-                        md.setLocationRelativeTo(null);
-                        //Cerramos el formulario actual
-                        this.dispose();
-                    }else if (usuario.getRol().equals("administrador")){
-                        AdminForm af = new AdminForm();
-                        af.setVisible(true);
-                        af.pack();
-                        af.setLocationRelativeTo(null);
-                        af.jLabelBienvenida.setText("<html><body>¡Bienvenido #"+usuario.getUsername()+"#!<br>Esta es la vista de Administrador de Padel Land</body></html>");
-                        this.dispose();
+                    if (CifradoUtils.checkPassword(password, usuario.getPassword())){
+                        if (usuario.getRol().equals("basico")){
+                            MisDatos md = new MisDatos(this, rootPaneCheckingEnabled);
+                            md.setVisible(true);
+                            md.pack();
+                            md.setLocationRelativeTo(null);
+                            //Cerramos el formulario actual
+                            this.dispose();
+                        }else if (usuario.getRol().equals("administrador")){
+                            AdminForm af = new AdminForm();
+                            af.setVisible(true);
+                            af.pack();
+                            af.setLocationRelativeTo(null);
+                            AdminForm.jLabelBienvenida.setText("<html><body>¡Bienvenido #"+usuario.getUsername()+"#!<br>Esta es la vista de Administrador de Padel Land</body></html>");
+                            this.dispose();
+                        }
+                    }else{
+                        JOptionPane.showMessageDialog(null,"Contraseña no es válida para este usuario","Error de inicio de sesión",2);
                     }
                 }else{
-                    JOptionPane.showMessageDialog(null,"Usuario/Contraseña son inválidos","Error de inicio de sesión",2);
+                    JOptionPane.showMessageDialog(null,"Usuario no existe","Error de inicio de sesión",2);
                 }
             }catch(HeadlessException ex){
                 Logger.getLogger(Login.class.getName()).log(Level.SEVERE,null,ex);

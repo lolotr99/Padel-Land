@@ -9,6 +9,8 @@ import vista.admin.users.ManageUserForm;
 import javax.swing.JFrame;
 import vista.admin.users.AddUserForm;
 import vista.admin.pistas.AddPistaForm;
+import vista.admin.pistas.ManagePistaForm;
+
 
 /**
  *
@@ -20,6 +22,7 @@ public class AdminForm extends javax.swing.JFrame {
      * Creates new form AdminForm
      */
     ManageUserForm muf;
+    ManagePistaForm mpf;
     
     public AdminForm() {
         initComponents();
@@ -186,6 +189,11 @@ public class AdminForm extends javax.swing.JFrame {
 
     private void jMenuItemManagePistaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemManagePistaActionPerformed
         // TODO add your handling code here:
+        mpf = new ManagePistaForm();
+        mpf.setVisible(true);
+        mpf.pack();
+        mpf.setLocationRelativeTo(null);
+        mpf.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     }//GEN-LAST:event_jMenuItemManagePistaActionPerformed
 
     /**

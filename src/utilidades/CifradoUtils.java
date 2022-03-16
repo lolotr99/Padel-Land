@@ -9,11 +9,21 @@ import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
+
 /**
  *
  * @author Manolo
  */
 public class CifradoUtils {
+  
+    public static String getHash(String input){
+        return BCrypt.hashpw(input, BCrypt.gensalt());
+    }
+    
+    public static boolean checkPassword(String password, String hash) {
+        return BCrypt.checkpw(password, hash);
+    }
+
     public static String getMD5(String input) {
         try {
             MessageDigest md = MessageDigest.getInstance("MD5");

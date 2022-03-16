@@ -6,23 +6,23 @@
 package vista.admin.pistas;
 
 import com.sun.glass.events.KeyEvent;
-import controlador.UsuarioController;
+import controlador.PistaController;
 import java.awt.Color;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.sql.Blob;
+import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
-import modelo.Usuarios;
-import utilidades.CifradoUtils;
-import vista.basico.Registro;
+import modelo.Pistas;
 
 /**
  *
@@ -33,22 +33,26 @@ public class ManagePistaForm extends javax.swing.JFrame {
     /**
      * Creates new form ManageUserForm
      */
-    UsuarioController userController;
     String img_path = null;
     DefaultTableModel model;
+    PistaController pistaController;
     
     public ManagePistaForm() {
         initComponents();
         
-        model = (DefaultTableModel) jTableUsuarios.getModel();
+        model =  (DefaultTableModel) jTablePistas.getModel();
         
-        userController = new UsuarioController();
-        userController.fillUsersJTable(jTableUsuarios, jTextFieldValorBusqueda.getText());
-    
-        jTableUsuarios.setRowHeight(40);
-        jTableUsuarios.setShowGrid(true);
-        jTableUsuarios.setGridColor(Color.yellow);
-        jTableUsuarios.setSelectionBackground(Color.cyan);
+        jTablePistas.setRowHeight(40);
+        jTablePistas.setShowGrid(true);
+        jTablePistas.setGridColor(Color.yellow);
+        jTablePistas.setSelectionBackground(Color.cyan);
+        
+        pistaController = new PistaController();
+        try{
+            pistaController.fillPistasJTable(jTablePistas, jTextFieldValorBusqueda.getText());
+        } catch(IOException | SQLException ex){
+             Logger.getLogger(ManagePistaForm.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -63,22 +67,14 @@ public class ManagePistaForm extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
-        jLabel7 = new javax.swing.JLabel();
-        jTextFieldNombreCompleto = new javax.swing.JTextField();
-        jTextFieldNombreUsuario = new javax.swing.JTextField();
-        jTextFieldTelefono = new javax.swing.JTextField();
-        jComboBoxRol = new javax.swing.JComboBox<>();
+        jTextFieldNombrePista = new javax.swing.JTextField();
         jButtonAnadir = new javax.swing.JButton();
         jButtonEliminar = new javax.swing.JButton();
         jButtonActualizar = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTableUsuarios = new javax.swing.JTable();
+        jTablePistas = new javax.swing.JTable();
         jLabel8 = new javax.swing.JLabel();
         jTextFieldValorBusqueda = new javax.swing.JTextField();
-        jLabel4 = new javax.swing.JLabel();
-        jPasswordField = new javax.swing.JPasswordField();
         jLabel6 = new javax.swing.JLabel();
         jButtonElegirImagen = new javax.swing.JButton();
         jButtonQuitarImagen = new javax.swing.JButton();
@@ -87,33 +83,16 @@ public class ManagePistaForm extends javax.swing.JFrame {
         jTextFieldId = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("Gestion de Usuarios");
+        setTitle("Gestion de Pistas");
         setResizable(false);
 
         jPanel1.setBackground(new java.awt.Color(23, 255, 108));
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 28)); // NOI18N
-        jLabel1.setText("Gestionar Usuarios");
+        jLabel1.setText("Gestionar Pistas");
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jLabel2.setText("Nombre completo:");
-
-        jLabel3.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jLabel3.setText("Nombre usuario:");
-
-        jLabel5.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jLabel5.setText("Nº de teléfono:");
-
-        jLabel7.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jLabel7.setText("Rol:");
-
-        jTextFieldTelefono.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                jTextFieldTelefonoKeyTyped(evt);
-            }
-        });
-
-        jComboBoxRol.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "basico", "administrador" }));
+        jLabel2.setText("Nombre pista:");
 
         jButtonAnadir.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jButtonAnadir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/img/icono-anadir.png"))); // NOI18N
@@ -144,33 +123,33 @@ public class ManagePistaForm extends javax.swing.JFrame {
 
         jScrollPane1.setBackground(new java.awt.Color(255, 255, 255));
 
-        jTableUsuarios.setModel(new javax.swing.table.DefaultTableModel(
+        jTablePistas.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "Id", "Nombre completo", "Nombre usuario", "Nº de telefono", "Rol"
+                "Id", "Nombre de pista", "Imagen"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false
+                false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
             }
         });
-        jTableUsuarios.addMouseListener(new java.awt.event.MouseAdapter() {
+        jTablePistas.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jTableUsuariosMouseClicked(evt);
+                jTablePistasMouseClicked(evt);
             }
         });
-        jTableUsuarios.addKeyListener(new java.awt.event.KeyAdapter() {
+        jTablePistas.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
-                jTableUsuariosKeyReleased(evt);
+                jTablePistasKeyReleased(evt);
             }
         });
-        jScrollPane1.setViewportView(jTableUsuarios);
+        jScrollPane1.setViewportView(jTablePistas);
 
         jLabel8.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel8.setText("Valor de búsqueda:");
@@ -184,11 +163,8 @@ public class ManagePistaForm extends javax.swing.JFrame {
             }
         });
 
-        jLabel4.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jLabel4.setText("Nueva contraseña:");
-
         jLabel6.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jLabel6.setText("Imagen usuario:");
+        jLabel6.setText("Imagen pista:");
 
         jButtonElegirImagen.setText("Elegir");
         jButtonElegirImagen.addActionListener(new java.awt.event.ActionListener() {
@@ -226,77 +202,55 @@ public class ManagePistaForm extends javax.swing.JFrame {
                         .addComponent(jButtonAnadir, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(18, 18, 18)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel7)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabelRutaImagen)
                             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addComponent(jLabelRutaImagen)
-                                .addComponent(jLabel9))
-                            .addComponent(jLabel4)
-                            .addComponent(jLabel3)
-                            .addComponent(jLabel5)
-                            .addComponent(jLabel6))
-                        .addGap(31, 31, 31)
+                                .addComponent(jLabel9)
+                                .addComponent(jLabel6)
+                                .addComponent(jLabel2)))
+                        .addGap(47, 47, 47)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jTextFieldNombreUsuario, javax.swing.GroupLayout.DEFAULT_SIZE, 205, Short.MAX_VALUE)
-                            .addComponent(jComboBoxRol, 0, 205, Short.MAX_VALUE)
-                            .addComponent(jTextFieldTelefono, javax.swing.GroupLayout.DEFAULT_SIZE, 205, Short.MAX_VALUE)
-                            .addComponent(jTextFieldNombreCompleto, javax.swing.GroupLayout.DEFAULT_SIZE, 205, Short.MAX_VALUE)
-                            .addComponent(jPasswordField)
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jButtonElegirImagen, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jButtonQuitarImagen, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jTextFieldId))))
+                                .addComponent(jButtonElegirImagen, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(33, 33, 33)
+                                .addComponent(jButtonQuitarImagen, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jTextFieldId)
+                            .addComponent(jTextFieldNombrePista))))
+                .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jTextFieldValorBusqueda)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(14, 14, 14)
                         .addComponent(jLabel8)
-                        .addGap(18, 18, 18)
-                        .addComponent(jTextFieldValorBusqueda, javax.swing.GroupLayout.DEFAULT_SIZE, 238, Short.MAX_VALUE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(18, 18, 18)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 386, Short.MAX_VALUE))
                 .addGap(18, 18, 18))
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(295, 295, 295)
+                .addGap(312, 312, 312)
                 .addComponent(jLabel1)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(22, 22, 22)
-                .addComponent(jLabel1)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(55, 55, 55)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel8)
-                            .addComponent(jTextFieldValorBusqueda, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(76, 76, 76)
+                        .addComponent(jLabel8)
+                        .addGap(18, 18, 18)
+                        .addComponent(jTextFieldValorBusqueda, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(37, 37, 37)
+                        .addContainerGap()
+                        .addComponent(jLabel1)
+                        .addGap(48, 48, 48)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jLabel9)
                             .addComponent(jTextFieldId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel2)
-                            .addComponent(jTextFieldNombreCompleto, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel3)
-                            .addComponent(jTextFieldNombreUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel4)
-                            .addComponent(jPasswordField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel5)
-                            .addComponent(jTextFieldTelefono, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jTextFieldNombrePista, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel6)
@@ -304,133 +258,123 @@ public class ManagePistaForm extends javax.swing.JFrame {
                             .addComponent(jButtonQuitarImagen))
                         .addGap(18, 18, 18)
                         .addComponent(jLabelRutaImagen)
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel7)
-                            .addComponent(jComboBoxRol, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 51, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 70, Short.MAX_VALUE)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jButtonAnadir, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jButtonActualizar, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jButtonEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addGap(46, 46, 46))
+                .addGap(11, 11, 11))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 850, Short.MAX_VALUE)
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                    .addGap(0, 0, Short.MAX_VALUE)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(0, 0, Short.MAX_VALUE)))
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 523, Short.MAX_VALUE)
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                    .addGap(0, 0, Short.MAX_VALUE)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(0, 0, Short.MAX_VALUE)))
+            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jTextFieldTelefonoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldTelefonoKeyTyped
-        if (!Character.isDigit(evt.getKeyChar()))
-            evt.consume();
-    }//GEN-LAST:event_jTextFieldTelefonoKeyTyped
-
     private void jButtonAnadirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAnadirActionPerformed
         // TODO add your handling code here:
-        AddPistaForm addUF = new AddPistaForm();
-        addUF.setVisible(true);
-        addUF.pack();
-        addUF.setLocationRelativeTo(null);
-        addUF.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        AddPistaForm addPF = new AddPistaForm();
+        addPF.setVisible(true);
+        addPF.pack();
+        addPF.setLocationRelativeTo(null);
+        addPF.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     }//GEN-LAST:event_jButtonAnadirActionPerformed
 
     private void jButtonEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEliminarActionPerformed
         // TODO add your handling code here:
         String id = jTextFieldId.getText();
         if (id.equals("")){
-            JOptionPane.showMessageDialog(null, "No se ha seleccionado ningún usuario");
+            JOptionPane.showMessageDialog(null, "No se ha seleccionado ninguna pista");
         }else{
-            Usuarios user = userController.selectUsuario(Integer.valueOf(id));
-            userController.deleteUsuario(user);
-            jTableUsuarios.setModel(new DefaultTableModel(null,new Object[]{"Id", "Nombre completo", "Nombre usuario", "Nº de Telefono", "Rol"}));
-            userController.fillUsersJTable(jTableUsuarios, jTextFieldValorBusqueda.getText());
+            Pistas pista = pistaController.selectPista(Integer.valueOf(id));
+            pistaController.deletePista(pista);
+            jTablePistas.setModel(new DefaultTableModel(null,new Object[]{"Id", "Nombre de pista", "Imagen"}));
+            try {
+                pistaController.fillPistasJTable(jTablePistas, jTextFieldValorBusqueda.getText());
+            } catch (SQLException ex) {
+                Logger.getLogger(ManagePistaForm.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (IOException ex) {
+                Logger.getLogger(ManagePistaForm.class.getName()).log(Level.SEVERE, null, ex);
+            }
             limpiarCampos();
         }
     }//GEN-LAST:event_jButtonEliminarActionPerformed
 
-    private void jTableUsuariosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableUsuariosMouseClicked
+    private void jTablePistasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTablePistasMouseClicked
         // TODO add your handling code here:
-        int rowIndex = jTableUsuarios.getSelectedRow();
+        int rowIndex = jTablePistas.getSelectedRow();
         jTextFieldId.setText(model.getValueAt(rowIndex, 0).toString());
-        jTextFieldNombreCompleto.setText(model.getValueAt(rowIndex,1).toString());
-        jTextFieldNombreUsuario.setText(model.getValueAt(rowIndex, 2).toString());
-        jTextFieldTelefono.setText(model.getValueAt(rowIndex, 3).toString());
-        jComboBoxRol.setSelectedItem(model.getValueAt(rowIndex, 4).toString());
-    }//GEN-LAST:event_jTableUsuariosMouseClicked
+        jTextFieldNombrePista.setText(model.getValueAt(rowIndex,1).toString());
+    }//GEN-LAST:event_jTablePistasMouseClicked
 
     private void jTextFieldValorBusquedaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldValorBusquedaKeyPressed
         // TODO add your handling code here:
-        jTableUsuarios.setModel(new DefaultTableModel(null,new Object[]{"Id", "Nombre completo", "Nombre usuario", "Nº de Telefono", "Rol"}));
-        userController.fillUsersJTable(jTableUsuarios, jTextFieldValorBusqueda.getText());
+        jTablePistas.setModel(new DefaultTableModel(null,new Object[]{"Id", "Nombre de pista", "Imagen"}));
+        try {
+            pistaController.fillPistasJTable(jTablePistas, jTextFieldValorBusqueda.getText());
+        } catch (SQLException ex) {
+            Logger.getLogger(ManagePistaForm.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(ManagePistaForm.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_jTextFieldValorBusquedaKeyPressed
 
     private void jTextFieldValorBusquedaKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldValorBusquedaKeyReleased
         // TODO add your handling code here:
-        jTableUsuarios.setModel(new DefaultTableModel(null,new Object[]{"Id", "Nombre completo", "Nombre usuario", "Nº de Telefono", "Rol"}));
-        userController.fillUsersJTable(jTableUsuarios, jTextFieldValorBusqueda.getText());
+        jTablePistas.setModel(new DefaultTableModel(null,new Object[]{"Id", "Nombre de pista", "Imagen"}));
+        try {
+            pistaController.fillPistasJTable(jTablePistas, jTextFieldValorBusqueda.getText());
+        } catch (SQLException ex) {
+            Logger.getLogger(ManagePistaForm.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(ManagePistaForm.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_jTextFieldValorBusquedaKeyReleased
 
     private void jButtonActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonActualizarActionPerformed
         // TODO add your handling code here:
-        if (verifyFields()){
-            String nombreCompleto = jTextFieldNombreCompleto.getText();
-            String username = jTextFieldNombreUsuario.getText();
-            String password = String.valueOf(jPasswordField.getPassword());
-            String telefono = jTextFieldTelefono.getText();
-            String rol = jComboBoxRol.getSelectedItem().toString();
-            Usuarios user = userController.selectUsuario(Integer.valueOf(jTextFieldId.getText()));
-
+        if (!jTextFieldId.getText().trim().equals("")){
+            String nombrePista = jTextFieldNombrePista.getText();
+            Pistas pista = pistaController.selectPista(Integer.valueOf(jTextFieldId.getText()));
+                   
+            pista.setNombrePista(nombrePista);
+            
             if (img_path != null && !img_path.equals("")){
                 File file = new File(img_path);
                 Blob imageBlob = null;
+            
                 try {
                     FileInputStream fis = new FileInputStream(file);
-                    imageBlob = userController.obtenerBlob(fis, file);
+                    imageBlob = pistaController.obtenerBlob(fis, file);
                 } catch (FileNotFoundException ex) {
-                    Logger.getLogger(Registro.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(ManagePistaForm.class.getName()).log(Level.SEVERE, null, ex);
                 } catch (IOException ex) {
-                    Logger.getLogger(Registro.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(ManagePistaForm.class.getName()).log(Level.SEVERE, null, ex);
                 }
-                user.setNombreCompleto(nombreCompleto);
-                user.setUsername(username);
-                if (!password.equals(""))
-                    user.setPassword(CifradoUtils.getMD5(password));
-                user.setTelefono(telefono);
-                user.setImagenUsuario(imageBlob);
-                user.setRol(rol);
-            } else{
-                user.setNombreCompleto(nombreCompleto);
-                user.setUsername(username);
-                if (!password.equals(""))
-                    user.setPassword(CifradoUtils.getMD5(password));
-                user.setTelefono(telefono);
-                user.setRol(rol);
+                pista.setImagenPista(imageBlob);
             }
             
-            userController.updateUsuario(user);
-            JOptionPane.showMessageDialog(null, "Usuario modificado correctamente");
-            jTableUsuarios.setModel(new DefaultTableModel(null,new Object[]{"Id", "Nombre completo", "Nombre usuario", "Nº de Telefono", "Rol"}));
-            userController.fillUsersJTable(ManagePistaForm.jTableUsuarios, "");
+            pistaController.updatePista(pista);
+            JOptionPane.showMessageDialog(null, "Pista modificada correctamente");
+            jTablePistas.setModel(new DefaultTableModel(null,new Object[]{"Id", "Nombre de pista", "Imagen"}));
+            try {
+                pistaController.fillPistasJTable(ManagePistaForm.jTablePistas, "");
+            } catch (SQLException ex) {
+                Logger.getLogger(ManagePistaForm.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (IOException ex) {
+                Logger.getLogger(ManagePistaForm.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        } else{
+            JOptionPane.showMessageDialog(null,"No se ha seleccionado ninguna pista","Error al actualizar",2);
         }
     }//GEN-LAST:event_jButtonActualizarActionPerformed
 
@@ -464,46 +408,24 @@ public class ManagePistaForm extends javax.swing.JFrame {
         jLabelRutaImagen.setText("");
     }//GEN-LAST:event_jButtonQuitarImagenActionPerformed
 
-    private void jTableUsuariosKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTableUsuariosKeyReleased
+    private void jTablePistasKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTablePistasKeyReleased
         // TODO add your handling code here:
         if (evt.getKeyCode() == KeyEvent.VK_UP || evt.getKeyCode() == KeyEvent.VK_DOWN){
-            int rowIndex = jTableUsuarios.getSelectedRow();
+            int rowIndex = jTablePistas.getSelectedRow();
             jTextFieldId.setText(model.getValueAt(rowIndex, 0).toString());
-            jTextFieldNombreCompleto.setText(model.getValueAt(rowIndex,1).toString());
-            jTextFieldNombreUsuario.setText(model.getValueAt(rowIndex, 2).toString());
-            jTextFieldTelefono.setText(model.getValueAt(rowIndex, 3).toString());
-            jComboBoxRol.setSelectedItem(model.getValueAt(rowIndex, 4).toString());
+            jTextFieldNombrePista.setText(model.getValueAt(rowIndex,1).toString());
         }
-    }//GEN-LAST:event_jTableUsuariosKeyReleased
+    }//GEN-LAST:event_jTablePistasKeyReleased
 
-    //Se crea un método para verificar y validar los campos
-    public boolean verifyFields() {
-        String id = jTextFieldId.getText();
-        String nombreCompleto = jTextFieldNombreCompleto.getText();
-        String username = jTextFieldNombreUsuario.getText();
-        String telefono = jTextFieldTelefono.getText();
-        String rol = jComboBoxRol.getSelectedItem().toString();
-        
-        //Comprobar si hay campos vacíos
-        if (id.trim().equals("") || nombreCompleto.trim().equals("") || username.trim().equals("") 
-                || telefono.trim().equals("") || rol.trim().equals("")){
-            JOptionPane.showMessageDialog(null, "Uno o varios campos están vacíos","Campos vacíos",2);
-            return false;
-        }else {
-            return true;
-        }
-    }
+    
     
     public void limpiarCampos() {
         jTextFieldId.setText("");
-        jTextFieldNombreCompleto.setText("");
-        jTextFieldNombreUsuario.setText("");
-        jPasswordField.setText("");
-        jTextFieldTelefono.setText("");
+        jTextFieldNombrePista.setText("");
         img_path = null;
         jLabelRutaImagen.setText("");
-        jComboBoxRol.setSelectedItem("basico");
     }
+    
     
     /**
      * @param args the command line arguments
@@ -553,25 +475,17 @@ public class ManagePistaForm extends javax.swing.JFrame {
     private javax.swing.JButton jButtonElegirImagen;
     private javax.swing.JButton jButtonEliminar;
     private javax.swing.JButton jButtonQuitarImagen;
-    private javax.swing.JComboBox<String> jComboBoxRol;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JLabel jLabelRutaImagen;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPasswordField jPasswordField;
     private javax.swing.JScrollPane jScrollPane1;
-    public static javax.swing.JTable jTableUsuarios;
+    public static javax.swing.JTable jTablePistas;
     private javax.swing.JTextField jTextFieldId;
-    private javax.swing.JTextField jTextFieldNombreCompleto;
-    private javax.swing.JTextField jTextFieldNombreUsuario;
-    private javax.swing.JTextField jTextFieldTelefono;
+    private javax.swing.JTextField jTextFieldNombrePista;
     private javax.swing.JTextField jTextFieldValorBusqueda;
     // End of variables declaration//GEN-END:variables
 }

@@ -22,7 +22,6 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
 import modelo.Usuarios;
 import utilidades.CifradoUtils;
-import vista.basico.Registro;
 
 /**
  *
@@ -392,7 +391,7 @@ public class ManageUserForm extends javax.swing.JFrame {
 
     private void jButtonActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonActualizarActionPerformed
         // TODO add your handling code here:
-        if (verifyFields()){
+        if (!jTextFieldId.getText().trim().equals("")){
             String nombreCompleto = jTextFieldNombreCompleto.getText();
             String username = jTextFieldNombreUsuario.getText();
             String password = String.valueOf(jPasswordField.getPassword());
@@ -400,6 +399,14 @@ public class ManageUserForm extends javax.swing.JFrame {
             String rol = jComboBoxRol.getSelectedItem().toString();
             Usuarios user = userController.selectUsuario(Integer.valueOf(jTextFieldId.getText()));
 
+            
+            user.setNombreCompleto(nombreCompleto);
+            user.setUsername(username);
+            if (!password.equals(""))
+                user.setPassword(CifradoUtils.getHash(password));
+            
+            user.setTelefono(telefono);
+            user.setRol(rol);
             if (img_path != null && !img_path.equals("")){
                 File file = new File(img_path);
                 Blob imageBlob = null;
@@ -411,26 +418,15 @@ public class ManageUserForm extends javax.swing.JFrame {
                 } catch (IOException ex) {
                     Logger.getLogger(ManageUserForm.class.getName()).log(Level.SEVERE, null, ex);
                 }
-                user.setNombreCompleto(nombreCompleto);
-                user.setUsername(username);
-                if (!password.equals(""))
-                    user.setPassword(CifradoUtils.getMD5(password));
-                user.setTelefono(telefono);
                 user.setImagenUsuario(imageBlob);
-                user.setRol(rol);
-            } else{
-                user.setNombreCompleto(nombreCompleto);
-                user.setUsername(username);
-                if (!password.equals(""))
-                    user.setPassword(CifradoUtils.getMD5(password));
-                user.setTelefono(telefono);
-                user.setRol(rol);
             }
             
             userController.updateUsuario(user);
             JOptionPane.showMessageDialog(null, "Usuario modificado correctamente");
             jTableUsuarios.setModel(new DefaultTableModel(null,new Object[]{"Id", "Nombre completo", "Nombre usuario", "Nº de Telefono", "Rol"}));
             userController.fillUsersJTable(ManageUserForm.jTableUsuarios, "");
+        } else{
+             JOptionPane.showMessageDialog(null, "No se ha seleccionado ningún usuario", "Error al actualizar", 2);
         }
     }//GEN-LAST:event_jButtonActualizarActionPerformed
 
@@ -476,23 +472,7 @@ public class ManageUserForm extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jTableUsuariosKeyReleased
 
-    //Se crea un método para verificar y validar los campos
-    public boolean verifyFields() {
-        String id = jTextFieldId.getText();
-        String nombreCompleto = jTextFieldNombreCompleto.getText();
-        String username = jTextFieldNombreUsuario.getText();
-        String telefono = jTextFieldTelefono.getText();
-        String rol = jComboBoxRol.getSelectedItem().toString();
-        
-        //Comprobar si hay campos vacíos
-        if (id.trim().equals("") || nombreCompleto.trim().equals("") || username.trim().equals("") 
-                || telefono.trim().equals("") || rol.trim().equals("")){
-            JOptionPane.showMessageDialog(null, "Uno o varios campos están vacíos","Campos vacíos",2);
-            return false;
-        }else {
-            return true;
-        }
-    }
+   
     
     public void limpiarCampos() {
         jTextFieldId.setText("");

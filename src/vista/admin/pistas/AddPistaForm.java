@@ -11,11 +11,13 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.sql.Blob;
+import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import javax.swing.table.DefaultTableModel;
 import modelo.Pistas;
 
 /**
@@ -203,6 +205,15 @@ public class AddPistaForm extends javax.swing.JFrame {
             }else{
                 JOptionPane.showMessageDialog(null, "Error en el registro de la pista, revisa tus datos");
             }
+        }
+        
+            ManagePistaForm.jTablePistas.setModel(new DefaultTableModel(null,new Object[]{"Id", "Nombre de pista", "Imagen"}));
+        try {
+            pistaController.fillPistasJTable(ManagePistaForm.jTablePistas, "");
+        } catch (SQLException ex) {
+            Logger.getLogger(AddPistaForm.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(AddPistaForm.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jButtonAnadirActionPerformed
 
