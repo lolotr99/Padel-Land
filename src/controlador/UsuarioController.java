@@ -5,6 +5,9 @@
  */
 package controlador;
 
+import java.awt.Point;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -19,7 +22,7 @@ import org.hibernate.Hibernate;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import utilidades.NewHibernateUtil;
-import utilidades.SelfClosingInputStream;
+import utilidades.SelfClosingInputStreamUtil;
 
 
 /**
@@ -151,12 +154,28 @@ public class UsuarioController {
                     
             model.addRow(row);
         }
+        
+        tabla.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent mouseEvent) {
+                JTable table =(JTable) mouseEvent.getSource();
+                Point point = mouseEvent.getPoint();
+                int fila = table.rowAtPoint(point);
+                if (mouseEvent.getClickCount() == 2 && table.getSelectedRow() != -1) {
+                    verImagenUsuario(listaUser.get(fila).getId());
+                }
+            }
+        });
+    }
+    
+    public void verImagenUsuario(long id){
+        System.out.println(id);
     }
 
     
     public Blob obtenerBlob(FileInputStream inputStream, File file) throws IOException{
         iniciarOperacion();
-        Blob blob = Hibernate.getLobCreator(sesion).createBlob(new SelfClosingInputStream(inputStream), file.length());
+        Blob blob = Hibernate.getLobCreator(sesion).createBlob(new SelfClosingInputStreamUtil(inputStream), file.length());
         terminarOperacion();
         return blob;
     }

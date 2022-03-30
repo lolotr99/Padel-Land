@@ -60,7 +60,7 @@ import java.security.SecureRandom;
  * @author Damien Miller
  * @version 0.2
  */
-public class BCrypt {
+public class BCryptUtil {
 	// BCrypt parameters
 	private static final int GENSALT_DEFAULT_LOG2_ROUNDS = 10;
 	private static final int BCRYPT_SALT_LEN = 16;
@@ -648,7 +648,7 @@ public class BCrypt {
 	 * @return	the hashed password
 	 */
 	public static String hashpw(String password, String salt) {
-		BCrypt B;
+		BCryptUtil B;
 		String real_salt;
 		byte passwordb[], saltb[], hashed[];
 		char minor = (char)0;
@@ -680,7 +680,7 @@ public class BCrypt {
 
 		saltb = decode_base64(real_salt, BCRYPT_SALT_LEN);
 
-		B = new BCrypt();
+		B = new BCryptUtil();
 		hashed = B.crypt_raw(passwordb, saltb, rounds,
 		    (int[])bf_crypt_ciphertext.clone());
 

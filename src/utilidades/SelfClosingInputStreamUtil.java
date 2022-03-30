@@ -12,11 +12,11 @@ import java.io.InputStream;
  * @author Manolo
  */
 
-public class SelfClosingInputStream extends InputStream {
+public class SelfClosingInputStreamUtil extends InputStream {
 
     private InputStream inputStream;
 
-    public SelfClosingInputStream(InputStream inputStream) {
+    public SelfClosingInputStreamUtil(InputStream inputStream) {
         this.inputStream = inputStream;
     }
 

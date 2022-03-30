@@ -16,8 +16,8 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.border.Border;
 import modelo.Usuarios;
-import utilidades.BCrypt;
-import utilidades.CifradoUtils;
+import utilidades.BCryptUtil;
+import utilidades.CifradoUtil;
 import vista.basico.MisDatos;
 
 /**
@@ -400,7 +400,7 @@ public class Login extends javax.swing.JFrame {
             try {
                 Usuarios usuario = userController.obtenerUsuarioPorUserName(username);
                 if (usuario != null){
-                    if (CifradoUtils.checkPassword(password, usuario.getPassword())){
+                    if (CifradoUtil.checkPassword(password, usuario.getPassword())){
                         if (usuario.getRol().equals("basico")){
                             MisDatos md = new MisDatos(this, rootPaneCheckingEnabled);
                             md.setVisible(true);

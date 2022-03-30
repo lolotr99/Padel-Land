@@ -18,7 +18,7 @@ import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
 import modelo.Usuarios;
-import utilidades.CifradoUtils;
+import utilidades.CifradoUtil;
 
 /**
  *
@@ -253,7 +253,7 @@ public class AddUserForm extends javax.swing.JFrame {
             if (!checkUsername(username)){
                 Usuarios user;
                 String nombreCompleto = jTextFieldNombreCompleto.getText();
-                String password = CifradoUtils.getHash(String.valueOf(jPasswordField.getPassword()));
+                String password = CifradoUtil.getHash(String.valueOf(jPasswordField.getPassword()));
                 String telefono = jTextFieldTelefono.getText();
                 String rol = jComboBoxRol.getSelectedItem().toString();
                 if (image_path != null && !image_path.equals("")){

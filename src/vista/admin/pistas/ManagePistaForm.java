@@ -13,10 +13,8 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.sql.Blob;
-import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -36,23 +34,18 @@ public class ManagePistaForm extends javax.swing.JFrame {
     String img_path = null;
     DefaultTableModel model;
     PistaController pistaController;
-    
     public ManagePistaForm() {
         initComponents();
         
         model =  (DefaultTableModel) jTablePistas.getModel();
         
+        pistaController = new PistaController();
+        pistaController.fillPistasJTable(jTablePistas, jTextFieldValorBusqueda.getText());
+    
         jTablePistas.setRowHeight(40);
         jTablePistas.setShowGrid(true);
         jTablePistas.setGridColor(Color.yellow);
         jTablePistas.setSelectionBackground(Color.cyan);
-        
-        pistaController = new PistaController();
-        try{
-            pistaController.fillPistasJTable(jTablePistas, jTextFieldValorBusqueda.getText());
-        } catch(IOException | SQLException ex){
-             Logger.getLogger(ManagePistaForm.class.getName()).log(Level.SEVERE, null, ex);
-        }
     }
 
     /**
@@ -81,6 +74,7 @@ public class ManagePistaForm extends javax.swing.JFrame {
         jLabelRutaImagen = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
         jTextFieldId = new javax.swing.JTextField();
+        jLabel3 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Gestion de Pistas");
@@ -128,11 +122,11 @@ public class ManagePistaForm extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Id", "Nombre de pista", "Imagen"
+                "Id", "Nombre de pista"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false
+                false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -187,6 +181,8 @@ public class ManagePistaForm extends javax.swing.JFrame {
 
         jTextFieldId.setEditable(false);
 
+        jLabel3.setText("(Doble click en la fila para ver imagen de la pista)");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -218,12 +214,17 @@ public class ManagePistaForm extends javax.swing.JFrame {
                             .addComponent(jTextFieldNombrePista))))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jTextFieldValorBusqueda)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel8)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 386, Short.MAX_VALUE))
-                .addGap(18, 18, 18))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jTextFieldValorBusqueda)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabel8)
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 386, Short.MAX_VALUE))
+                        .addGap(18, 18, 18))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel3)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(312, 312, 312)
                 .addComponent(jLabel1)
@@ -234,13 +235,6 @@ public class ManagePistaForm extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(76, 76, 76)
-                        .addComponent(jLabel8)
-                        .addGap(18, 18, 18)
-                        .addComponent(jTextFieldValorBusqueda, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(jLabel1)
                         .addGap(48, 48, 48)
@@ -250,8 +244,18 @@ public class ManagePistaForm extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel2)
-                            .addComponent(jTextFieldNombrePista, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jTextFieldNombrePista, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(76, 76, 76)
+                        .addComponent(jLabel8)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jTextFieldValorBusqueda, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
+                        .addComponent(jLabel3)))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel6)
                             .addComponent(jButtonElegirImagen)
@@ -297,14 +301,8 @@ public class ManagePistaForm extends javax.swing.JFrame {
         }else{
             Pistas pista = pistaController.selectPista(Integer.valueOf(id));
             pistaController.deletePista(pista);
-            jTablePistas.setModel(new DefaultTableModel(null,new Object[]{"Id", "Nombre de pista", "Imagen"}));
-            try {
-                pistaController.fillPistasJTable(jTablePistas, jTextFieldValorBusqueda.getText());
-            } catch (SQLException ex) {
-                Logger.getLogger(ManagePistaForm.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (IOException ex) {
-                Logger.getLogger(ManagePistaForm.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            jTablePistas.setModel(new DefaultTableModel(null,new Object[]{"Id", "Nombre de pista"}));
+            pistaController.fillPistasJTable(jTablePistas, jTextFieldValorBusqueda.getText());
             limpiarCampos();
         }
     }//GEN-LAST:event_jButtonEliminarActionPerformed
@@ -318,26 +316,15 @@ public class ManagePistaForm extends javax.swing.JFrame {
 
     private void jTextFieldValorBusquedaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldValorBusquedaKeyPressed
         // TODO add your handling code here:
-        jTablePistas.setModel(new DefaultTableModel(null,new Object[]{"Id", "Nombre de pista", "Imagen"}));
-        try {
-            pistaController.fillPistasJTable(jTablePistas, jTextFieldValorBusqueda.getText());
-        } catch (SQLException ex) {
-            Logger.getLogger(ManagePistaForm.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            Logger.getLogger(ManagePistaForm.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        jTablePistas.setModel(new DefaultTableModel(null,new Object[]{"Id", "Nombre de pista"}));
+        pistaController.fillPistasJTable(jTablePistas, jTextFieldValorBusqueda.getText());
+        
     }//GEN-LAST:event_jTextFieldValorBusquedaKeyPressed
 
     private void jTextFieldValorBusquedaKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldValorBusquedaKeyReleased
         // TODO add your handling code here:
-        jTablePistas.setModel(new DefaultTableModel(null,new Object[]{"Id", "Nombre de pista", "Imagen"}));
-        try {
-            pistaController.fillPistasJTable(jTablePistas, jTextFieldValorBusqueda.getText());
-        } catch (SQLException ex) {
-            Logger.getLogger(ManagePistaForm.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            Logger.getLogger(ManagePistaForm.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        jTablePistas.setModel(new DefaultTableModel(null,new Object[]{"Id", "Nombre de pista"}));
+        pistaController.fillPistasJTable(jTablePistas, jTextFieldValorBusqueda.getText());
     }//GEN-LAST:event_jTextFieldValorBusquedaKeyReleased
 
     private void jButtonActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonActualizarActionPerformed
@@ -365,14 +352,8 @@ public class ManagePistaForm extends javax.swing.JFrame {
             
             pistaController.updatePista(pista);
             JOptionPane.showMessageDialog(null, "Pista modificada correctamente");
-            jTablePistas.setModel(new DefaultTableModel(null,new Object[]{"Id", "Nombre de pista", "Imagen"}));
-            try {
-                pistaController.fillPistasJTable(ManagePistaForm.jTablePistas, "");
-            } catch (SQLException ex) {
-                Logger.getLogger(ManagePistaForm.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (IOException ex) {
-                Logger.getLogger(ManagePistaForm.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            jTablePistas.setModel(new DefaultTableModel(null,new Object[]{"Id", "Nombre de pista"}));
+            pistaController.fillPistasJTable(ManagePistaForm.jTablePistas, "");
         } else{
             JOptionPane.showMessageDialog(null,"No se ha seleccionado ninguna pista","Error al actualizar",2);
         }
@@ -410,7 +391,7 @@ public class ManagePistaForm extends javax.swing.JFrame {
 
     private void jTablePistasKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTablePistasKeyReleased
         // TODO add your handling code here:
-        if (evt.getKeyCode() == KeyEvent.VK_UP || evt.getKeyCode() == KeyEvent.VK_DOWN){
+        if (evt.getKeyCode() == KeyEvent.VK_UP || evt.getKeyCode() == KeyEvent.VK_DOWN || evt.getKeyCode() == KeyEvent.VK_ENTER){
             int rowIndex = jTablePistas.getSelectedRow();
             jTextFieldId.setText(model.getValueAt(rowIndex, 0).toString());
             jTextFieldNombrePista.setText(model.getValueAt(rowIndex,1).toString());
@@ -477,6 +458,7 @@ public class ManagePistaForm extends javax.swing.JFrame {
     private javax.swing.JButton jButtonQuitarImagen;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;

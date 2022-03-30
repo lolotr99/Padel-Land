@@ -14,14 +14,14 @@ import java.security.NoSuchAlgorithmException;
  *
  * @author Manolo
  */
-public class CifradoUtils {
+public class CifradoUtil {
   
     public static String getHash(String input){
-        return BCrypt.hashpw(input, BCrypt.gensalt());
+        return BCryptUtil.hashpw(input, BCryptUtil.gensalt());
     }
     
     public static boolean checkPassword(String password, String hash) {
-        return BCrypt.checkpw(password, hash);
+        return BCryptUtil.checkpw(password, hash);
     }
 
     public static String getMD5(String input) {

@@ -208,13 +208,8 @@ public class AddPistaForm extends javax.swing.JFrame {
         }
         
             ManagePistaForm.jTablePistas.setModel(new DefaultTableModel(null,new Object[]{"Id", "Nombre de pista", "Imagen"}));
-        try {
             pistaController.fillPistasJTable(ManagePistaForm.jTablePistas, "");
-        } catch (SQLException ex) {
-            Logger.getLogger(AddPistaForm.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            Logger.getLogger(AddPistaForm.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        
     }//GEN-LAST:event_jButtonAnadirActionPerformed
 
     private void jButtonQuitarImagenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonQuitarImagenActionPerformed
