@@ -5,16 +5,24 @@
  */
 package controlador;
 
+import java.awt.FlowLayout;
 import java.awt.Point;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.sql.Blob;
+import java.sql.SQLException;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import modelo.Pistas;
@@ -140,14 +148,32 @@ public class PistaController {
                 Point point = mouseEvent.getPoint();
                 int fila = table.rowAtPoint(point);
                 if (mouseEvent.getClickCount() == 2 && table.getSelectedRow() != -1) {
-                    verImagenPista(listaPistas.get(fila));
+                    try {
+                        verImagenPista(listaPistas.get(fila));
+                    } catch (IOException ex) {
+                        Logger.getLogger(PistaController.class.getName()).log(Level.SEVERE, null, ex);
+                    } catch (SQLException ex) {
+                        Logger.getLogger(PistaController.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                 }
             }
         });
    } 
     
-    public void verImagenPista(Pistas pista) {
-        System.out.println(pista.getId());
+    public void verImagenPista(Pistas pista) throws IOException, SQLException {
+        InputStream in = pista.getImagenPista().getBinaryStream();  
+        BufferedImage image = ImageIO.read(in);
+        
+        if (image != null){
+            JFrame frame = new JFrame();
+            frame.getContentPane().setLayout(new FlowLayout());
+            frame.getContentPane().add(new JLabel(new ImageIcon(image)));
+            frame.pack();
+            frame.setVisible(true);
+            frame.setTitle("Visor de imagenes -> " + pista.getNombrePista());
+            frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); 
+        }
+
     }
 
 }
