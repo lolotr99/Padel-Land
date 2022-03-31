@@ -5,16 +5,25 @@
  */
 package controlador;
 
+import java.awt.FlowLayout;
+import java.awt.Image;
 import java.awt.Point;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.sql.Blob;
+import java.sql.SQLException;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import modelo.Usuarios;
@@ -162,14 +171,36 @@ public class UsuarioController {
                 Point point = mouseEvent.getPoint();
                 int fila = table.rowAtPoint(point);
                 if (mouseEvent.getClickCount() == 2 && table.getSelectedRow() != -1) {
-                    verImagenUsuario(listaUser.get(fila).getId());
+                    try {
+                        verImagenUsuario(listaUser.get(fila));
+                    } catch (SQLException ex) {
+                        Logger.getLogger(UsuarioController.class.getName()).log(Level.SEVERE, null, ex);
+                    } catch (IOException ex) {
+                        Logger.getLogger(UsuarioController.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                 }
             }
         });
     }
     
-    public void verImagenUsuario(long id){
-        System.out.println(id);
+    public void verImagenUsuario(Usuarios user) throws SQLException, IOException{
+        InputStream in = user.getImagenUsuario().getBinaryStream();  
+        BufferedImage bufferedImage = ImageIO.read(in);
+        
+        Image image = bufferedImage.getScaledInstance(600, 400, Image.SCALE_DEFAULT);
+
+        ImageIcon icon = new ImageIcon(image);
+        JFrame frame = new JFrame();
+        frame.setLayout(new FlowLayout());
+        frame.setSize(800, 600);
+
+        JLabel jLabel = new JLabel();
+        jLabel.setIcon(icon);
+        frame.add(jLabel);
+        frame.setVisible(true);
+        frame.setLocationRelativeTo(null);
+        frame.setTitle("Visor de imagen de usuario -> " + user.getNombreCompleto());
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     }
 
     

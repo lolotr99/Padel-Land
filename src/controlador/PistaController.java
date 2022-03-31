@@ -6,6 +6,7 @@
 package controlador;
 
 import java.awt.FlowLayout;
+import java.awt.Image;
 import java.awt.Point;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -162,18 +163,22 @@ public class PistaController {
     
     public void verImagenPista(Pistas pista) throws IOException, SQLException {
         InputStream in = pista.getImagenPista().getBinaryStream();  
-        BufferedImage image = ImageIO.read(in);
+        BufferedImage bufferedImage = ImageIO.read(in);
         
-        if (image != null){
-            JFrame frame = new JFrame();
-            frame.getContentPane().setLayout(new FlowLayout());
-            frame.getContentPane().add(new JLabel(new ImageIcon(image)));
-            frame.pack();
-            frame.setVisible(true);
-            frame.setTitle("Visor de imagenes -> " + pista.getNombrePista());
-            frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); 
-        }
+        Image image = bufferedImage.getScaledInstance(600, 400, Image.SCALE_DEFAULT);
 
+        ImageIcon icon = new ImageIcon(image);
+        JFrame frame = new JFrame();
+        frame.setLayout(new FlowLayout());
+        frame.setSize(800, 600);
+
+        JLabel jLabel = new JLabel();
+        jLabel.setIcon(icon);
+        frame.add(jLabel);
+        frame.setVisible(true);
+        frame.setLocationRelativeTo(null);
+        frame.setTitle("Visor de imagen de pista -> " + pista.getNombrePista());
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     }
 
 }
