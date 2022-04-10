@@ -7,9 +7,6 @@ package controlador;
 
 import java.awt.FlowLayout;
 import java.awt.Image;
-import java.awt.Point;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileInputStream;
@@ -153,34 +150,15 @@ public class UsuarioController {
         Object[] row;
         DefaultTableModel model = (DefaultTableModel)tabla.getModel();
         for(Usuarios user : listaUser){
-            row = new Object[6];
+            row = new Object[5];
             row[0] = user.getId();
             row[1] = user.getNombreCompleto();
             row[2] = user.getUsername();
             row[3] = user.getTelefono();
             row[4] = user.getRol();
-            row[5] = user.getImagenUsuario();
                     
             model.addRow(row);
         }
-        
-        tabla.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mousePressed(MouseEvent mouseEvent) {
-                JTable table =(JTable) mouseEvent.getSource();
-                Point point = mouseEvent.getPoint();
-                int fila = table.rowAtPoint(point);
-                if (mouseEvent.getClickCount() == 2 && table.getSelectedRow() != -1) {
-                    try {
-                        verImagenUsuario(listaUser.get(fila));
-                    } catch (SQLException ex) {
-                        Logger.getLogger(UsuarioController.class.getName()).log(Level.SEVERE, null, ex);
-                    } catch (IOException ex) {
-                        Logger.getLogger(UsuarioController.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-                }
-            }
-        });
     }
     
     public void verImagenUsuario(Usuarios user) throws SQLException, IOException{

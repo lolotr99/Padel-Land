@@ -8,16 +8,19 @@ package vista.admin.pistas;
 import com.sun.glass.events.KeyEvent;
 import controlador.PistaController;
 import java.awt.Color;
+import java.awt.Point;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.sql.Blob;
+import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
 import modelo.Pistas;
@@ -134,8 +137,8 @@ public class ManagePistaForm extends javax.swing.JFrame {
             }
         });
         jTablePistas.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jTablePistasMouseClicked(evt);
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                jTablePistasMousePressed(evt);
             }
         });
         jTablePistas.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -307,13 +310,6 @@ public class ManagePistaForm extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jButtonEliminarActionPerformed
 
-    private void jTablePistasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTablePistasMouseClicked
-        // TODO add your handling code here:
-        int rowIndex = jTablePistas.getSelectedRow();
-        jTextFieldId.setText(model.getValueAt(rowIndex, 0).toString());
-        jTextFieldNombrePista.setText(model.getValueAt(rowIndex,1).toString());
-    }//GEN-LAST:event_jTablePistasMouseClicked
-
     private void jTextFieldValorBusquedaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldValorBusquedaKeyPressed
         // TODO add your handling code here:
         jTablePistas.setModel(new DefaultTableModel(null,new Object[]{"Id", "Nombre de pista"}));
@@ -397,6 +393,24 @@ public class ManagePistaForm extends javax.swing.JFrame {
             jTextFieldNombrePista.setText(model.getValueAt(rowIndex,1).toString());
         }
     }//GEN-LAST:event_jTablePistasKeyReleased
+
+    private void jTablePistasMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTablePistasMousePressed
+        // TODO add your handling code here:
+         JTable table =(JTable) evt.getSource();
+         Point point = evt.getPoint();
+         int fila = table.rowAtPoint(point);
+         if (evt.getClickCount() == 2 && table.getSelectedRow() != -1) {
+            try {
+                pistaController.verImagenPista(pistaController.selectPista(Long.valueOf(model.getValueAt(fila,0).toString())));
+            } catch (IOException ex) {
+                Logger.getLogger(PistaController.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (SQLException ex) {
+                Logger.getLogger(PistaController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        jTextFieldId.setText(model.getValueAt(fila, 0).toString());
+        jTextFieldNombrePista.setText(model.getValueAt(fila,1).toString());
+    }//GEN-LAST:event_jTablePistasMousePressed
 
     
     

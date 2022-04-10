@@ -8,16 +8,19 @@ package vista.admin.users;
 import com.sun.glass.events.KeyEvent;
 import controlador.UsuarioController;
 import java.awt.Color;
+import java.awt.Point;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.sql.Blob;
+import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
 import modelo.Usuarios;
@@ -161,8 +164,8 @@ public class ManageUserForm extends javax.swing.JFrame {
             }
         });
         jTableUsuarios.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jTableUsuariosMouseClicked(evt);
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                jTableUsuariosMousePressed(evt);
             }
         });
         jTableUsuarios.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -377,16 +380,6 @@ public class ManageUserForm extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jButtonEliminarActionPerformed
 
-    private void jTableUsuariosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableUsuariosMouseClicked
-        // TODO add your handling code here:
-        int rowIndex = jTableUsuarios.getSelectedRow();
-        jTextFieldId.setText(model.getValueAt(rowIndex, 0).toString());
-        jTextFieldNombreCompleto.setText(model.getValueAt(rowIndex,1).toString());
-        jTextFieldNombreUsuario.setText(model.getValueAt(rowIndex, 2).toString());
-        jTextFieldTelefono.setText(model.getValueAt(rowIndex, 3).toString());
-        jComboBoxRol.setSelectedItem(model.getValueAt(rowIndex, 4).toString());
-    }//GEN-LAST:event_jTableUsuariosMouseClicked
-
     private void jTextFieldValorBusquedaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldValorBusquedaKeyPressed
         // TODO add your handling code here:
         jTableUsuarios.setModel(new DefaultTableModel(null,new Object[]{"Id", "Nombre completo", "Nombre usuario", "Nº de Telefono", "Rol"}));
@@ -481,6 +474,28 @@ public class ManageUserForm extends javax.swing.JFrame {
             jComboBoxRol.setSelectedItem(model.getValueAt(rowIndex, 4).toString());
         }
     }//GEN-LAST:event_jTableUsuariosKeyReleased
+
+    private void jTableUsuariosMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableUsuariosMousePressed
+        // TODO add your handling code here:
+        JTable table =(JTable) evt.getSource();
+        Point point = evt.getPoint();
+        int fila = table.rowAtPoint(point);
+        if (evt.getClickCount() == 2 && table.getSelectedRow() != -1) {
+            try {
+                userController.verImagenUsuario((userController.selectUsuario(Long.valueOf(model.getValueAt(fila,0).toString()))));
+            } catch (SQLException ex) {
+                Logger.getLogger(UsuarioController.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (IOException ex) {
+                Logger.getLogger(UsuarioController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        
+        jTextFieldId.setText(model.getValueAt(fila, 0).toString());
+        jTextFieldNombreCompleto.setText(model.getValueAt(fila,1).toString());
+        jTextFieldNombreUsuario.setText(model.getValueAt(fila, 2).toString());
+        jTextFieldTelefono.setText(model.getValueAt(fila, 3).toString());
+        jComboBoxRol.setSelectedItem(model.getValueAt(fila, 4).toString());
+    }//GEN-LAST:event_jTableUsuariosMousePressed
 
    
     

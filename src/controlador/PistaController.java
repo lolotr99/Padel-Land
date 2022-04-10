@@ -7,9 +7,6 @@ package controlador;
 
 import java.awt.FlowLayout;
 import java.awt.Image;
-import java.awt.Point;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileInputStream;
@@ -142,23 +139,6 @@ public class PistaController {
             row[1] = pista.getNombrePista();
             model.addRow(row);
         }
-        tablaPistas.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mousePressed(MouseEvent mouseEvent) {
-                JTable table =(JTable) mouseEvent.getSource();
-                Point point = mouseEvent.getPoint();
-                int fila = table.rowAtPoint(point);
-                if (mouseEvent.getClickCount() == 2 && table.getSelectedRow() != -1) {
-                    try {
-                        verImagenPista(listaPistas.get(fila));
-                    } catch (IOException ex) {
-                        Logger.getLogger(PistaController.class.getName()).log(Level.SEVERE, null, ex);
-                    } catch (SQLException ex) {
-                        Logger.getLogger(PistaController.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-                }
-            }
-        });
    } 
     
     public void verImagenPista(Pistas pista) throws IOException, SQLException {

@@ -207,7 +207,7 @@ public class AddPistaForm extends javax.swing.JFrame {
             }
         }
         
-            ManagePistaForm.jTablePistas.setModel(new DefaultTableModel(null,new Object[]{"Id", "Nombre de pista", "Imagen"}));
+            ManagePistaForm.jTablePistas.setModel(new DefaultTableModel(null,new Object[]{"Id", "Nombre de pista"}));
             pistaController.fillPistasJTable(ManagePistaForm.jTablePistas, "");
         
     }//GEN-LAST:event_jButtonAnadirActionPerformed
