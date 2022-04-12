@@ -7,6 +7,7 @@ package vista.admin;
 
 import vista.admin.users.ManageUserForm;
 import javax.swing.JFrame;
+import vista.admin.horarios.ManageHorarioForm;
 import vista.admin.users.AddUserForm;
 import vista.admin.pistas.AddPistaForm;
 import vista.admin.pistas.ManagePistaForm;
@@ -23,6 +24,7 @@ public class AdminForm extends javax.swing.JFrame {
      */
     ManageUserForm muf;
     ManagePistaForm mpf;
+    ManageHorarioForm mhf;
     
     public AdminForm() {
         initComponents();
@@ -48,6 +50,7 @@ public class AdminForm extends javax.swing.JFrame {
         jMenuItemAddPista = new javax.swing.JMenuItem();
         jMenuItemManagePista = new javax.swing.JMenuItem();
         jMenuHorarios = new javax.swing.JMenu();
+        jMenuItemManageHorario = new javax.swing.JMenuItem();
         jMenuReservas = new javax.swing.JMenu();
         jMenuDiasNoDisponibles = new javax.swing.JMenu();
 
@@ -134,6 +137,16 @@ public class AdminForm extends javax.swing.JFrame {
 
         jMenuHorarios.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/img/icono-horario-menubar.png"))); // NOI18N
         jMenuHorarios.setText("Horarios");
+
+        jMenuItemManageHorario.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/img/icono-gestionar.png"))); // NOI18N
+        jMenuItemManageHorario.setText("Gestionar tramos horarios");
+        jMenuItemManageHorario.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemManageHorarioActionPerformed(evt);
+            }
+        });
+        jMenuHorarios.add(jMenuItemManageHorario);
+
         jMenuBar1.add(jMenuHorarios);
 
         jMenuReservas.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/img/icono-reserva-menubar.png"))); // NOI18N
@@ -196,6 +209,15 @@ public class AdminForm extends javax.swing.JFrame {
         mpf.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     }//GEN-LAST:event_jMenuItemManagePistaActionPerformed
 
+    private void jMenuItemManageHorarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemManageHorarioActionPerformed
+        // TODO add your handling code here:
+        mhf = new ManageHorarioForm();
+        mhf.setVisible(true);
+        mhf.pack();
+        mhf.setLocationRelativeTo(null);
+        mhf.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+    }//GEN-LAST:event_jMenuItemManageHorarioActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -239,6 +261,7 @@ public class AdminForm extends javax.swing.JFrame {
     private javax.swing.JMenu jMenuHorarios;
     private javax.swing.JMenuItem jMenuItemAddPista;
     private javax.swing.JMenuItem jMenuItemAddUser;
+    private javax.swing.JMenuItem jMenuItemManageHorario;
     private javax.swing.JMenuItem jMenuItemManagePista;
     private javax.swing.JMenuItem jMenuItemManageUser;
     private javax.swing.JMenu jMenuPistas;
