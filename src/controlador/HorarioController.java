@@ -41,6 +41,18 @@ public class HorarioController {
         }
     }
     
+    public Horarios selectHorario(long idHorario){
+        Horarios horario = null;
+        iniciarOperacion();
+        try{
+            horario = (Horarios) sesion.get(Horarios.class, idHorario);
+        }catch (Exception ex){
+           Logger.getLogger(HorarioController.class.getName()).log(Level.SEVERE,null,ex);
+        }
+        terminarOperacion();
+        return horario;
+    }
+    
     public long insertarHorario(Horarios horario) {
         long id = 0;
         iniciarOperacion();
@@ -80,10 +92,11 @@ public class HorarioController {
         Object[] row;
         DefaultTableModel model = (DefaultTableModel)tablaHorarios.getModel();
         for(Horarios horario : listaHorarios){
-            row = new Object[3];
-            row[0] = horario.getTurno();
-            row[1] = horario.getHoraComienzo();
-            row[2] = new JButton("Eliminar");
+            row = new Object[4];
+            row[0] = horario.getId();
+            row[1] = horario.getTurno();
+            row[2] = horario.getHoraComienzo();
+            row[3] = new JButton("Eliminar");
             model.addRow(row);
         }
    } 

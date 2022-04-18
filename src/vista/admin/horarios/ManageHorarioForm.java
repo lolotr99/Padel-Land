@@ -7,6 +7,7 @@ package vista.admin.horarios;
 
 import controlador.HorarioController;
 import java.awt.Color;
+import javax.swing.JButton;
 import javax.swing.table.DefaultTableModel;
 import utilidades.RenderUtil;
 
@@ -28,7 +29,7 @@ public class ManageHorarioForm extends javax.swing.JFrame {
         horarioController = new HorarioController();
         
         jTableHorarios.setDefaultRenderer(Object.class, new RenderUtil());
-        model = new DefaultTableModel(){
+        model = new DefaultTableModel(null,new Object[]{"Id", "Turno", "Hora Comienzo", ""}){
             @Override
             public boolean isCellEditable(int row, int column){
                 return false;
@@ -36,11 +37,11 @@ public class ManageHorarioForm extends javax.swing.JFrame {
         };
         
         jTableHorarios.setModel(model);
-        jTableHorarios.setRowHeight(30);
+        horarioController.fillHorariosTable(jTableHorarios);
+        
+        jTableHorarios.setRowHeight(45);
         jTableHorarios.setGridColor(Color.yellow);
         jTableHorarios.setSelectionBackground(Color.cyan);
-        
-        horarioController.fillHorariosTable(jTableHorarios);
     }
     
     
@@ -55,36 +56,51 @@ public class ManageHorarioForm extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTableHorarios = new javax.swing.JTable();
+        jLabel1 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Gestión de tramos horarios");
         setResizable(false);
 
-        jLabel1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jLabel1.setText("CONTROL DE TRAMOS HORARIOS:");
+        jPanel1.setBackground(new java.awt.Color(23, 255, 108));
+
+        jPanel2.setBackground(new java.awt.Color(23, 255, 108));
 
         jTableHorarios.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "Turno", "Hora Comienzo", ""
+                "Id", "Turno", "Hora Comienzo", ""
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, true, false
+                false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
             }
         });
+        jTableHorarios.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                jTableHorariosMousePressed(evt);
+            }
+        });
         jScrollPane1.setViewportView(jTableHorarios);
+        if (jTableHorarios.getColumnModel().getColumnCount() > 0) {
+            jTableHorarios.getColumnModel().getColumn(0).setResizable(false);
+            jTableHorarios.getColumnModel().getColumn(1).setResizable(false);
+            jTableHorarios.getColumnModel().getColumn(2).setResizable(false);
+            jTableHorarios.getColumnModel().getColumn(3).setResizable(false);
+        }
+
+        jLabel1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel1.setText("CONTROL DE TRAMOS HORARIOS:");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -92,17 +108,21 @@ public class ManageHorarioForm extends javax.swing.JFrame {
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 452, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 452, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel1))
                 .addContainerGap(18, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
+                .addComponent(jLabel1)
+                .addGap(22, 22, 22)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 330, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
+        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/img/icono-anadir.png"))); // NOI18N
         jButton1.setText("Añade un tramo horario");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -111,25 +131,19 @@ public class ManageHorarioForm extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addContainerGap())
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(10, 10, 10)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jButton1)
-                            .addComponent(jLabel1))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(20, 20, 20)
+                .addComponent(jButton1)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(10, 10, 10)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jButton1)
+                .addGap(20, 20, 20)
                 .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
@@ -147,7 +161,7 @@ public class ManageHorarioForm extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 442, Short.MAX_VALUE)
+            .addGap(0, 470, Short.MAX_VALUE)
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                     .addGap(0, 0, Short.MAX_VALUE)
@@ -157,6 +171,26 @@ public class ManageHorarioForm extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jTableHorariosMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableHorariosMousePressed
+        // TODO add your handling code here:
+        int column = jTableHorarios.getColumnModel().getColumnIndexAtX(evt.getX());
+        int row = evt.getY()/jTableHorarios.getRowHeight();
+        if (column == 3) {
+            Object value = jTableHorarios.getValueAt(row, column);
+            if (value instanceof JButton) {
+                ((JButton) value).doClick();
+                horarioController.deleteHorario(horarioController.selectHorario(Long.valueOf(model.getValueAt(row,0).toString())));
+                jTableHorarios.setModel(new DefaultTableModel(null,new Object[]{"Id", "Turno", "Hora Comienzo", ""}){
+                    @Override
+                    public boolean isCellEditable(int row, int column){
+                        return false;
+                    }  
+                });
+                horarioController.fillHorariosTable(jTableHorarios);
+            }
+        }
+    }//GEN-LAST:event_jTableHorariosMousePressed
 
     /**
      * @param args the command line arguments
