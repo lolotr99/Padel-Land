@@ -373,10 +373,12 @@ public class ManageUserForm extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "No se ha seleccionado ningún usuario");
         }else{
             Usuarios user = userController.selectUsuario(Integer.valueOf(id));
-            userController.deleteUsuario(user);
-            jTableUsuarios.setModel(new DefaultTableModel(null,new Object[]{"Id", "Nombre completo", "Nombre usuario", "Nº de Telefono", "Rol"}));
-            userController.fillUsersJTable(jTableUsuarios, jTextFieldValorBusqueda.getText());
-            limpiarCampos();
+            if (JOptionPane.showConfirmDialog(null, "¿Seguro que quieres eliminar el usuario con id "+id+"?", "WARNING",JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+                userController.deleteUsuario(user);
+                jTableUsuarios.setModel(new DefaultTableModel(null,new Object[]{"Id", "Nombre completo", "Nombre usuario", "Nº de Telefono", "Rol"}));
+                userController.fillUsersJTable(jTableUsuarios, jTextFieldValorBusqueda.getText());
+                limpiarCampos();
+            }
         }
     }//GEN-LAST:event_jButtonEliminarActionPerformed
 

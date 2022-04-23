@@ -303,10 +303,12 @@ public class ManagePistaForm extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "No se ha seleccionado ninguna pista");
         }else{
             Pistas pista = pistaController.selectPista(Integer.valueOf(id));
-            pistaController.deletePista(pista);
-            jTablePistas.setModel(new DefaultTableModel(null,new Object[]{"Id", "Nombre de pista"}));
-            pistaController.fillPistasJTable(jTablePistas, jTextFieldValorBusqueda.getText());
-            limpiarCampos();
+            if (JOptionPane.showConfirmDialog(null, "¿Seguro que quieres eliminar la pistas con id "+id+"?", "WARNING",JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+                pistaController.deletePista(pista);
+                jTablePistas.setModel(new DefaultTableModel(null,new Object[]{"Id", "Nombre de pista"}));
+                pistaController.fillPistasJTable(jTablePistas, jTextFieldValorBusqueda.getText());
+                limpiarCampos();
+            }
         }
     }//GEN-LAST:event_jButtonEliminarActionPerformed
 

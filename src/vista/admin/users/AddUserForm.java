@@ -278,7 +278,8 @@ public class AddUserForm extends javax.swing.JFrame {
                     JOptionPane.showMessageDialog(null, "Error en el registro, revisa tus datos");
                 }
             }
-            
+        }
+        if (ManageUserForm.jTableUsuarios != null) {
             ManageUserForm.jTableUsuarios.setModel(new DefaultTableModel(null,new Object[]{"Id", "Nombre completo", "Nombre usuario", "Nº de Telefono", "Rol"}));
             userController.fillUsersJTable(ManageUserForm.jTableUsuarios, "");
         }

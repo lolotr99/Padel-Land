@@ -21,13 +21,11 @@ public class Horarios  implements java.io.Serializable {
     }
 
 	
-    public Horarios(long id, String turno, Date horaComienzo) {
-        this.id = id;
+    public Horarios(String turno, Date horaComienzo) {
         this.turno = turno;
         this.horaComienzo = horaComienzo;
     }
-    public Horarios(long id, String turno, Date horaComienzo, Set reservases) {
-       this.id = id;
+    public Horarios(String turno, Date horaComienzo, Set reservases) {
        this.turno = turno;
        this.horaComienzo = horaComienzo;
        this.reservases = reservases;

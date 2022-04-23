@@ -11,7 +11,6 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.sql.Blob;
-import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFileChooser;
@@ -199,17 +198,17 @@ public class AddPistaForm extends javax.swing.JFrame {
             pista = new Pistas(nombrePista, imageBlob, null);
             long result = pistaController.insertarPista(pista);
             if (result != 0){
-                JOptionPane.showMessageDialog(null, "¡Tu pista ha sido creado correctamente!");
+                JOptionPane.showMessageDialog(null, "¡Tu pista ha sido creada correctamente!");
                 image_path = null;
                 jTextFieldNombrePista.setText("");
             }else{
                 JOptionPane.showMessageDialog(null, "Error en el registro de la pista, revisa tus datos");
             }
         }
-        
+        if (ManagePistaForm.jTablePistas != null){
             ManagePistaForm.jTablePistas.setModel(new DefaultTableModel(null,new Object[]{"Id", "Nombre de pista"}));
             pistaController.fillPistasJTable(ManagePistaForm.jTablePistas, "");
-        
+        }
     }//GEN-LAST:event_jButtonAnadirActionPerformed
 
     private void jButtonQuitarImagenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonQuitarImagenActionPerformed

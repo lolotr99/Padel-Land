@@ -6,7 +6,7 @@
     <class name="modelo.Horarios" table="horarios" catalog="padel_land" optimistic-lock="version">
         <id name="id" type="long">
             <column name="id" />
-            <generator class="assigned" />
+            <generator class="identity" />
         </id>
         <property name="turno" type="string">
             <column name="turno" length="7" not-null="true" />

@@ -5,6 +5,7 @@
  */
 package controlador;
 
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -12,7 +13,6 @@ import javax.swing.JButton;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import modelo.Horarios;
-import modelo.Pistas;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import utilidades.NewHibernateUtil;
@@ -73,6 +73,18 @@ public class HorarioController {
            Logger.getLogger(HorarioController.class.getName()).log(Level.SEVERE,null,ex);
         }
         terminarOperacion();
+    }
+     
+    public Horarios getHorarioByHoraComienzo(Date hora){
+        Horarios horario = null;
+        iniciarOperacion();
+        try{
+            horario = (Horarios)sesion.createQuery("from Horarios h where h.horaComienzo='"+hora+"'").uniqueResult();
+        }catch(Exception ex){
+            Logger.getLogger(HorarioController.class.getName()).log(Level.SEVERE,null,ex);
+        }
+        terminarOperacion();
+        return horario;
     }
      
     public List<Horarios> getListaHorarios(){

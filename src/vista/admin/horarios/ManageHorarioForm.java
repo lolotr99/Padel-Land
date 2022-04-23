@@ -8,6 +8,8 @@ package vista.admin.horarios;
 import controlador.HorarioController;
 import java.awt.Color;
 import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import utilidades.RenderUtil;
 
@@ -124,6 +126,11 @@ public class ManageHorarioForm extends javax.swing.JFrame {
 
         jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/img/icono-anadir.png"))); // NOI18N
         jButton1.setText("Añade un tramo horario");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -180,17 +187,28 @@ public class ManageHorarioForm extends javax.swing.JFrame {
             Object value = jTableHorarios.getValueAt(row, column);
             if (value instanceof JButton) {
                 ((JButton) value).doClick();
-                horarioController.deleteHorario(horarioController.selectHorario(Long.valueOf(model.getValueAt(row,0).toString())));
-                jTableHorarios.setModel(new DefaultTableModel(null,new Object[]{"Id", "Turno", "Hora Comienzo", ""}){
-                    @Override
-                    public boolean isCellEditable(int row, int column){
-                        return false;
-                    }  
-                });
-                horarioController.fillHorariosTable(jTableHorarios);
+                if (JOptionPane.showConfirmDialog(null, "¿Seguro que quieres eliminar el tramo horario con id "+Long.valueOf(model.getValueAt(row,0).toString())+"?", "WARNING",JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+                        horarioController.deleteHorario(horarioController.selectHorario(Long.valueOf(model.getValueAt(row,0).toString())));
+                        jTableHorarios.setModel(new DefaultTableModel(null,new Object[]{"Id", "Turno", "Hora Comienzo", ""}){
+                            @Override
+                            public boolean isCellEditable(int row, int column){
+                                return false;
+                            }  
+                        });
+                        horarioController.fillHorariosTable(jTableHorarios);
+                }
             }
         }
     }//GEN-LAST:event_jTableHorariosMousePressed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        AddHorarioForm addHF = new AddHorarioForm();
+        addHF.setVisible(true);
+        addHF.pack();
+        addHF.setLocationRelativeTo(null);
+        addHF.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -236,6 +254,6 @@ public class ManageHorarioForm extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTableHorarios;
+    protected static javax.swing.JTable jTableHorarios;
     // End of variables declaration//GEN-END:variables
 }
