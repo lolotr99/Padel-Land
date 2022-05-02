@@ -7,6 +7,7 @@ package vista.admin;
 
 import vista.admin.users.ManageUserForm;
 import javax.swing.JFrame;
+import vista.admin.diasnodisponibles.ManageDiasNoDisponiblesForm;
 import vista.admin.horarios.AddHorarioForm;
 import vista.admin.horarios.ManageHorarioForm;
 import vista.admin.users.AddUserForm;
@@ -26,6 +27,7 @@ public class AdminForm extends javax.swing.JFrame {
     ManageUserForm muf;
     ManagePistaForm mpf;
     ManageHorarioForm mhf;
+    ManageDiasNoDisponiblesForm mdndf;
     
     public AdminForm() {
         initComponents();
@@ -55,6 +57,7 @@ public class AdminForm extends javax.swing.JFrame {
         jMenuItemManageHorario = new javax.swing.JMenuItem();
         jMenuReservas = new javax.swing.JMenu();
         jMenuDiasNoDisponibles = new javax.swing.JMenu();
+        jMenuItemGestionDias = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Panel de Administrador");
@@ -166,6 +169,16 @@ public class AdminForm extends javax.swing.JFrame {
 
         jMenuDiasNoDisponibles.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/img/icono-dianodisponible.png"))); // NOI18N
         jMenuDiasNoDisponibles.setText("Días no disponibles");
+
+        jMenuItemGestionDias.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/img/icono-gestionar.png"))); // NOI18N
+        jMenuItemGestionDias.setText("Gestionar días");
+        jMenuItemGestionDias.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemGestionDiasActionPerformed(evt);
+            }
+        });
+        jMenuDiasNoDisponibles.add(jMenuItemGestionDias);
+
         jMenuBar1.add(jMenuDiasNoDisponibles);
 
         setJMenuBar(jMenuBar1);
@@ -238,6 +251,15 @@ public class AdminForm extends javax.swing.JFrame {
         addHF.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     }//GEN-LAST:event_jMenuItemAddHorarioActionPerformed
 
+    private void jMenuItemGestionDiasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemGestionDiasActionPerformed
+        // TODO add your handling code here:
+        mdndf = new ManageDiasNoDisponiblesForm();
+        mdndf.setVisible(true);
+        mdndf.pack();
+        mdndf.setLocationRelativeTo(null);
+        mdndf.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+    }//GEN-LAST:event_jMenuItemGestionDiasActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -282,6 +304,7 @@ public class AdminForm extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItemAddHorario;
     private javax.swing.JMenuItem jMenuItemAddPista;
     private javax.swing.JMenuItem jMenuItemAddUser;
+    private javax.swing.JMenuItem jMenuItemGestionDias;
     private javax.swing.JMenuItem jMenuItemManageHorario;
     private javax.swing.JMenuItem jMenuItemManagePista;
     private javax.swing.JMenuItem jMenuItemManageUser;

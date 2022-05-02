@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 02-may-2022 18:51:34 by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="modelo.Properties" table="properties" catalog="padel_land" optimistic-lock="version">
+        <id name="id" type="long">
+            <column name="id" />
+            <generator class="identity" />
+        </id>
+        <property name="propertie" type="string">
+            <column name="propertie" length="191" not-null="true" />
+        </property>
+        <property name="value" type="string">
+            <column name="value" length="191" not-null="true" />
+        </property>
+    </class>
+</hibernate-mapping>

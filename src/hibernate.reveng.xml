@@ -46,4 +46,5 @@ Contributor(s):
   <table-filter match-name="pistas"/>
   <table-filter match-name="reservas"/>
   <table-filter match-name="usuarios"/>
+  <table-filter match-name="properties"/>
 </hibernate-reverse-engineering>

@@ -52,5 +52,6 @@ Contributor(s):
     <mapping resource="modelo/Usuarios.hbm.xml"/>
     <mapping resource="modelo/Horarios.hbm.xml"/>
     <mapping resource="modelo/Pistas.hbm.xml"/>
+    <mapping resource="modelo/Properties.hbm.xml"/>
   </session-factory>
 </hibernate-configuration>
