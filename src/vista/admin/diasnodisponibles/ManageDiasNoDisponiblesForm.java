@@ -206,15 +206,16 @@ public class ManageDiasNoDisponiblesForm extends javax.swing.JFrame {
             Object value = jTableDiasNoDisponibles.getValueAt(row, column);
             if (value instanceof JButton) {
                 ((JButton) value).doClick();
+                diasNoDisponiblesController.fillTableDiasNoDisponibles(jTableDiasNoDisponibles);
                 if (JOptionPane.showConfirmDialog(null, "¿Seguro que quieres eliminar el día "+ model.getValueAt(row,1).toString()+"?", "WARNING",JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
-                        diasNoDisponiblesController.deleteDiaNoDisponible(diasNoDisponiblesController.selectDia(Long.valueOf(model.getValueAt(row,0).toString())));
-                        jTableDiasNoDisponibles.setModel(new DefaultTableModel(null,new Object[]{"Id", "Día", ""}){
-                            @Override
-                            public boolean isCellEditable(int row, int column){
-                                return false;
-                            }  
+                    diasNoDisponiblesController.deleteDiaNoDisponible(diasNoDisponiblesController.selectDia(Long.valueOf(model.getValueAt(row,0).toString())));
+                    jTableDiasNoDisponibles.setModel(new DefaultTableModel(null,new Object[]{"Id", "Día", ""}){
+                        @Override
+                        public boolean isCellEditable(int row, int column){
+                            return false;
+                        }  
                         });
-                        diasNoDisponiblesController.fillTableDiasNoDisponibles(jTableDiasNoDisponibles);
+                    diasNoDisponiblesController.fillTableDiasNoDisponibles(jTableDiasNoDisponibles);
                 }
             }
         }

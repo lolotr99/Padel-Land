@@ -57,6 +57,7 @@ public class AdminForm extends javax.swing.JFrame {
         jMenuItemManageHorario = new javax.swing.JMenuItem();
         jMenuReservas = new javax.swing.JMenu();
         jMenuDiasNoDisponibles = new javax.swing.JMenu();
+        jMenuItemAddDias = new javax.swing.JMenuItem();
         jMenuItemGestionDias = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -169,6 +170,10 @@ public class AdminForm extends javax.swing.JFrame {
 
         jMenuDiasNoDisponibles.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/img/icono-dianodisponible.png"))); // NOI18N
         jMenuDiasNoDisponibles.setText("Días no disponibles");
+
+        jMenuItemAddDias.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/img/icono-crear.png"))); // NOI18N
+        jMenuItemAddDias.setText("Añadir dias");
+        jMenuDiasNoDisponibles.add(jMenuItemAddDias);
 
         jMenuItemGestionDias.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/img/icono-gestionar.png"))); // NOI18N
         jMenuItemGestionDias.setText("Gestionar días");
@@ -301,6 +306,7 @@ public class AdminForm extends javax.swing.JFrame {
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenu jMenuDiasNoDisponibles;
     private javax.swing.JMenu jMenuHorarios;
+    private javax.swing.JMenuItem jMenuItemAddDias;
     private javax.swing.JMenuItem jMenuItemAddHorario;
     private javax.swing.JMenuItem jMenuItemAddPista;
     private javax.swing.JMenuItem jMenuItemAddUser;

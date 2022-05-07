@@ -187,6 +187,7 @@ public class ManageHorarioForm extends javax.swing.JFrame {
             Object value = jTableHorarios.getValueAt(row, column);
             if (value instanceof JButton) {
                 ((JButton) value).doClick();
+                horarioController.fillHorariosTable(jTableHorarios);
                 if (JOptionPane.showConfirmDialog(null, "¿Seguro que quieres eliminar el tramo horario con id "+Long.valueOf(model.getValueAt(row,0).toString())+"?", "WARNING",JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
                         horarioController.deleteHorario(horarioController.selectHorario(Long.valueOf(model.getValueAt(row,0).toString())));
                         jTableHorarios.setModel(new DefaultTableModel(null,new Object[]{"Id", "Turno", "Hora Comienzo", ""}){

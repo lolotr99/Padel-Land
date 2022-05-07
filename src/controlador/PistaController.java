@@ -133,6 +133,7 @@ public class PistaController {
         List<Pistas> listaPistas = getPistasBusqueda(valueBusqueda);
         Object[] row;
         DefaultTableModel model = (DefaultTableModel)tablaPistas.getModel();
+        model.setRowCount(0);
         for(Pistas pista : listaPistas){
             row = new Object[2];
             row[0] = pista.getId();

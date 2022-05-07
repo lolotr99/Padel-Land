@@ -103,6 +103,7 @@ public class HorarioController {
         List<Horarios> listaHorarios = getListaHorarios();
         Object[] row;
         DefaultTableModel model = (DefaultTableModel)tablaHorarios.getModel();
+        model.setRowCount(0);
         for(Horarios horario : listaHorarios){
             row = new Object[4];
             row[0] = horario.getId();

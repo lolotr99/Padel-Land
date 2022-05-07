@@ -75,7 +75,7 @@ public class DiasNoDisponiblesController {
         terminarOperacion();
     }
      
-    public DiasNoDisponibles getDiaNoDisponibleByDate(Date dia){
+    public DiasNoDisponibles getDiaNoDisponibleByDate(String dia){
         DiasNoDisponibles diaNoDisponible = null;
         iniciarOperacion();
         try{
@@ -103,6 +103,7 @@ public class DiasNoDisponiblesController {
         List<DiasNoDisponibles> listaDias = getListaDias();
         Object[] row;
         DefaultTableModel model = (DefaultTableModel)tablaDias.getModel();
+        model.setRowCount(0);
         for(DiasNoDisponibles dia : listaDias){
             row = new Object[3];
             row[0] = dia.getId();

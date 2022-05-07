@@ -149,6 +149,7 @@ public class UsuarioController {
         List<Usuarios> listaUser = getUsuariosBusqueda(valorBusqueda);
         Object[] row;
         DefaultTableModel model = (DefaultTableModel)tabla.getModel();
+        model.setRowCount(0);        
         for(Usuarios user : listaUser){
             row = new Object[5];
             row[0] = user.getId();

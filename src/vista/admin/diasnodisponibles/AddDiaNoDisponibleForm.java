@@ -45,6 +45,7 @@ public class AddDiaNoDisponibleForm extends javax.swing.JFrame {
         jButtonAnadir = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Añadir dia no disponible");
 
         jPanel1.setBackground(new java.awt.Color(23, 255, 108));
 
@@ -120,12 +121,14 @@ public class AddDiaNoDisponibleForm extends javax.swing.JFrame {
     private void jButtonAnadirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAnadirActionPerformed
         // TODO add your handling code here
         Date fecha = jCalendar.getDate();
-        SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
+        SimpleDateFormat formato = new SimpleDateFormat("yyyy/MM/dd");
         String fechaFormateada = formato.format(fecha);
         
-        if (JOptionPane.showConfirmDialog(null, "¿Seguro que quieres insertar el día : "+fechaFormateada+"?", "WARNING",JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+        if (fecha.before(new Date())){
+            JOptionPane.showMessageDialog(null, "No se puede añadir un día anterior al de hoy","Información",2);
+        }else if(JOptionPane.showConfirmDialog(null, "¿Seguro que quieres insertar el día : "+fechaFormateada+"?", "WARNING",JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
             //Se comprueba que ese tramo horario no exista ya
-            if (!checkDia(fecha)){
+            if (!checkDia(fechaFormateada)){
                 DiasNoDisponibles dia = new DiasNoDisponibles(fecha);
                 long result = diasNoDisponiblesController.insertarDia(dia);
                 if (result != 0){
@@ -148,7 +151,7 @@ public class AddDiaNoDisponibleForm extends javax.swing.JFrame {
     }//GEN-LAST:event_jButtonAnadirActionPerformed
 
     //Creamos una funcíon para comprobar si el dia introducido ya existe en la BBDD
-    public boolean checkDia(Date dia) {
+    public boolean checkDia(String dia) {
         boolean dia_exists = false;
         
         if (diasNoDisponiblesController.getDiaNoDisponibleByDate(dia) != null){
