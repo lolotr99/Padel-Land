@@ -16,9 +16,8 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.border.Border;
 import modelo.Usuarios;
-import utilidades.BCryptUtil;
 import utilidades.CifradoUtil;
-import vista.basico.MisDatos;
+import vista.basico.MiPerfilForm;
 
 /**
  *
@@ -402,10 +401,10 @@ public class Login extends javax.swing.JFrame {
                 if (usuario != null){
                     if (CifradoUtil.checkPassword(password, usuario.getPassword())){
                         if (usuario.getRol().equals("basico")){
-                            MisDatos md = new MisDatos(this, rootPaneCheckingEnabled);
-                            md.setVisible(true);
-                            md.pack();
-                            md.setLocationRelativeTo(null);
+                            MiPerfilForm uf = new MiPerfilForm(usuario);
+                            uf.setVisible(true);
+                            uf.pack();
+                            uf.setLocationRelativeTo(null);
                             //Cerramos el formulario actual
                             this.dispose();
                         }else if (usuario.getRol().equals("administrador")){
