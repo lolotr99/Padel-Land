@@ -351,7 +351,7 @@ public class ManagePistaForm extends javax.swing.JFrame {
             pistaController.updatePista(pista);
             JOptionPane.showMessageDialog(null, "Pista modificada correctamente");
             jTablePistas.setModel(new DefaultTableModel(null,new Object[]{"Id", "Nombre de pista"}));
-            pistaController.fillPistasJTable(ManagePistaForm.jTablePistas, "");
+            pistaController.fillPistasJTable(jTablePistas, "");
         } else{
             JOptionPane.showMessageDialog(null,"No se ha seleccionado ninguna pista","Error al actualizar",2);
         }

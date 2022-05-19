@@ -53,7 +53,6 @@ public class MiPerfilForm extends javax.swing.JFrame {
                 Logger.getLogger(MiPerfilForm.class.getName()).log(Level.SEVERE, null, ex);
             }
         } else{
-            String imagePath = "resources/img/defecto.png";
             URL imgStream = MiPerfilForm.class.getClassLoader().getResource("resources/img/defecto.png");
             BufferedImage defecto = null;
             try {

@@ -86,6 +86,7 @@ public class EditarPerfilForm extends javax.swing.JFrame {
         jButtonAnadir = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("PadelLand - Editar perfil");
 
         jPanel1.setBackground(new java.awt.Color(23, 255, 108));
 

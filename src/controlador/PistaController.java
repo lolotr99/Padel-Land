@@ -151,7 +151,7 @@ public class PistaController {
         ImageIcon icon = new ImageIcon(image);
         JFrame frame = new JFrame();
         frame.setLayout(new FlowLayout());
-        frame.setSize(800, 600);
+        frame.setSize(625, 450);
 
         JLabel jLabel = new JLabel();
         jLabel.setIcon(icon);
