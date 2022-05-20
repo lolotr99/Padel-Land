@@ -26,7 +26,7 @@
         <property name="rol" type="string">
             <column name="rol" length="14" not-null="true" />
         </property>
-        <set name="reservases" table="reservas" inverse="true" lazy="true" fetch="select">
+        <set name="reservases" table="reservas" inverse="true" lazy="false" fetch="select">
             <key>
                 <column name="idUsuario" not-null="true" />
             </key>

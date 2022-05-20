@@ -99,7 +99,7 @@ public class HorarioController {
         return listaHorarios;
     }
      
-     public void fillHorariosTable(JTable tablaHorarios){
+    public void fillHorariosTable(JTable tablaHorarios){
         List<Horarios> listaHorarios = getListaHorarios();
         Object[] row;
         DefaultTableModel model = (DefaultTableModel)tablaHorarios.getModel();

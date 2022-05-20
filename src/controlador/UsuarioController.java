@@ -23,6 +23,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+import modelo.ReservasUsuario;
 import modelo.Usuarios;
 import org.hibernate.Hibernate;
 import org.hibernate.HibernateException;
@@ -96,16 +97,29 @@ public class UsuarioController {
         terminarOperacion();
         return usuario;
     }
+    
     public Usuarios obtenerUsuarioPorUsernameAndPassword(String username, String password){
         Usuarios usuario = null;
         iniciarOperacion();
         try{
-            usuario = (Usuarios)sesion.createQuery("from Usuarios U WHERE U.username='"+username+"' and U.password='"+password+"'").uniqueResult();
-        }catch(Exception ex){
+            usuario = (Usuarios)sesion.createQuery("FROM Usuarios U WHERE U.username='"+username+"' and U.password='"+password+"'").uniqueResult();
+         }catch(Exception ex){
             Logger.getLogger(UsuarioController.class.getName()).log(Level.SEVERE,null,ex);
         }
         terminarOperacion();
         return usuario;
+    }
+    
+    public List<ReservasUsuario> getReservasUsuario(long idUsuario) {
+        List<ReservasUsuario> listaReservasUsuario = null;
+        iniciarOperacion();
+        try{
+            listaReservasUsuario = sesion.createQuery("SELECT new ReservasUsuario(p.nombrePista, h.horaComienzo, r.dia) from Usuarios as u INNER JOIN Reservas as r ON  u.id = r.idUsuario INNER JOIN Pistas as p ON p.id = r.idPista INNER JOIN Horarios as h on r.idHorario = h.id WHERE u.id='"+idUsuario+"'").list();
+        }catch(Exception ex){
+            Logger.getLogger(UsuarioController.class.getName()).log(Level.SEVERE,null,ex);
+        }
+        terminarOperacion();
+        return listaReservasUsuario;
     }
     
     public Usuarios obtenerUsuarioPorUserName(String username){
@@ -188,5 +202,9 @@ public class UsuarioController {
         Blob blob = Hibernate.getLobCreator(sesion).createBlob(new SelfClosingInputStreamUtil(inputStream), file.length());
         terminarOperacion();
         return blob;
+    }
+    
+    public Session getSession() {
+        return sesion;
     }
 }

@@ -5,6 +5,8 @@
  */
 package vista.basico;
 
+import controlador.UsuarioController;
+import java.awt.Color;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
@@ -12,12 +14,25 @@ import java.io.IOException;
 import java.net.URL;
 import java.sql.Blob;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
+import modelo.Horarios;
+import modelo.Reservas;
+import modelo.ReservasUsuario;
 import modelo.Usuarios;
+import org.hibernate.Hibernate;
+import utilidades.RenderUtil;
 
 /**
  *
@@ -29,12 +44,15 @@ public class MiPerfilForm extends javax.swing.JFrame {
      * Creates new form UserForm
      */
     Usuarios user;
+    DefaultTableModel model;
+    UsuarioController userController;
     public MiPerfilForm() {
         initComponents();
     }
     
     public MiPerfilForm(Usuarios user) {
         this.user = user;
+        userController = new UsuarioController();
         initComponents();
         rellenarDatosUsuario();
     }
@@ -67,8 +85,32 @@ public class MiPerfilForm extends javax.swing.JFrame {
         jLabelNombreCompleto.setText(user.getNombreCompleto());
         jLabelNTelefono.setText(user.getTelefono());
         
+        fillTablaReservas(jTableReservasUser, user.getId());
     }
-
+    
+    public void fillTablaReservas(JTable tablaReservas, long idUsuario){
+        tablaReservas.setDefaultRenderer(Object.class, new RenderUtil());
+        model = new DefaultTableModel(null,new Object[]{"Pista", "Horario","Dia",""}){
+            @Override
+            public boolean isCellEditable(int row, int column){
+                return false;
+            }  
+        };
+        tablaReservas.setRowHeight(45);
+        tablaReservas.setGridColor(Color.yellow);
+        tablaReservas.setSelectionBackground(Color.cyan);
+        List<ReservasUsuario> listaReservasUsuario = userController.getReservasUsuario(idUsuario);
+        Object[] row;
+        model.setRowCount(0);
+        for(ReservasUsuario reserva : listaReservasUsuario){
+            row = new Object[4];
+            row[0] = reserva.getNombrePista();
+            row[1] = reserva.getHoraComienzo();
+            row[2] = reserva.getDia();
+            row[3] = new JButton("Eliminar");
+            model.addRow(row);
+        }
+   } 
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
