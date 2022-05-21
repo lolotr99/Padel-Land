@@ -7,13 +7,10 @@ package vista.admin.diasnodisponibles;
 
 import controlador.DiasNoDisponiblesController;
 import controlador.PropertiesController;
-import java.awt.Color;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-import javax.swing.table.DefaultTableModel;
 import modelo.Properties;
-import utilidades.RenderUtil;
 
 
 /**
@@ -27,7 +24,6 @@ public class ManageDiasNoDisponiblesForm extends javax.swing.JFrame {
      */
     PropertiesController propertiesController;
     Properties propertie;
-    DefaultTableModel model;
     DiasNoDisponiblesController diasNoDisponiblesController;
     public ManageDiasNoDisponiblesForm() {
         initComponents();
@@ -35,23 +31,8 @@ public class ManageDiasNoDisponiblesForm extends javax.swing.JFrame {
         propertie = propertiesController.selectPropertieFromName("LIMITE_RESERVAS_SIMULTANEAS");
         jTextFieldNumeroReservasSimultaneas.setText(propertie.getValue());
         
-        
         diasNoDisponiblesController = new DiasNoDisponiblesController();
-        
-        jTableDiasNoDisponibles.setDefaultRenderer(Object.class, new RenderUtil());
-        model = new DefaultTableModel(null,new Object[]{"Id", "Día",""}){
-            @Override
-            public boolean isCellEditable(int row, int column){
-                return false;
-            }  
-        };
-        
-        jTableDiasNoDisponibles.setModel(model);
         diasNoDisponiblesController.fillTableDiasNoDisponibles(jTableDiasNoDisponibles);
-        
-        jTableDiasNoDisponibles.setRowHeight(45);
-        jTableDiasNoDisponibles.setGridColor(Color.yellow);
-        jTableDiasNoDisponibles.setSelectionBackground(Color.cyan);
     }
 
     /**
@@ -207,14 +188,8 @@ public class ManageDiasNoDisponiblesForm extends javax.swing.JFrame {
             if (value instanceof JButton) {
                 ((JButton) value).doClick();
                 diasNoDisponiblesController.fillTableDiasNoDisponibles(jTableDiasNoDisponibles);
-                if (JOptionPane.showConfirmDialog(null, "¿Seguro que quieres eliminar el día "+ model.getValueAt(row,1).toString()+"?", "WARNING",JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
-                    diasNoDisponiblesController.deleteDiaNoDisponible(diasNoDisponiblesController.selectDia(Long.valueOf(model.getValueAt(row,0).toString())));
-                    jTableDiasNoDisponibles.setModel(new DefaultTableModel(null,new Object[]{"Id", "Día", ""}){
-                        @Override
-                        public boolean isCellEditable(int row, int column){
-                            return false;
-                        }  
-                        });
+                if (JOptionPane.showConfirmDialog(null, "¿Seguro que quieres eliminar el día "+ jTableDiasNoDisponibles.getModel().getValueAt(row,1).toString()+"?", "WARNING",JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+                    diasNoDisponiblesController.deleteDiaNoDisponible(diasNoDisponiblesController.selectDia(Long.valueOf(jTableDiasNoDisponibles.getModel().getValueAt(row,0).toString())));
                     diasNoDisponiblesController.fillTableDiasNoDisponibles(jTableDiasNoDisponibles);
                 }
             }

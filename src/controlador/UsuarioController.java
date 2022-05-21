@@ -5,6 +5,7 @@
  */
 package controlador;
 
+import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
@@ -23,13 +24,15 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
-import modelo.ReservasUsuario;
+import modelo.Reservas;
 import modelo.Usuarios;
 import org.hibernate.Hibernate;
 import org.hibernate.HibernateException;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import utilidades.NewHibernateUtil;
 import utilidades.SelfClosingInputStreamUtil;
+import static vista.admin.users.ManageUserForm.jTableUsuarios;
 
 
 /**
@@ -110,11 +113,13 @@ public class UsuarioController {
         return usuario;
     }
     
-    public List<ReservasUsuario> getReservasUsuario(long idUsuario) {
-        List<ReservasUsuario> listaReservasUsuario = null;
+    public List<Reservas> getReservasUsuario(long idUsuario) {
+        List<Reservas> listaReservasUsuario = null;
         iniciarOperacion();
         try{
-            listaReservasUsuario = sesion.createQuery("SELECT new ReservasUsuario(p.nombrePista, h.horaComienzo, r.dia) from Usuarios as u INNER JOIN Reservas as r ON  u.id = r.idUsuario INNER JOIN Pistas as p ON p.id = r.idPista INNER JOIN Horarios as h on r.idHorario = h.id WHERE u.id='"+idUsuario+"'").list();
+            listaReservasUsuario = sesion.createQuery("select r from Reservas r, Usuarios u, Pistas p, Horarios h WHERE u.id = r.usuarios.id AND p.id = r.pistas.id AND h.id = r.horarios.id AND u.id='"+idUsuario+"'").list();
+
+           // listaReservasUsuario = (List<Reservas>)sesion.createQuery("Select r.id, r.horarios.id, r.pistas.id, r.usuarios.id, r.dia FROM Usuarios u, Pistas p, Horarios h, Reservas r WHERE u.id = r.usuarios.id AND p.id = r.pistas.id AND h.id = r.horarios.id AND u.id='"+idUsuario+"'").list();
         }catch(Exception ex){
             Logger.getLogger(UsuarioController.class.getName()).log(Level.SEVERE,null,ex);
         }
@@ -162,7 +167,12 @@ public class UsuarioController {
     public void fillUsersJTable(JTable tabla, String valorBusqueda){
         List<Usuarios> listaUser = getUsuariosBusqueda(valorBusqueda);
         Object[] row;
-        DefaultTableModel model = (DefaultTableModel)tabla.getModel();
+        DefaultTableModel model = new DefaultTableModel(null,new Object[]{"Id", "Nombre completo", "Nombre usuario", "Nº de Telefono", "Rol"}){
+            @Override
+            public boolean isCellEditable(int row, int column){
+                return false;
+            }  
+        };
         model.setRowCount(0);        
         for(Usuarios user : listaUser){
             row = new Object[5];
@@ -174,18 +184,25 @@ public class UsuarioController {
                     
             model.addRow(row);
         }
+        
+        tabla.setRowHeight(40);
+        tabla.setShowGrid(true);
+        tabla.setGridColor(Color.yellow);
+        tabla.setSelectionBackground(Color.cyan);
+        
+        tabla.setModel(model);
     }
     
     public void verImagenUsuario(Usuarios user) throws SQLException, IOException{
         InputStream in = user.getImagenUsuario().getBinaryStream();  
         BufferedImage bufferedImage = ImageIO.read(in);
         
-        Image image = bufferedImage.getScaledInstance(600, 400, Image.SCALE_DEFAULT);
+        Image image = bufferedImage.getScaledInstance(bufferedImage.getWidth(), bufferedImage.getHeight(), Image.SCALE_DEFAULT);
 
         ImageIcon icon = new ImageIcon(image);
         JFrame frame = new JFrame();
         frame.setLayout(new FlowLayout());
-        frame.setSize(800, 600);
+        frame.setSize(bufferedImage.getWidth(), bufferedImage.getHeight()+25);
 
         JLabel jLabel = new JLabel();
         jLabel.setIcon(icon);

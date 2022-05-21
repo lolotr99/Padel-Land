@@ -7,7 +7,6 @@ package vista.admin.pistas;
 
 import com.sun.glass.events.KeyEvent;
 import controlador.PistaController;
-import java.awt.Color;
 import java.awt.Point;
 import java.io.File;
 import java.io.FileInputStream;
@@ -22,7 +21,6 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.filechooser.FileNameExtensionFilter;
-import javax.swing.table.DefaultTableModel;
 import modelo.Pistas;
 
 /**
@@ -35,20 +33,12 @@ public class ManagePistaForm extends javax.swing.JFrame {
      * Creates new form ManageUserForm
      */
     String img_path = null;
-    DefaultTableModel model;
     PistaController pistaController;
+    
     public ManagePistaForm() {
         initComponents();
-        
-        model =  (DefaultTableModel) jTablePistas.getModel();
-        
         pistaController = new PistaController();
         pistaController.fillPistasJTable(jTablePistas, jTextFieldValorBusqueda.getText());
-    
-        jTablePistas.setRowHeight(40);
-        jTablePistas.setShowGrid(true);
-        jTablePistas.setGridColor(Color.yellow);
-        jTablePistas.setSelectionBackground(Color.cyan);
     }
 
     /**
@@ -305,7 +295,6 @@ public class ManagePistaForm extends javax.swing.JFrame {
             Pistas pista = pistaController.selectPista(Integer.valueOf(id));
             if (JOptionPane.showConfirmDialog(null, "¿Seguro que quieres eliminar la pistas con id "+id+"?", "WARNING",JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
                 pistaController.deletePista(pista);
-                jTablePistas.setModel(new DefaultTableModel(null,new Object[]{"Id", "Nombre de pista"}));
                 pistaController.fillPistasJTable(jTablePistas, jTextFieldValorBusqueda.getText());
                 limpiarCampos();
             }
@@ -314,14 +303,12 @@ public class ManagePistaForm extends javax.swing.JFrame {
 
     private void jTextFieldValorBusquedaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldValorBusquedaKeyPressed
         // TODO add your handling code here:
-        jTablePistas.setModel(new DefaultTableModel(null,new Object[]{"Id", "Nombre de pista"}));
         pistaController.fillPistasJTable(jTablePistas, jTextFieldValorBusqueda.getText());
         
     }//GEN-LAST:event_jTextFieldValorBusquedaKeyPressed
 
     private void jTextFieldValorBusquedaKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldValorBusquedaKeyReleased
         // TODO add your handling code here:
-        jTablePistas.setModel(new DefaultTableModel(null,new Object[]{"Id", "Nombre de pista"}));
         pistaController.fillPistasJTable(jTablePistas, jTextFieldValorBusqueda.getText());
     }//GEN-LAST:event_jTextFieldValorBusquedaKeyReleased
 
@@ -350,7 +337,6 @@ public class ManagePistaForm extends javax.swing.JFrame {
             
             pistaController.updatePista(pista);
             JOptionPane.showMessageDialog(null, "Pista modificada correctamente");
-            jTablePistas.setModel(new DefaultTableModel(null,new Object[]{"Id", "Nombre de pista"}));
             pistaController.fillPistasJTable(jTablePistas, "");
         } else{
             JOptionPane.showMessageDialog(null,"No se ha seleccionado ninguna pista","Error al actualizar",2);
@@ -391,8 +377,8 @@ public class ManagePistaForm extends javax.swing.JFrame {
         // TODO add your handling code here:
         if (evt.getKeyCode() == KeyEvent.VK_UP || evt.getKeyCode() == KeyEvent.VK_DOWN || evt.getKeyCode() == KeyEvent.VK_ENTER){
             int rowIndex = jTablePistas.getSelectedRow();
-            jTextFieldId.setText(model.getValueAt(rowIndex, 0).toString());
-            jTextFieldNombrePista.setText(model.getValueAt(rowIndex,1).toString());
+            jTextFieldId.setText(jTablePistas.getModel().getValueAt(rowIndex, 0).toString());
+            jTextFieldNombrePista.setText(jTablePistas.getModel().getValueAt(rowIndex,1).toString());
         }
     }//GEN-LAST:event_jTablePistasKeyReleased
 
@@ -403,15 +389,15 @@ public class ManagePistaForm extends javax.swing.JFrame {
          int fila = table.rowAtPoint(point);
          if (evt.getClickCount() == 2 && table.getSelectedRow() != -1) {
             try {
-                pistaController.verImagenPista(pistaController.selectPista(Long.valueOf(model.getValueAt(fila,0).toString())));
+                pistaController.verImagenPista(pistaController.selectPista(Long.valueOf(jTablePistas.getModel().getValueAt(fila,0).toString())));
             } catch (IOException ex) {
                 Logger.getLogger(PistaController.class.getName()).log(Level.SEVERE, null, ex);
             } catch (SQLException ex) {
                 Logger.getLogger(PistaController.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-        jTextFieldId.setText(model.getValueAt(fila, 0).toString());
-        jTextFieldNombrePista.setText(model.getValueAt(fila,1).toString());
+        jTextFieldId.setText(jTablePistas.getModel().getValueAt(fila, 0).toString());
+        jTextFieldNombrePista.setText(jTablePistas.getModel().getValueAt(fila,1).toString());
     }//GEN-LAST:event_jTablePistasMousePressed
 
     

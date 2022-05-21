@@ -5,6 +5,7 @@
  */
 package controlador;
 
+import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
@@ -29,6 +30,7 @@ import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import utilidades.NewHibernateUtil;
 import utilidades.SelfClosingInputStreamUtil;
+import static vista.admin.pistas.ManagePistaForm.jTablePistas;
 /**
  *
  * @author Manolo
@@ -132,7 +134,13 @@ public class PistaController {
     public void fillPistasJTable(JTable tablaPistas, String valueBusqueda){
         List<Pistas> listaPistas = getPistasBusqueda(valueBusqueda);
         Object[] row;
-        DefaultTableModel model = (DefaultTableModel)tablaPistas.getModel();
+        DefaultTableModel model = new DefaultTableModel(null,new Object[]{"Id", "Nombre de pista"}) {
+            @Override
+            public boolean isCellEditable(int row, int column){
+                return false;
+            }  
+        };
+        
         model.setRowCount(0);
         for(Pistas pista : listaPistas){
             row = new Object[2];
@@ -140,18 +148,25 @@ public class PistaController {
             row[1] = pista.getNombrePista();
             model.addRow(row);
         }
+        
+        tablaPistas.setRowHeight(40);
+        tablaPistas.setShowGrid(true);
+        tablaPistas.setGridColor(Color.yellow);
+        tablaPistas.setSelectionBackground(Color.cyan);
+        
+        tablaPistas.setModel(model);
    } 
     
     public void verImagenPista(Pistas pista) throws IOException, SQLException {
         InputStream in = pista.getImagenPista().getBinaryStream();  
         BufferedImage bufferedImage = ImageIO.read(in);
         
-        Image image = bufferedImage.getScaledInstance(600, 400, Image.SCALE_DEFAULT);
+        Image image = bufferedImage.getScaledInstance(bufferedImage.getWidth(), bufferedImage.getHeight(), Image.SCALE_DEFAULT);
 
         ImageIcon icon = new ImageIcon(image);
         JFrame frame = new JFrame();
         frame.setLayout(new FlowLayout());
-        frame.setSize(625, 450);
+        frame.setSize(bufferedImage.getWidth(), bufferedImage.getHeight()+25);
 
         JLabel jLabel = new JLabel();
         jLabel.setIcon(icon);

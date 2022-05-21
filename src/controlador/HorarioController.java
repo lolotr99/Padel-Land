@@ -5,6 +5,7 @@
  */
 package controlador;
 
+import java.awt.Color;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
@@ -16,6 +17,7 @@ import modelo.Horarios;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import utilidades.NewHibernateUtil;
+import utilidades.RenderUtil;
 
 /**
  *
@@ -102,7 +104,14 @@ public class HorarioController {
     public void fillHorariosTable(JTable tablaHorarios){
         List<Horarios> listaHorarios = getListaHorarios();
         Object[] row;
-        DefaultTableModel model = (DefaultTableModel)tablaHorarios.getModel();
+        tablaHorarios.setDefaultRenderer(Object.class, new RenderUtil());
+        DefaultTableModel model = new DefaultTableModel(null,new Object[]{"Id", "Turno", "Hora Comienzo", ""}){
+            @Override
+            public boolean isCellEditable(int row, int column){
+                return false;
+            }  
+        };
+        
         model.setRowCount(0);
         for(Horarios horario : listaHorarios){
             row = new Object[4];
@@ -112,5 +121,11 @@ public class HorarioController {
             row[3] = new JButton("Eliminar");
             model.addRow(row);
         }
+        
+        tablaHorarios.setRowHeight(45);
+        tablaHorarios.setGridColor(Color.yellow);
+        tablaHorarios.setSelectionBackground(Color.cyan);
+        
+        tablaHorarios.setModel(model);
    } 
 }

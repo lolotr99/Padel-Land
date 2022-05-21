@@ -7,7 +7,6 @@ package vista.admin.users;
 
 import com.sun.glass.events.KeyEvent;
 import controlador.UsuarioController;
-import java.awt.Color;
 import java.awt.Point;
 import java.io.File;
 import java.io.FileInputStream;
@@ -22,7 +21,6 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.filechooser.FileNameExtensionFilter;
-import javax.swing.table.DefaultTableModel;
 import modelo.Usuarios;
 import utilidades.CifradoUtil;
 
@@ -37,20 +35,12 @@ public class ManageUserForm extends javax.swing.JFrame {
      */
     UsuarioController userController;
     String img_path = null;
-    DefaultTableModel model;
+  
     
     public ManageUserForm() {
         initComponents();
-        
-        model = (DefaultTableModel) jTableUsuarios.getModel();
-        
         userController = new UsuarioController();
         userController.fillUsersJTable(jTableUsuarios, jTextFieldValorBusqueda.getText());
-    
-        jTableUsuarios.setRowHeight(40);
-        jTableUsuarios.setShowGrid(true);
-        jTableUsuarios.setGridColor(Color.yellow);
-        jTableUsuarios.setSelectionBackground(Color.cyan);
     }
 
     /**
@@ -375,7 +365,6 @@ public class ManageUserForm extends javax.swing.JFrame {
             Usuarios user = userController.selectUsuario(Integer.valueOf(id));
             if (JOptionPane.showConfirmDialog(null, "¿Seguro que quieres eliminar el usuario con id "+id+"?", "WARNING",JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
                 userController.deleteUsuario(user);
-                jTableUsuarios.setModel(new DefaultTableModel(null,new Object[]{"Id", "Nombre completo", "Nombre usuario", "Nº de Telefono", "Rol"}));
                 userController.fillUsersJTable(jTableUsuarios, jTextFieldValorBusqueda.getText());
                 limpiarCampos();
             }
@@ -384,13 +373,11 @@ public class ManageUserForm extends javax.swing.JFrame {
 
     private void jTextFieldValorBusquedaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldValorBusquedaKeyPressed
         // TODO add your handling code here:
-        jTableUsuarios.setModel(new DefaultTableModel(null,new Object[]{"Id", "Nombre completo", "Nombre usuario", "Nº de Telefono", "Rol"}));
         userController.fillUsersJTable(jTableUsuarios, jTextFieldValorBusqueda.getText());
     }//GEN-LAST:event_jTextFieldValorBusquedaKeyPressed
 
     private void jTextFieldValorBusquedaKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldValorBusquedaKeyReleased
         // TODO add your handling code here:
-        jTableUsuarios.setModel(new DefaultTableModel(null,new Object[]{"Id", "Nombre completo", "Nombre usuario", "Nº de Telefono", "Rol"}));
         userController.fillUsersJTable(jTableUsuarios, jTextFieldValorBusqueda.getText());
     }//GEN-LAST:event_jTextFieldValorBusquedaKeyReleased
 
@@ -428,7 +415,6 @@ public class ManageUserForm extends javax.swing.JFrame {
             
             userController.updateUsuario(user);
             JOptionPane.showMessageDialog(null, "Usuario modificado correctamente");
-            jTableUsuarios.setModel(new DefaultTableModel(null,new Object[]{"Id", "Nombre completo", "Nombre usuario", "Nº de Telefono", "Rol"}));
             userController.fillUsersJTable(ManageUserForm.jTableUsuarios, "");
         } else{
              JOptionPane.showMessageDialog(null, "No se ha seleccionado ningún usuario", "Error al actualizar", 2);
@@ -469,11 +455,11 @@ public class ManageUserForm extends javax.swing.JFrame {
         // TODO add your handling code here:
         if (evt.getKeyCode() == KeyEvent.VK_UP || evt.getKeyCode() == KeyEvent.VK_DOWN || evt.getKeyCode() == KeyEvent.VK_ENTER){
             int rowIndex = jTableUsuarios.getSelectedRow();
-            jTextFieldId.setText(model.getValueAt(rowIndex, 0).toString());
-            jTextFieldNombreCompleto.setText(model.getValueAt(rowIndex,1).toString());
-            jTextFieldNombreUsuario.setText(model.getValueAt(rowIndex, 2).toString());
-            jTextFieldTelefono.setText(model.getValueAt(rowIndex, 3).toString());
-            jComboBoxRol.setSelectedItem(model.getValueAt(rowIndex, 4).toString());
+            jTextFieldId.setText(jTableUsuarios.getModel().getValueAt(rowIndex, 0).toString());
+            jTextFieldNombreCompleto.setText(jTableUsuarios.getModel().getValueAt(rowIndex,1).toString());
+            jTextFieldNombreUsuario.setText(jTableUsuarios.getModel().getValueAt(rowIndex, 2).toString());
+            jTextFieldTelefono.setText(jTableUsuarios.getModel().getValueAt(rowIndex, 3).toString());
+            jComboBoxRol.setSelectedItem(jTableUsuarios.getModel().getValueAt(rowIndex, 4).toString());
         }
     }//GEN-LAST:event_jTableUsuariosKeyReleased
 
@@ -484,7 +470,7 @@ public class ManageUserForm extends javax.swing.JFrame {
         int fila = table.rowAtPoint(point);
         if (evt.getClickCount() == 2 && table.getSelectedRow() != -1) {
             try {
-                userController.verImagenUsuario((userController.selectUsuario(Long.valueOf(model.getValueAt(fila,0).toString()))));
+                userController.verImagenUsuario((userController.selectUsuario(Long.valueOf(jTableUsuarios.getModel().getValueAt(fila,0).toString()))));
             } catch (SQLException ex) {
                 Logger.getLogger(UsuarioController.class.getName()).log(Level.SEVERE, null, ex);
             } catch (IOException ex) {
@@ -492,11 +478,11 @@ public class ManageUserForm extends javax.swing.JFrame {
             }
         }
         
-        jTextFieldId.setText(model.getValueAt(fila, 0).toString());
-        jTextFieldNombreCompleto.setText(model.getValueAt(fila,1).toString());
-        jTextFieldNombreUsuario.setText(model.getValueAt(fila, 2).toString());
-        jTextFieldTelefono.setText(model.getValueAt(fila, 3).toString());
-        jComboBoxRol.setSelectedItem(model.getValueAt(fila, 4).toString());
+        jTextFieldId.setText(jTableUsuarios.getModel().getValueAt(fila, 0).toString());
+        jTextFieldNombreCompleto.setText(jTableUsuarios.getModel().getValueAt(fila,1).toString());
+        jTextFieldNombreUsuario.setText(jTableUsuarios.getModel().getValueAt(fila, 2).toString());
+        jTextFieldTelefono.setText(jTableUsuarios.getModel().getValueAt(fila, 3).toString());
+        jComboBoxRol.setSelectedItem(jTableUsuarios.getModel().getValueAt(fila, 4).toString());
     }//GEN-LAST:event_jTableUsuariosMousePressed
 
    

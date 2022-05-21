@@ -10,8 +10,6 @@ import java.awt.Color;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-import javax.swing.table.DefaultTableModel;
-import utilidades.RenderUtil;
 
 /**
  *
@@ -23,30 +21,12 @@ public class ManageHorarioForm extends javax.swing.JFrame {
      * Creates new form AdminHorario
      */
     
-    DefaultTableModel model;
     HorarioController horarioController;
     public ManageHorarioForm() {
         initComponents();
-        
         horarioController = new HorarioController();
-        
-        jTableHorarios.setDefaultRenderer(Object.class, new RenderUtil());
-        model = new DefaultTableModel(null,new Object[]{"Id", "Turno", "Hora Comienzo", ""}){
-            @Override
-            public boolean isCellEditable(int row, int column){
-                return false;
-            }  
-        };
-        
-        jTableHorarios.setModel(model);
         horarioController.fillHorariosTable(jTableHorarios);
-        
-        jTableHorarios.setRowHeight(45);
-        jTableHorarios.setGridColor(Color.yellow);
-        jTableHorarios.setSelectionBackground(Color.cyan);
     }
-    
-    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -188,14 +168,8 @@ public class ManageHorarioForm extends javax.swing.JFrame {
             if (value instanceof JButton) {
                 ((JButton) value).doClick();
                 horarioController.fillHorariosTable(jTableHorarios);
-                if (JOptionPane.showConfirmDialog(null, "¿Seguro que quieres eliminar el tramo horario con id "+Long.valueOf(model.getValueAt(row,0).toString())+"?", "WARNING",JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
-                        horarioController.deleteHorario(horarioController.selectHorario(Long.valueOf(model.getValueAt(row,0).toString())));
-                        jTableHorarios.setModel(new DefaultTableModel(null,new Object[]{"Id", "Turno", "Hora Comienzo", ""}){
-                            @Override
-                            public boolean isCellEditable(int row, int column){
-                                return false;
-                            }  
-                        });
+                if (JOptionPane.showConfirmDialog(null, "¿Seguro que quieres eliminar el tramo horario con id "+Long.valueOf(jTableHorarios.getModel().getValueAt(row,0).toString())+"?", "WARNING",JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+                        horarioController.deleteHorario(horarioController.selectHorario(Long.valueOf(jTableHorarios.getModel().getValueAt(row,0).toString())));
                         horarioController.fillHorariosTable(jTableHorarios);
                 }
             }

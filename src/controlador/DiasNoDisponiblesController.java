@@ -5,6 +5,7 @@
  */
 package controlador;
 
+import java.awt.Color;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
@@ -16,6 +17,7 @@ import modelo.DiasNoDisponibles;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import utilidades.NewHibernateUtil;
+import utilidades.RenderUtil;
 
 /**
  *
@@ -101,8 +103,16 @@ public class DiasNoDisponiblesController {
      
      public void fillTableDiasNoDisponibles(JTable tablaDias){
         List<DiasNoDisponibles> listaDias = getListaDias();
+        
+        tablaDias.setDefaultRenderer(Object.class, new RenderUtil());
+        DefaultTableModel model = new DefaultTableModel(null,new Object[]{"Id", "Día",""}){
+            @Override
+            public boolean isCellEditable(int row, int column){
+                return false;
+            }  
+        };
+        
         Object[] row;
-        DefaultTableModel model = (DefaultTableModel)tablaDias.getModel();
         model.setRowCount(0);
         for(DiasNoDisponibles dia : listaDias){
             row = new Object[3];
@@ -111,5 +121,11 @@ public class DiasNoDisponiblesController {
             row[2] = new JButton("Eliminar");
             model.addRow(row);
         }
+        
+        tablaDias.setRowHeight(45);
+        tablaDias.setGridColor(Color.yellow);
+        tablaDias.setSelectionBackground(Color.cyan);
+        
+        tablaDias.setModel(model);
    } 
 }

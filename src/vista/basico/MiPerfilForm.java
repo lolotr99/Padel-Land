@@ -5,6 +5,8 @@
  */
 package vista.basico;
 
+import controlador.HorarioController;
+import controlador.PistaController;
 import controlador.UsuarioController;
 import java.awt.Color;
 import java.awt.Image;
@@ -15,10 +17,7 @@ import java.net.URL;
 import java.sql.Blob;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
@@ -27,11 +26,8 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
-import modelo.Horarios;
 import modelo.Reservas;
-import modelo.ReservasUsuario;
 import modelo.Usuarios;
-import org.hibernate.Hibernate;
 import utilidades.RenderUtil;
 
 /**
@@ -46,6 +42,8 @@ public class MiPerfilForm extends javax.swing.JFrame {
     Usuarios user;
     DefaultTableModel model;
     UsuarioController userController;
+    HorarioController horarioController;
+    PistaController pistaController;
     public MiPerfilForm() {
         initComponents();
     }
@@ -53,6 +51,8 @@ public class MiPerfilForm extends javax.swing.JFrame {
     public MiPerfilForm(Usuarios user) {
         this.user = user;
         userController = new UsuarioController();
+        pistaController = new PistaController();
+        horarioController = new HorarioController();
         initComponents();
         rellenarDatosUsuario();
     }
@@ -96,20 +96,24 @@ public class MiPerfilForm extends javax.swing.JFrame {
                 return false;
             }  
         };
-        tablaReservas.setRowHeight(45);
-        tablaReservas.setGridColor(Color.yellow);
-        tablaReservas.setSelectionBackground(Color.cyan);
-        List<ReservasUsuario> listaReservasUsuario = userController.getReservasUsuario(idUsuario);
+      
         Object[] row;
         model.setRowCount(0);
-        for(ReservasUsuario reserva : listaReservasUsuario){
+        List<Reservas> listaReservas = userController.getReservasUsuario(idUsuario);
+        for(Reservas reserva : listaReservas){
             row = new Object[4];
-            row[0] = reserva.getNombrePista();
-            row[1] = reserva.getHoraComienzo();
+            row[0] = pistaController.selectPista(reserva.getPistas().getId()).getNombrePista();
+            row[1] = horarioController.selectHorario(reserva.getHorarios().getId()).getHoraComienzo();
             row[2] = reserva.getDia();
             row[3] = new JButton("Eliminar");
             model.addRow(row);
         }
+        
+        tablaReservas.setRowHeight(45);
+        tablaReservas.setGridColor(Color.yellow);
+        tablaReservas.setSelectionBackground(Color.cyan);
+        
+        jTableReservasUser.setModel(model);
    } 
     /**
      * This method is called from within the constructor to initialize the form.
