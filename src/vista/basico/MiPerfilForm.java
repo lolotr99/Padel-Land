@@ -16,7 +16,14 @@ import java.io.IOException;
 import java.net.URL;
 import java.sql.Blob;
 import java.sql.SQLException;
+import java.sql.Time;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -88,7 +95,7 @@ public class MiPerfilForm extends javax.swing.JFrame {
         fillTablaReservas(jTableReservasUser, user.getId());
     }
     
-    public void fillTablaReservas(JTable tablaReservas, long idUsuario){
+    public void fillTablaReservas(JTable tablaReservas, long idUsuario) {
         tablaReservas.setDefaultRenderer(Object.class, new RenderUtil());
         model = new DefaultTableModel(null,new Object[]{"Pista", "Horario","Dia",""}){
             @Override
@@ -100,12 +107,25 @@ public class MiPerfilForm extends javax.swing.JFrame {
         Object[] row;
         model.setRowCount(0);
         List<Reservas> listaReservas = userController.getReservasUsuario(idUsuario);
+        
+        SimpleDateFormat formatoHora = new SimpleDateFormat("HH:mm");
+        SimpleDateFormat formatoDia = new SimpleDateFormat("dd-MM-yyyy");
+        
         for(Reservas reserva : listaReservas){
+            String hora = formatoHora.format(horarioController.selectHorario(reserva.getHorarios().getId()).getHoraComienzo());
+            String dia = formatoDia.format(reserva.getDia());
+            String diaActual = formatoDia.format(new Date());
             row = new Object[4];
             row[0] = pistaController.selectPista(reserva.getPistas().getId()).getNombrePista();
-            row[1] = horarioController.selectHorario(reserva.getHorarios().getId()).getHoraComienzo();
-            row[2] = reserva.getDia();
-            row[3] = new JButton("Eliminar");
+            row[1] = hora;
+            row[2] = dia;
+            if (reserva.getDia().after(new Date())){
+                row[3] = new JButton("Anular reserva");
+            }else{
+                if (dia.equals(diaActual) && LocalTime.now().isBefore(LocalTime.parse(hora))){
+                    row[3] = new JButton("Anular reserva");
+                }
+            }
             model.addRow(row);
         }
         
