@@ -6,7 +6,7 @@
 package vista.admin.diasnodisponibles;
 
 import controlador.DiasNoDisponiblesController;
-import java.text.ParseException;
+import controlador.ReservaController;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import javax.swing.JOptionPane;
@@ -23,10 +23,12 @@ public class AddDiaNoDisponibleForm extends javax.swing.JFrame {
      * Creates new form AddDiaNoDisponibleForm
      */
     DiasNoDisponiblesController diasNoDisponiblesController;
+    ReservaController reservaController;
     
     public AddDiaNoDisponibleForm() {
         initComponents();
         diasNoDisponiblesController = new DiasNoDisponiblesController();
+        reservaController = new ReservaController();
     }
 
     /**
@@ -127,25 +129,23 @@ public class AddDiaNoDisponibleForm extends javax.swing.JFrame {
         if (fecha.before(new Date())){
             JOptionPane.showMessageDialog(null, "No se puede añadir un día anterior al de hoy","Información",2);
         }else if(JOptionPane.showConfirmDialog(null, "¿Seguro que quieres insertar el día : "+fechaFormateada+"?", "WARNING",JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
-            //Se comprueba que ese tramo horario no exista ya
-            if (!checkDia(fechaFormateada)){
-                DiasNoDisponibles dia = new DiasNoDisponibles(fecha);
-                long result = diasNoDisponiblesController.insertarDia(dia);
-                if (result != 0){
-                    JOptionPane.showMessageDialog(null, "¡Nuevo día no disponible ha sido creado correctamente!");
-                }else{
-                    JOptionPane.showMessageDialog(null, "Ha ocurrido un error en el registro, revisa tus datos.");
+            if (reservaController.diaNoDisponibleEstaEnReservas(fechaFormateada)){
+                JOptionPane.showMessageDialog(null,"No se puede insertar este dia como no disponible porque ya tiene reservas asociadas","¡NOO!",2);
+            }else{
+                //Se comprueba que ese tramo horario no exista ya
+                if (!checkDia(fechaFormateada)){
+                    DiasNoDisponibles dia = new DiasNoDisponibles(fecha);
+                    long result = diasNoDisponiblesController.insertarDia(dia);
+                    if (result != 0){
+                        JOptionPane.showMessageDialog(null, "¡Nuevo día no disponible ha sido creado correctamente!");
+                    }else{
+                        JOptionPane.showMessageDialog(null, "Ha ocurrido un error en el registro, revisa tus datos.");
+                    }
                 }
             }
         }
         
         if (ManageDiasNoDisponiblesForm.jTableDiasNoDisponibles != null){
-            ManageDiasNoDisponiblesForm.jTableDiasNoDisponibles.setModel(new DefaultTableModel(null,new Object[]{"Id", "Día",""}){
-                @Override
-                public boolean isCellEditable(int row, int column){
-                    return false;
-                }  
-            });
             diasNoDisponiblesController.fillTableDiasNoDisponibles(ManageDiasNoDisponiblesForm.jTableDiasNoDisponibles);
         }
     }//GEN-LAST:event_jButtonAnadirActionPerformed

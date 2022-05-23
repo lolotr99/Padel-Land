@@ -25,6 +25,7 @@ public class ManageDiasNoDisponiblesForm extends javax.swing.JFrame {
     PropertiesController propertiesController;
     Properties propertie;
     DiasNoDisponiblesController diasNoDisponiblesController;
+    
     public ManageDiasNoDisponiblesForm() {
         initComponents();
         propertiesController = new PropertiesController();

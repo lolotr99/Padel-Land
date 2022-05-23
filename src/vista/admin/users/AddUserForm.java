@@ -16,7 +16,6 @@ import java.util.logging.Logger;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
-import javax.swing.table.DefaultTableModel;
 import modelo.Usuarios;
 import utilidades.CifradoUtil;
 
@@ -280,7 +279,6 @@ public class AddUserForm extends javax.swing.JFrame {
             }
         }
         if (ManageUserForm.jTableUsuarios != null) {
-            ManageUserForm.jTableUsuarios.setModel(new DefaultTableModel(null,new Object[]{"Id", "Nombre completo", "Nombre usuario", "Nº de Telefono", "Rol"}));
             userController.fillUsersJTable(ManageUserForm.jTableUsuarios, "");
         }
     }//GEN-LAST:event_jButtonAnadirActionPerformed

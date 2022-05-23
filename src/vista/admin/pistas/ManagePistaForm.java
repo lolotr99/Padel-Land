@@ -7,6 +7,7 @@ package vista.admin.pistas;
 
 import com.sun.glass.events.KeyEvent;
 import controlador.PistaController;
+import controlador.ReservaController;
 import java.awt.Point;
 import java.io.File;
 import java.io.FileInputStream;
@@ -22,6 +23,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import modelo.Pistas;
+import modelo.Reservas;
 
 /**
  *
@@ -34,10 +36,12 @@ public class ManagePistaForm extends javax.swing.JFrame {
      */
     String img_path = null;
     PistaController pistaController;
+    ReservaController reservaController;
     
     public ManagePistaForm() {
         initComponents();
         pistaController = new PistaController();
+        reservaController = new ReservaController();
         pistaController.fillPistasJTable(jTablePistas, jTextFieldValorBusqueda.getText());
     }
 
@@ -293,10 +297,14 @@ public class ManagePistaForm extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "No se ha seleccionado ninguna pista");
         }else{
             Pistas pista = pistaController.selectPista(Integer.valueOf(id));
-            if (JOptionPane.showConfirmDialog(null, "¿Seguro que quieres eliminar la pistas con id "+id+"?", "WARNING",JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
-                pistaController.deletePista(pista);
-                pistaController.fillPistasJTable(jTablePistas, jTextFieldValorBusqueda.getText());
-                limpiarCampos();
+            if (JOptionPane.showConfirmDialog(null, "¿Seguro que quieres eliminar la pista con id "+id+"?", "WARNING",JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+                if (reservaController.pistaTieneReservas(Long.valueOf(id))){
+                    JOptionPane.showMessageDialog(null,"No se puede eliminar una pista que tiene reservas asociadas","¡NOO!",2);
+                }else{
+                    pistaController.deletePista(pista);
+                    pistaController.fillPistasJTable(jTablePistas, jTextFieldValorBusqueda.getText());
+                    limpiarCampos();
+                }
             }
         }
     }//GEN-LAST:event_jButtonEliminarActionPerformed

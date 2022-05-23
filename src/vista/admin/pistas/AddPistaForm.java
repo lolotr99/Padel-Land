@@ -16,7 +16,6 @@ import java.util.logging.Logger;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
-import javax.swing.table.DefaultTableModel;
 import modelo.Pistas;
 
 /**
@@ -206,7 +205,6 @@ public class AddPistaForm extends javax.swing.JFrame {
             }
         }
         if (ManagePistaForm.jTablePistas != null){
-            ManagePistaForm.jTablePistas.setModel(new DefaultTableModel(null,new Object[]{"Id", "Nombre de pista"}));
             pistaController.fillPistasJTable(ManagePistaForm.jTablePistas, "");
         }
     }//GEN-LAST:event_jButtonAnadirActionPerformed

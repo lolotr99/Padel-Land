@@ -113,20 +113,6 @@ public class UsuarioController {
         return usuario;
     }
     
-    public List<Reservas> getReservasUsuario(long idUsuario) {
-        List<Reservas> listaReservasUsuario = null;
-        iniciarOperacion();
-        try{
-            listaReservasUsuario = sesion.createQuery("select r from Reservas r, Usuarios u, Pistas p, Horarios h WHERE u.id = r.usuarios.id AND p.id = r.pistas.id AND h.id = r.horarios.id AND u.id='"+idUsuario+"'").list();
-
-           // listaReservasUsuario = (List<Reservas>)sesion.createQuery("Select r.id, r.horarios.id, r.pistas.id, r.usuarios.id, r.dia FROM Usuarios u, Pistas p, Horarios h, Reservas r WHERE u.id = r.usuarios.id AND p.id = r.pistas.id AND h.id = r.horarios.id AND u.id='"+idUsuario+"'").list();
-        }catch(Exception ex){
-            Logger.getLogger(UsuarioController.class.getName()).log(Level.SEVERE,null,ex);
-        }
-        terminarOperacion();
-        return listaReservasUsuario;
-    }
-    
     public Usuarios obtenerUsuarioPorUserName(String username){
         Usuarios usuario = null;
         iniciarOperacion();

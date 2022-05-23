@@ -7,6 +7,7 @@ package vista.basico;
 
 import controlador.HorarioController;
 import controlador.PistaController;
+import controlador.ReservaController;
 import controlador.UsuarioController;
 import java.awt.Color;
 import java.awt.Image;
@@ -16,13 +17,8 @@ import java.io.IOException;
 import java.net.URL;
 import java.sql.Blob;
 import java.sql.SQLException;
-import java.sql.Time;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.time.ZoneId;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
@@ -31,6 +27,7 @@ import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import modelo.Reservas;
@@ -48,16 +45,17 @@ public class MiPerfilForm extends javax.swing.JFrame {
      */
     Usuarios user;
     DefaultTableModel model;
-    UsuarioController userController;
+    ReservaController reservaController;
     HorarioController horarioController;
     PistaController pistaController;
+    
     public MiPerfilForm() {
         initComponents();
     }
     
     public MiPerfilForm(Usuarios user) {
         this.user = user;
-        userController = new UsuarioController();
+        reservaController = new ReservaController();
         pistaController = new PistaController();
         horarioController = new HorarioController();
         initComponents();
@@ -97,7 +95,7 @@ public class MiPerfilForm extends javax.swing.JFrame {
     
     public void fillTablaReservas(JTable tablaReservas, long idUsuario) {
         tablaReservas.setDefaultRenderer(Object.class, new RenderUtil());
-        model = new DefaultTableModel(null,new Object[]{"Pista", "Horario","Dia",""}){
+        model = new DefaultTableModel(null,new Object[]{"Id", "Pista", "Horario","Dia",""}){
             @Override
             public boolean isCellEditable(int row, int column){
                 return false;
@@ -106,7 +104,7 @@ public class MiPerfilForm extends javax.swing.JFrame {
       
         Object[] row;
         model.setRowCount(0);
-        List<Reservas> listaReservas = userController.getReservasUsuario(idUsuario);
+        List<Reservas> listaReservas = reservaController.getReservasUsuario(idUsuario);
         
         SimpleDateFormat formatoHora = new SimpleDateFormat("HH:mm");
         SimpleDateFormat formatoDia = new SimpleDateFormat("dd-MM-yyyy");
@@ -115,15 +113,16 @@ public class MiPerfilForm extends javax.swing.JFrame {
             String hora = formatoHora.format(horarioController.selectHorario(reserva.getHorarios().getId()).getHoraComienzo());
             String dia = formatoDia.format(reserva.getDia());
             String diaActual = formatoDia.format(new Date());
-            row = new Object[4];
-            row[0] = pistaController.selectPista(reserva.getPistas().getId()).getNombrePista();
-            row[1] = hora;
-            row[2] = dia;
+            row = new Object[5];
+            row[0] = reserva.getId();
+            row[1] = pistaController.selectPista(reserva.getPistas().getId()).getNombrePista();
+            row[2] = hora;
+            row[3] = dia;
             if (reserva.getDia().after(new Date())){
-                row[3] = new JButton("Anular reserva");
+                row[4] = new JButton("Anular reserva");
             }else{
                 if (dia.equals(diaActual) && LocalTime.now().isBefore(LocalTime.parse(hora))){
-                    row[3] = new JButton("Anular reserva");
+                    row[4] = new JButton("Anular reserva");
                 }
             }
             model.addRow(row);
@@ -251,15 +250,20 @@ public class MiPerfilForm extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Pista", "Horario", "Dia", ""
+                "Id", "Pista", "Horario", "Dia", ""
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false
+                false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
+            }
+        });
+        jTableReservasUser.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                jTableReservasUserMousePressed(evt);
             }
         });
         jScrollPane1.setViewportView(jTableReservasUser);
@@ -268,6 +272,7 @@ public class MiPerfilForm extends javax.swing.JFrame {
             jTableReservasUser.getColumnModel().getColumn(1).setResizable(false);
             jTableReservasUser.getColumnModel().getColumn(2).setResizable(false);
             jTableReservasUser.getColumnModel().getColumn(3).setResizable(false);
+            jTableReservasUser.getColumnModel().getColumn(4).setResizable(false);
         }
 
         javax.swing.GroupLayout jPanelHistorialReservasUserLayout = new javax.swing.GroupLayout(jPanelHistorialReservasUser);
@@ -344,6 +349,23 @@ public class MiPerfilForm extends javax.swing.JFrame {
         form.setLocationRelativeTo(null);
         form.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     }//GEN-LAST:event_jButtonEditarPerfilActionPerformed
+
+    private void jTableReservasUserMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableReservasUserMousePressed
+        // TODO add your handling code here:
+        int column = jTableReservasUser.getColumnModel().getColumnIndexAtX(evt.getX());
+        int row = evt.getY()/jTableReservasUser.getRowHeight();
+        if (column == 4) {
+            Object value = jTableReservasUser.getValueAt(row, column);
+            if (value instanceof JButton) {
+                ((JButton) value).doClick();
+                fillTablaReservas(jTableReservasUser, user.getId());
+                if (JOptionPane.showConfirmDialog(null, "¿Seguro que quieres eliminar la reserva del día "+ jTableReservasUser.getModel().getValueAt(row,3) + " a las " + jTableReservasUser.getModel().getValueAt(row,2) +" en la pista " + jTableReservasUser.getModel().getValueAt(row,1) + "?", "WARNING",JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+                        reservaController.deleteReserva(reservaController.selectReserva(Long.valueOf(jTableReservasUser.getModel().getValueAt(row,0).toString())));
+                        fillTablaReservas(jTableReservasUser, user.getId());
+                }
+            }
+        }
+    }//GEN-LAST:event_jTableReservasUserMousePressed
 
     /**
      * @param args the command line arguments

@@ -7,6 +7,7 @@ package vista.admin;
 
 import vista.admin.users.ManageUserForm;
 import javax.swing.JFrame;
+import vista.admin.diasnodisponibles.AddDiaNoDisponibleForm;
 import vista.admin.diasnodisponibles.ManageDiasNoDisponiblesForm;
 import vista.admin.horarios.AddHorarioForm;
 import vista.admin.horarios.ManageHorarioForm;
@@ -173,6 +174,11 @@ public class AdminForm extends javax.swing.JFrame {
 
         jMenuItemAddDias.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/img/icono-crear.png"))); // NOI18N
         jMenuItemAddDias.setText("Añadir dias");
+        jMenuItemAddDias.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemAddDiasActionPerformed(evt);
+            }
+        });
         jMenuDiasNoDisponibles.add(jMenuItemAddDias);
 
         jMenuItemGestionDias.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/img/icono-gestionar.png"))); // NOI18N
@@ -264,6 +270,15 @@ public class AdminForm extends javax.swing.JFrame {
         mdndf.setLocationRelativeTo(null);
         mdndf.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     }//GEN-LAST:event_jMenuItemGestionDiasActionPerformed
+
+    private void jMenuItemAddDiasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemAddDiasActionPerformed
+        // TODO add your handling code here:
+        AddDiaNoDisponibleForm form = new AddDiaNoDisponibleForm();
+        form.setVisible(true);
+        form.pack();
+        form.setLocationRelativeTo(null);
+        form.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+    }//GEN-LAST:event_jMenuItemAddDiasActionPerformed
 
     /**
      * @param args the command line arguments

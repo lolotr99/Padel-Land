@@ -6,6 +6,7 @@
 package vista.admin.users;
 
 import com.sun.glass.events.KeyEvent;
+import controlador.ReservaController;
 import controlador.UsuarioController;
 import java.awt.Point;
 import java.io.File;
@@ -34,12 +35,14 @@ public class ManageUserForm extends javax.swing.JFrame {
      * Creates new form ManageUserForm
      */
     UsuarioController userController;
+    ReservaController reservaController;
     String img_path = null;
   
     
     public ManageUserForm() {
         initComponents();
         userController = new UsuarioController();
+        reservaController = new ReservaController();
         userController.fillUsersJTable(jTableUsuarios, jTextFieldValorBusqueda.getText());
     }
 
@@ -364,9 +367,13 @@ public class ManageUserForm extends javax.swing.JFrame {
         }else{
             Usuarios user = userController.selectUsuario(Integer.valueOf(id));
             if (JOptionPane.showConfirmDialog(null, "¿Seguro que quieres eliminar el usuario con id "+id+"?", "WARNING",JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
-                userController.deleteUsuario(user);
-                userController.fillUsersJTable(jTableUsuarios, jTextFieldValorBusqueda.getText());
-                limpiarCampos();
+                if (reservaController.usuarioTieneReservas(Long.valueOf(id))){
+                    JOptionPane.showMessageDialog(null,"No se puede eliminar un usuario que tiene reservas asociadas","¡NOO!",2);
+                }else{
+                    userController.deleteUsuario(user);
+                    userController.fillUsersJTable(jTableUsuarios, jTextFieldValorBusqueda.getText());
+                    limpiarCampos();
+                }
             }
         }
     }//GEN-LAST:event_jButtonEliminarActionPerformed

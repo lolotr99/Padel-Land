@@ -173,12 +173,6 @@ public class AddHorarioForm extends javax.swing.JFrame {
         }
         
         if (ManageHorarioForm.jTableHorarios != null){
-            ManageHorarioForm.jTableHorarios.setModel(new DefaultTableModel(null,new Object[]{"Id", "Turno", "Hora Comienzo", ""}){
-                @Override
-                public boolean isCellEditable(int row, int column){
-                    return false;
-                }  
-            });
             horarioController.fillHorariosTable(ManageHorarioForm.jTableHorarios);
         }
         

@@ -6,6 +6,7 @@
 package vista.admin.horarios;
 
 import controlador.HorarioController;
+import controlador.ReservaController;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -21,9 +22,12 @@ public class ManageHorarioForm extends javax.swing.JFrame {
      */
     
     HorarioController horarioController;
+    ReservaController reservaController;
+    
     public ManageHorarioForm() {
         initComponents();
         horarioController = new HorarioController();
+        reservaController = new ReservaController();
         horarioController.fillHorariosTable(jTableHorarios);
     }
 
@@ -168,8 +172,12 @@ public class ManageHorarioForm extends javax.swing.JFrame {
                 ((JButton) value).doClick();
                 horarioController.fillHorariosTable(jTableHorarios);
                 if (JOptionPane.showConfirmDialog(null, "¿Seguro que quieres eliminar el tramo horario con id "+Long.valueOf(jTableHorarios.getModel().getValueAt(row,0).toString())+"?", "WARNING",JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+                    if (reservaController.horarioTieneReservas(Long.valueOf(jTableHorarios.getModel().getValueAt(row,0).toString()))){
+                        JOptionPane.showMessageDialog(null,"No se puede eliminar un horario que tiene reservas asociadas","¡NOO!",2);
+                    }else{
                         horarioController.deleteHorario(horarioController.selectHorario(Long.valueOf(jTableHorarios.getModel().getValueAt(row,0).toString())));
                         horarioController.fillHorariosTable(jTableHorarios);
+                    }
                 }
             }
         }
