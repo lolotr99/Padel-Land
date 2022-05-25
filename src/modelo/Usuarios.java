@@ -14,7 +14,7 @@ public class Usuarios  implements java.io.Serializable {
 
      private Long id;
      private String nombreCompleto;
-     private String username;
+     private String email;
      private String password;
      private String telefono;
      private Blob imagenUsuario;
@@ -25,16 +25,16 @@ public class Usuarios  implements java.io.Serializable {
     }
 
 	
-    public Usuarios(String nombreCompleto, String username, String password, String telefono, String rol) {
+    public Usuarios(String nombreCompleto, String email, String password, String telefono, String rol) {
         this.nombreCompleto = nombreCompleto;
-        this.username = username;
+        this.email = email;
         this.password = password;
         this.telefono = telefono;
         this.rol = rol;
     }
-    public Usuarios(String nombreCompleto, String username, String password, String telefono, Blob imagenUsuario, String rol, Set reservases) {
+    public Usuarios(String nombreCompleto, String email, String password, String telefono, Blob imagenUsuario, String rol, Set reservases) {
        this.nombreCompleto = nombreCompleto;
-       this.username = username;
+       this.email = email;
        this.password = password;
        this.telefono = telefono;
        this.imagenUsuario = imagenUsuario;
@@ -56,12 +56,12 @@ public class Usuarios  implements java.io.Serializable {
     public void setNombreCompleto(String nombreCompleto) {
         this.nombreCompleto = nombreCompleto;
     }
-    public String getUsername() {
-        return this.username;
+    public String getEmail() {
+        return this.email;
     }
     
-    public void setUsername(String username) {
-        this.username = username;
+    public void setEmail(String email) {
+        this.email = email;
     }
     public String getPassword() {
         return this.password;

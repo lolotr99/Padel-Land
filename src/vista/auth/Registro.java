@@ -22,6 +22,8 @@ import javax.swing.border.Border;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import modelo.Usuarios;
 import utilidades.CifradoUtil;
+import vista.admin.AdminForm;
+import vista.basico.VistaUsuarioBasicoForm;
 /**
  *
  * @author Manolo
@@ -57,7 +59,7 @@ public class Registro extends javax.swing.JFrame {
         //Se crea un borde para los campos del formulario
         Border field_border = BorderFactory.createMatteBorder(1,5,1,1,Color.white);
         jTextFieldNombreCompleto.setBorder(field_border);
-        jTextFieldUserName.setBorder(field_border);
+        jTextFieldEmail.setBorder(field_border);
         jPasswordField.setBorder(field_border);
         jPasswordConfirmField.setBorder(field_border);
         jTextFieldTelefono.setBorder(field_border);
@@ -83,7 +85,7 @@ public class Registro extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jTextFieldNombreCompleto = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
-        jTextFieldUserName = new javax.swing.JTextField();
+        jTextFieldEmail = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
@@ -208,9 +210,9 @@ public class Registro extends javax.swing.JFrame {
         jTextFieldNombreCompleto.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jLabel2.setText("Nombre Usuario:");
+        jLabel2.setText("Email:");
 
-        jTextFieldUserName.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jTextFieldEmail.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
 
         jLabel4.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel4.setText("Password:");
@@ -296,7 +298,7 @@ public class Registro extends javax.swing.JFrame {
                                 .addGap(18, 18, 18)
                                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addComponent(jPasswordField, javax.swing.GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE)
-                                    .addComponent(jTextFieldUserName)
+                                    .addComponent(jTextFieldEmail)
                                     .addComponent(jTextFieldNombreCompleto)))
                             .addComponent(jButtonQuitarImagen, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addGap(83, 83, 83))
@@ -325,7 +327,7 @@ public class Registro extends javax.swing.JFrame {
                     .addComponent(jTextFieldNombreCompleto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextFieldUserName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTextFieldEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel2))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -408,8 +410,9 @@ public class Registro extends javax.swing.JFrame {
     }//GEN-LAST:event_jLabelMinimizarMouseExited
 
     private void jLabelCerrarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabelCerrarMouseClicked
-        // TODO add your handling code here:
-        System.exit(0);
+        if (JOptionPane.showConfirmDialog(null, "¿Seguro que quieres cerrar la aplicación? ", "Confirmación de cierre de aplicación",JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+            System.exit(0);
+        }
     }//GEN-LAST:event_jLabelCerrarMouseClicked
 
     private void jLabelCerrarMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabelCerrarMouseEntered
@@ -440,9 +443,9 @@ public class Registro extends javax.swing.JFrame {
 
     private void jButtonRegistroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonRegistroActionPerformed
         // TODO add your handling code heres
-        String username = jTextFieldUserName.getText();
+        String email = jTextFieldEmail.getText();
         if (verifyFields()){
-            if (!checkUsername(username)){
+            if (!checkEmail(email)){
                 Usuarios user;
                 String nombreCompleto = jTextFieldNombreCompleto.getText();
                 String password = CifradoUtil.getHash(String.valueOf(jPasswordField.getPassword()));
@@ -459,13 +462,29 @@ public class Registro extends javax.swing.JFrame {
                     } catch (IOException ex) {
                         Logger.getLogger(Registro.class.getName()).log(Level.SEVERE, null, ex);
                     }
-                    user = new Usuarios(nombreCompleto, username, password, telefono, imageBlob, rol, null);
+                    user = new Usuarios(nombreCompleto, email, password, telefono, imageBlob, rol, null);
                 }else{
-                    user = new Usuarios(nombreCompleto, username, password, telefono, rol);
+                    user = new Usuarios(nombreCompleto, email, password, telefono, rol);
                 }
                 long result = userController.insertUsuario(user);
                 if (result != 0){
-                    JOptionPane.showMessageDialog(null, "¡Tu usuario ha sido creado correctamente!");
+                    JOptionPane.showMessageDialog(null, "¡Usuario creado correctamente!");
+                    if (user.getRol().equals("basico")){
+                        VistaUsuarioBasicoForm form = new VistaUsuarioBasicoForm(user);
+                        form.setVisible(true);
+                        form.pack();
+                        form.setLocationRelativeTo(null);
+                        //Cerramos el formulario actual
+                        this.dispose();
+                    }else if (user.getRol().equals("administrador")){
+                        AdminForm af = new AdminForm();
+                        af.setVisible(true);
+                        af.pack();
+                        af.setLocationRelativeTo(null);
+                        AdminForm.jLabelBienvenida.setText("<html><body>¡Bienvenido #"+user.getEmail()+"#!<br>Esta es la vista de Administrador de Padel Land</body></html>");
+                        this.dispose();
+                    }
+                    
                 }else{
                     JOptionPane.showMessageDialog(null, "Error en el registro, revisa tus datos");
                 }
@@ -536,13 +555,13 @@ public class Registro extends javax.swing.JFrame {
     //Se crea un método para verificar y validar los campos
     public boolean verifyFields() {
         String nombreCompleto = jTextFieldNombreCompleto.getText();
-        String username = jTextFieldUserName.getText();
+        String email = jTextFieldEmail.getText();
         String password = String.valueOf(jPasswordField.getPassword());
         String confirmPass = String.valueOf(jPasswordConfirmField.getPassword());
         String telefono = jTextFieldTelefono.getText();
         
         //Comprobar si hay campos vacíos
-        if (nombreCompleto.trim().equals("") || username.trim().equals("") || password.trim().equals("")
+        if (nombreCompleto.trim().equals("") || email.trim().equals("") || password.trim().equals("")
                 || confirmPass.trim().equals("") || telefono.trim().equals("")){
             JOptionPane.showMessageDialog(null, "Uno o varios campos están vacíos","Campos vacíos",2);
             return false;
@@ -556,12 +575,12 @@ public class Registro extends javax.swing.JFrame {
     }
     
     //Creamos una funcíon para comprobar si el usuario introducido ya existe en la BBDD
-    public boolean checkUsername(String username) {
+    public boolean checkEmail(String email) {
         boolean username_exists = false;
         
-        if (userController.obtenerUsuarioPorUserName(username) != null){
+        if (userController.obtenerUsuarioPorEmail(email) != null){
             username_exists = true;
-            JOptionPane.showMessageDialog(null, "Este usuario ya existe en la BBDD", "Nombre de usuario fallido",2);
+            JOptionPane.showMessageDialog(null, "Este usuario ya existe en la BBDD", "Email fallido",2);
         }
         
         return username_exists;
@@ -623,8 +642,8 @@ public class Registro extends javax.swing.JFrame {
     private javax.swing.JPanel jPanelTitle;
     private javax.swing.JPasswordField jPasswordConfirmField;
     private javax.swing.JPasswordField jPasswordField;
+    private javax.swing.JTextField jTextFieldEmail;
     private javax.swing.JTextField jTextFieldNombreCompleto;
     private javax.swing.JTextField jTextFieldTelefono;
-    private javax.swing.JTextField jTextFieldUserName;
     // End of variables declaration//GEN-END:variables
 }

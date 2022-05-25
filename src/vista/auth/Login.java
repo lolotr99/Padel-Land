@@ -17,7 +17,7 @@ import javax.swing.JOptionPane;
 import javax.swing.border.Border;
 import modelo.Usuarios;
 import utilidades.CifradoUtil;
-import vista.basico.MiPerfilForm;
+import vista.basico.VistaUsuarioBasicoForm;
 
 /**
  *
@@ -55,12 +55,12 @@ public class Login extends javax.swing.JFrame {
         
         //Se crea un border con el color del JPanel padre para los label de los iconos para borrar el movimiento
         Border label_icons_border = BorderFactory.createMatteBorder(1,1,1,1,new Color(153,153,153));
-        jLabelUsername.setBorder(label_icons_border);
+        jLabelEmail.setBorder(label_icons_border);
         jLabelPassword.setBorder(label_icons_border);
         
-        //Se crea un borde para los campos de username_field y el password_field
+        //Se crea un borde para los campos de email_field y el password_field
         Border field_border = BorderFactory.createMatteBorder(1,5,1,1,Color.white);
-        jTextFieldUsername.setBorder(field_border);
+        jTextFieldEmail.setBorder(field_border);
         jPasswordField.setBorder(field_border);
     }
 
@@ -81,8 +81,8 @@ public class Login extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         jLabelPassword = new javax.swing.JLabel();
-        jLabelUsername = new javax.swing.JLabel();
-        jTextFieldUsername = new javax.swing.JTextField();
+        jLabelEmail = new javax.swing.JLabel();
+        jTextFieldEmail = new javax.swing.JTextField();
         jPasswordField = new javax.swing.JPasswordField();
         jButtonLogin = new javax.swing.JButton();
         jLabelRegistraCuenta = new javax.swing.JLabel();
@@ -175,18 +175,20 @@ public class Login extends javax.swing.JFrame {
                 .addContainerGap(20, Short.MAX_VALUE))
         );
 
+        jLabelPassword.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/img/password_field.png"))); // NOI18N
         jLabelPassword.setOpaque(true);
 
-        jLabelUsername.setOpaque(true);
+        jLabelEmail.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/img/username_field.png"))); // NOI18N
+        jLabelEmail.setOpaque(true);
 
-        jTextFieldUsername.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jTextFieldUsername.setForeground(new java.awt.Color(153, 153, 153));
-        jTextFieldUsername.addFocusListener(new java.awt.event.FocusAdapter() {
+        jTextFieldEmail.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jTextFieldEmail.setForeground(new java.awt.Color(153, 153, 153));
+        jTextFieldEmail.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
-                jTextFieldUsernameFocusGained(evt);
+                jTextFieldEmailFocusGained(evt);
             }
             public void focusLost(java.awt.event.FocusEvent evt) {
-                jTextFieldUsernameFocusLost(evt);
+                jTextFieldEmailFocusLost(evt);
             }
         });
 
@@ -246,10 +248,10 @@ public class Login extends javax.swing.JFrame {
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabelPassword, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabelUsername, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jLabelEmail, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jTextFieldUsername)
+                            .addComponent(jTextFieldEmail)
                             .addComponent(jPasswordField, javax.swing.GroupLayout.DEFAULT_SIZE, 367, Short.MAX_VALUE))
                         .addGap(51, 51, 51))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
@@ -265,8 +267,8 @@ public class Login extends javax.swing.JFrame {
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addGap(32, 32, 32)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jTextFieldUsername, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabelUsername, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jTextFieldEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabelEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPasswordField, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -281,7 +283,7 @@ public class Login extends javax.swing.JFrame {
         //Seteamos el en el icono la imagen de username_field.png
         jLabelPassword.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/img/password_field.png")));
         //Seteamos el en el icono la imagen de username_field.png
-        jLabelUsername.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/img/username_field.png")));
+        jLabelEmail.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/img/username_field.png")));
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -346,27 +348,26 @@ public class Login extends javax.swing.JFrame {
         jLabelCerrar.setForeground(Color.BLACK);
     }//GEN-LAST:event_jLabelCerrarMouseExited
 
-    private void jTextFieldUsernameFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTextFieldUsernameFocusGained
+    private void jTextFieldEmailFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTextFieldEmailFocusGained
         // TODO add your handling code here:
         
-        //Si el jtextfield de username coge el foco le damos color de fondo a negro
-        jTextFieldUsername.setForeground(Color.BLACK);
+        //Si el jtextfield de email coge el foco le damos color de fondo a negro
+        jTextFieldEmail.setForeground(Color.BLACK);
         
-        //Ponemos un borde verde para el jlabel del icono de username
+        //Ponemos un borde verde para el jlabel del icono de email
         Border jLabelIcon = BorderFactory.createMatteBorder(1,1,1,1,Color.orange);
-        jLabelUsername.setBorder(jLabelIcon);
-    }//GEN-LAST:event_jTextFieldUsernameFocusGained
+        jLabelEmail.setBorder(jLabelIcon);
+    }//GEN-LAST:event_jTextFieldEmailFocusGained
 
-    private void jTextFieldUsernameFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTextFieldUsernameFocusLost
-        // TODO add your handling code here:
+    private void jTextFieldEmailFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTextFieldEmailFocusLost
+        // TODO add your handling code here:        
         
-        //Si el jtextfield esta vacío o tiene username, seteamos "username" en el campo al perder el foco
-        jTextFieldUsername.setForeground(new Color(153,153,153));
+        jTextFieldEmail.setForeground(new Color(153,153,153));
         
         //Se crea un border con el color del JPanel padre para los label de los iconos para borrar el movimiento
         Border label_icons_border = BorderFactory.createMatteBorder(1,1,1,1,new Color(153,153,153));
-        jLabelUsername.setBorder(label_icons_border);
-    }//GEN-LAST:event_jTextFieldUsernameFocusLost
+        jLabelEmail.setBorder(label_icons_border);
+    }//GEN-LAST:event_jTextFieldEmailFocusLost
 
     private void jPasswordFieldFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jPasswordFieldFocusGained
         // TODO add your handling code here:
@@ -392,19 +393,19 @@ public class Login extends javax.swing.JFrame {
         
         if (verifyFields()){
             //Obtenemos los datos del formulario
-            String username = jTextFieldUsername.getText();
+            String email = jTextFieldEmail.getText();
             String password = String.valueOf(jPasswordField.getPassword());
         
             userController = new UsuarioController();
             try {
-                Usuarios usuario = userController.obtenerUsuarioPorUserName(username);
+                Usuarios usuario = userController.obtenerUsuarioPorEmail(email);
                 if (usuario != null){
                     if (CifradoUtil.checkPassword(password, usuario.getPassword())){
                         if (usuario.getRol().equals("basico")){
-                            MiPerfilForm uf = new MiPerfilForm(usuario);
-                            uf.setVisible(true);
-                            uf.pack();
-                            uf.setLocationRelativeTo(null);
+                            VistaUsuarioBasicoForm form = new VistaUsuarioBasicoForm(usuario);
+                            form.setVisible(true);
+                            form.pack();
+                            form.setLocationRelativeTo(null);
                             //Cerramos el formulario actual
                             this.dispose();
                         }else if (usuario.getRol().equals("administrador")){
@@ -412,7 +413,7 @@ public class Login extends javax.swing.JFrame {
                             af.setVisible(true);
                             af.pack();
                             af.setLocationRelativeTo(null);
-                            AdminForm.jLabelBienvenida.setText("<html><body>¡Bienvenido #"+usuario.getUsername()+"#!<br>Esta es la vista de Administrador de Padel Land</body></html>");
+                            AdminForm.jLabelBienvenida.setText("<html><body>¡Bienvenido #"+usuario.getEmail()+"#!<br>Esta es la vista de Administrador de Padel Land</body></html>");
                             this.dispose();
                         }
                     }else{
@@ -446,7 +447,9 @@ public class Login extends javax.swing.JFrame {
 
     private void jLabelCerrarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabelCerrarMouseClicked
         // TODO add your handling code here:
-        System.exit(0);
+        if (JOptionPane.showConfirmDialog(null, "¿Seguro que quieres cerrar la aplicación? ", "Confirmación de cierre de aplicación",JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+            System.exit(0);
+        }
     }//GEN-LAST:event_jLabelCerrarMouseClicked
 
     private void jLabelRegistraCuentaMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabelRegistraCuentaMouseEntered
@@ -474,12 +477,12 @@ public class Login extends javax.swing.JFrame {
     
     //Se crea un método para verificar y validar los campos
     public boolean verifyFields() {
-        String username = jTextFieldUsername.getText();
+        String email = jTextFieldEmail.getText();
         String password = String.valueOf(jPasswordField.getPassword());
         
         //Comprobar si hay campos vacíos
-        if (username.trim().equals("")){
-            JOptionPane.showMessageDialog(null, "Introduce username","Username vacío",2);
+        if (email.trim().equals("")){
+            JOptionPane.showMessageDialog(null, "Introduce email","Email vacío",2);
             return false;
         }else if(password.trim().equals("")){
             JOptionPane.showMessageDialog(null, "Introduce password","Password vacía",2);
@@ -528,15 +531,15 @@ public class Login extends javax.swing.JFrame {
     private javax.swing.JButton jButtonLogin;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabelCerrar;
+    private javax.swing.JLabel jLabelEmail;
     private javax.swing.JLabel jLabelMinimizar;
     private javax.swing.JLabel jLabelPassword;
     private javax.swing.JLabel jLabelRegistraCuenta;
-    private javax.swing.JLabel jLabelUsername;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanelTitle;
     private javax.swing.JPasswordField jPasswordField;
-    private javax.swing.JTextField jTextFieldUsername;
+    private javax.swing.JTextField jTextFieldEmail;
     // End of variables declaration//GEN-END:variables
 }

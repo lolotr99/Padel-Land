@@ -7,6 +7,7 @@ package vista.admin;
 
 import vista.admin.users.ManageUserForm;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import vista.admin.diasnodisponibles.AddDiaNoDisponibleForm;
 import vista.admin.diasnodisponibles.ManageDiasNoDisponiblesForm;
 import vista.admin.horarios.AddHorarioForm;
@@ -14,6 +15,7 @@ import vista.admin.horarios.ManageHorarioForm;
 import vista.admin.users.AddUserForm;
 import vista.admin.pistas.AddPistaForm;
 import vista.admin.pistas.ManagePistaForm;
+import vista.auth.Login;
 
 
 /**
@@ -60,6 +62,7 @@ public class AdminForm extends javax.swing.JFrame {
         jMenuDiasNoDisponibles = new javax.swing.JMenu();
         jMenuItemAddDias = new javax.swing.JMenuItem();
         jMenuItemGestionDias = new javax.swing.JMenuItem();
+        jMenuSalir = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Panel de Administrador");
@@ -192,6 +195,15 @@ public class AdminForm extends javax.swing.JFrame {
 
         jMenuBar1.add(jMenuDiasNoDisponibles);
 
+        jMenuSalir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/img/icono-salir.png"))); // NOI18N
+        jMenuSalir.setText("Cerrar");
+        jMenuSalir.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jMenuSalirMouseClicked(evt);
+            }
+        });
+        jMenuBar1.add(jMenuSalir);
+
         setJMenuBar(jMenuBar1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -280,6 +292,17 @@ public class AdminForm extends javax.swing.JFrame {
         form.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     }//GEN-LAST:event_jMenuItemAddDiasActionPerformed
 
+    private void jMenuSalirMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenuSalirMouseClicked
+        // TODO add your handling code here:
+        if (JOptionPane.showConfirmDialog(null, "¿Seguro que quieres salir? ", "Confirmación de cierre de ventana",JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+            Login form = new Login();
+            form.setVisible(true);
+            form.setLocationRelativeTo(null);
+            form.pack();
+            this.dispose();
+        }
+    }//GEN-LAST:event_jMenuSalirMouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -331,6 +354,7 @@ public class AdminForm extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItemManageUser;
     private javax.swing.JMenu jMenuPistas;
     private javax.swing.JMenu jMenuReservas;
+    private javax.swing.JMenu jMenuSalir;
     private javax.swing.JMenu jMenuUsuarios;
     private javax.swing.JPanel jPanelContent;
     // End of variables declaration//GEN-END:variables

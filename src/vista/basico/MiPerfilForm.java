@@ -8,7 +8,6 @@ package vista.basico;
 import controlador.HorarioController;
 import controlador.PistaController;
 import controlador.ReservaController;
-import controlador.UsuarioController;
 import java.awt.Color;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
@@ -86,7 +85,7 @@ public class MiPerfilForm extends javax.swing.JFrame {
             imgUsuario.setIcon(new ImageIcon(defecto));
         }
         
-        jLabelNombreUsuario.setText(user.getUsername());
+        jLabelEmail.setText(user.getEmail());
         jLabelNombreCompleto.setText(user.getNombreCompleto());
         jLabelNTelefono.setText(user.getTelefono());
         
@@ -149,7 +148,7 @@ public class MiPerfilForm extends javax.swing.JFrame {
         jPanelDatosUser = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jSeparator2 = new javax.swing.JSeparator();
-        jLabelNombreUsuario = new javax.swing.JLabel();
+        jLabelEmail = new javax.swing.JLabel();
         jLabelNombreCompleto = new javax.swing.JLabel();
         jButtonEditarPerfil = new javax.swing.JButton();
         jLabelNTelefono = new javax.swing.JLabel();
@@ -183,8 +182,8 @@ public class MiPerfilForm extends javax.swing.JFrame {
         jLabel1.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         jLabel1.setText("DATOS DEL USUARIO");
 
-        jLabelNombreUsuario.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/img/icono-nombre-usuario.png"))); // NOI18N
-        jLabelNombreUsuario.setText("nombre de usuario");
+        jLabelEmail.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/img/icono-nombre-usuario.png"))); // NOI18N
+        jLabelEmail.setText("email");
 
         jLabelNombreCompleto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/img/icono-nombre-completo.png"))); // NOI18N
         jLabelNombreCompleto.setText("nombre completo");
@@ -215,7 +214,7 @@ public class MiPerfilForm extends javax.swing.JFrame {
                     .addGroup(jPanelDatosUserLayout.createSequentialGroup()
                         .addContainerGap()
                         .addGroup(jPanelDatosUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabelNombreUsuario)
+                            .addComponent(jLabelEmail)
                             .addGroup(jPanelDatosUserLayout.createSequentialGroup()
                                 .addComponent(jLabelNombreCompleto)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 157, Short.MAX_VALUE)
@@ -234,7 +233,7 @@ public class MiPerfilForm extends javax.swing.JFrame {
                     .addComponent(jLabelNombreCompleto)
                     .addComponent(jLabelNTelefono))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabelNombreUsuario)
+                .addComponent(jLabelEmail)
                 .addGap(7, 7, 7)
                 .addComponent(jButtonEditarPerfil, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -408,9 +407,9 @@ public class MiPerfilForm extends javax.swing.JFrame {
     private javax.swing.JButton jButtonEditarPerfil;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    protected static javax.swing.JLabel jLabelEmail;
     protected static javax.swing.JLabel jLabelNTelefono;
     protected static javax.swing.JLabel jLabelNombreCompleto;
-    protected static javax.swing.JLabel jLabelNombreUsuario;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanelDatosUser;
     private javax.swing.JPanel jPanelHistorialReservasUser;

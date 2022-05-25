@@ -62,7 +62,7 @@ public class ManageUserForm extends javax.swing.JFrame {
         jLabel5 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         jTextFieldNombreCompleto = new javax.swing.JTextField();
-        jTextFieldNombreUsuario = new javax.swing.JTextField();
+        jTextFieldEmail = new javax.swing.JTextField();
         jTextFieldTelefono = new javax.swing.JTextField();
         jComboBoxRol = new javax.swing.JComboBox<>();
         jButtonAnadir = new javax.swing.JButton();
@@ -95,7 +95,7 @@ public class ManageUserForm extends javax.swing.JFrame {
         jLabel2.setText("Nombre completo:");
 
         jLabel3.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jLabel3.setText("Nombre usuario:");
+        jLabel3.setText("Email:");
 
         jLabel5.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel5.setText("Nº de teléfono:");
@@ -145,7 +145,7 @@ public class ManageUserForm extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Id", "Nombre completo", "Nombre usuario", "Nº de telefono", "Rol"
+                "Id", "Nombre completo", "Email", "Nº de telefono", "Rol"
             }
         ) {
             boolean[] canEdit = new boolean [] {
@@ -236,7 +236,7 @@ public class ManageUserForm extends javax.swing.JFrame {
                             .addComponent(jLabel6))
                         .addGap(31, 31, 31)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jTextFieldNombreUsuario, javax.swing.GroupLayout.DEFAULT_SIZE, 205, Short.MAX_VALUE)
+                            .addComponent(jTextFieldEmail, javax.swing.GroupLayout.DEFAULT_SIZE, 205, Short.MAX_VALUE)
                             .addComponent(jComboBoxRol, 0, 205, Short.MAX_VALUE)
                             .addComponent(jTextFieldTelefono, javax.swing.GroupLayout.DEFAULT_SIZE, 205, Short.MAX_VALUE)
                             .addComponent(jTextFieldNombreCompleto, javax.swing.GroupLayout.DEFAULT_SIZE, 205, Short.MAX_VALUE)
@@ -293,7 +293,7 @@ public class ManageUserForm extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel3)
-                            .addComponent(jTextFieldNombreUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jTextFieldEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel4)
@@ -392,7 +392,7 @@ public class ManageUserForm extends javax.swing.JFrame {
         // TODO add your handling code here:
         if (!jTextFieldId.getText().trim().equals("")){
             String nombreCompleto = jTextFieldNombreCompleto.getText();
-            String username = jTextFieldNombreUsuario.getText();
+            String email = jTextFieldEmail.getText();
             String password = String.valueOf(jPasswordField.getPassword());
             String telefono = jTextFieldTelefono.getText();
             String rol = jComboBoxRol.getSelectedItem().toString();
@@ -400,7 +400,7 @@ public class ManageUserForm extends javax.swing.JFrame {
 
             
             user.setNombreCompleto(nombreCompleto);
-            user.setUsername(username);
+            user.setEmail(email);
             if (!password.equals(""))
                 user.setPassword(CifradoUtil.getHash(password));
             
@@ -464,7 +464,7 @@ public class ManageUserForm extends javax.swing.JFrame {
             int rowIndex = jTableUsuarios.getSelectedRow();
             jTextFieldId.setText(jTableUsuarios.getModel().getValueAt(rowIndex, 0).toString());
             jTextFieldNombreCompleto.setText(jTableUsuarios.getModel().getValueAt(rowIndex,1).toString());
-            jTextFieldNombreUsuario.setText(jTableUsuarios.getModel().getValueAt(rowIndex, 2).toString());
+            jTextFieldEmail.setText(jTableUsuarios.getModel().getValueAt(rowIndex, 2).toString());
             jTextFieldTelefono.setText(jTableUsuarios.getModel().getValueAt(rowIndex, 3).toString());
             jComboBoxRol.setSelectedItem(jTableUsuarios.getModel().getValueAt(rowIndex, 4).toString());
         }
@@ -487,7 +487,7 @@ public class ManageUserForm extends javax.swing.JFrame {
         
         jTextFieldId.setText(jTableUsuarios.getModel().getValueAt(fila, 0).toString());
         jTextFieldNombreCompleto.setText(jTableUsuarios.getModel().getValueAt(fila,1).toString());
-        jTextFieldNombreUsuario.setText(jTableUsuarios.getModel().getValueAt(fila, 2).toString());
+        jTextFieldEmail.setText(jTableUsuarios.getModel().getValueAt(fila, 2).toString());
         jTextFieldTelefono.setText(jTableUsuarios.getModel().getValueAt(fila, 3).toString());
         jComboBoxRol.setSelectedItem(jTableUsuarios.getModel().getValueAt(fila, 4).toString());
     }//GEN-LAST:event_jTableUsuariosMousePressed
@@ -497,7 +497,7 @@ public class ManageUserForm extends javax.swing.JFrame {
     public void limpiarCampos() {
         jTextFieldId.setText("");
         jTextFieldNombreCompleto.setText("");
-        jTextFieldNombreUsuario.setText("");
+        jTextFieldEmail.setText("");
         jPasswordField.setText("");
         jTextFieldTelefono.setText("");
         img_path = null;
@@ -562,9 +562,9 @@ public class ManageUserForm extends javax.swing.JFrame {
     private javax.swing.JPasswordField jPasswordField;
     private javax.swing.JScrollPane jScrollPane1;
     public static javax.swing.JTable jTableUsuarios;
+    private javax.swing.JTextField jTextFieldEmail;
     private javax.swing.JTextField jTextFieldId;
     private javax.swing.JTextField jTextFieldNombreCompleto;
-    private javax.swing.JTextField jTextFieldNombreUsuario;
     private javax.swing.JTextField jTextFieldTelefono;
     private javax.swing.JTextField jTextFieldValorBusqueda;
     // End of variables declaration//GEN-END:variables

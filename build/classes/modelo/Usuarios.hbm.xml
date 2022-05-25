@@ -11,8 +11,8 @@
         <property name="nombreCompleto" type="string">
             <column name="nombreCompleto" length="191" not-null="true" />
         </property>
-        <property name="username" type="string">
-            <column name="username" length="191" not-null="true" unique="true" />
+        <property name="email" type="string">
+            <column name="email" length="191" not-null="true" unique="true" />
         </property>
         <property name="password" type="string">
             <column name="password" length="191" not-null="true" />

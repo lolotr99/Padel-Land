@@ -13,7 +13,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.net.URL;
 import java.sql.Blob;
 import java.sql.SQLException;
 import java.util.logging.Level;
@@ -23,11 +22,9 @@ import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
-import javax.swing.table.DefaultTableModel;
 import modelo.Usuarios;
 import utilidades.CifradoUtil;
 import vista.admin.users.AddUserForm;
-import vista.admin.users.ManageUserForm;
 import static vista.basico.MiPerfilForm.imgUsuario;
 
 /**
@@ -56,7 +53,7 @@ public class EditarPerfilForm extends javax.swing.JFrame {
     
     public void rellenarCamposFormulario() {
         jTextFieldNombreCompleto.setText(user.getNombreCompleto());
-        jTextFieldNombreUsuario.setText(user.getUsername());
+        jTextFieldEmail.setText(user.getEmail());
         jTextFieldTelefono.setText(user.getTelefono());
     }
 
@@ -77,7 +74,7 @@ public class EditarPerfilForm extends javax.swing.JFrame {
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         jTextFieldNombreCompleto = new javax.swing.JTextField();
-        jTextFieldNombreUsuario = new javax.swing.JTextField();
+        jTextFieldEmail = new javax.swing.JTextField();
         jPasswordField = new javax.swing.JPasswordField();
         jTextFieldTelefono = new javax.swing.JTextField();
         jButtonElegirImagen = new javax.swing.JButton();
@@ -97,7 +94,7 @@ public class EditarPerfilForm extends javax.swing.JFrame {
         jLabel2.setText("Nombre completo:");
 
         jLabel3.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jLabel3.setText("Nombre usuario:");
+        jLabel3.setText("Email:");
 
         jLabel4.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel4.setText("Nueva contraseña:");
@@ -159,7 +156,7 @@ public class EditarPerfilForm extends javax.swing.JFrame {
                             .addComponent(jLabelRutaImagen))
                         .addGap(45, 45, 45)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jTextFieldNombreUsuario, javax.swing.GroupLayout.DEFAULT_SIZE, 205, Short.MAX_VALUE)
+                            .addComponent(jTextFieldEmail, javax.swing.GroupLayout.DEFAULT_SIZE, 205, Short.MAX_VALUE)
                             .addComponent(jTextFieldTelefono, javax.swing.GroupLayout.DEFAULT_SIZE, 205, Short.MAX_VALUE)
                             .addComponent(jTextFieldNombreCompleto, javax.swing.GroupLayout.DEFAULT_SIZE, 205, Short.MAX_VALUE)
                             .addComponent(jPasswordField)
@@ -185,7 +182,7 @@ public class EditarPerfilForm extends javax.swing.JFrame {
                         .addComponent(jTextFieldNombreCompleto, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jTextFieldNombreUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jTextFieldEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel3))
                         .addGap(18, 18, 18)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -259,7 +256,7 @@ public class EditarPerfilForm extends javax.swing.JFrame {
     private void jButtonAnadirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAnadirActionPerformed
         // TODO add your handling code here:
         if (verifyFields()){
-            user.setUsername(jTextFieldNombreUsuario.getText());
+            user.setEmail(jTextFieldEmail.getText());
             user.setNombreCompleto(jTextFieldNombreCompleto.getText());
             if(jPasswordField.getPassword() != null && jPasswordField.getPassword().length != 0){
                 user.setPassword(CifradoUtil.getHash(String.valueOf(jPasswordField.getPassword())));
@@ -286,7 +283,7 @@ public class EditarPerfilForm extends javax.swing.JFrame {
     }//GEN-LAST:event_jButtonAnadirActionPerformed
 
     public void actualizarCamposPerfil() {
-        MiPerfilForm.jLabelNombreUsuario.setText(user.getUsername());
+        MiPerfilForm.jLabelEmail.setText(user.getEmail());
         MiPerfilForm.jLabelNombreCompleto.setText(user.getNombreCompleto());
         MiPerfilForm.jLabelNTelefono.setText(user.getTelefono());
         
@@ -307,28 +304,16 @@ public class EditarPerfilForm extends javax.swing.JFrame {
     //Se crea un método para verificar y validar los campos
     public boolean verifyFields() {
         String nombreCompleto = jTextFieldNombreCompleto.getText();
-        String username = jTextFieldNombreUsuario.getText();
+        String email = jTextFieldEmail.getText();
         String telefono = jTextFieldTelefono.getText();
         
         //Comprobar si hay campos vacíos
-        if (nombreCompleto.trim().equals("") || username.trim().equals("") || telefono.trim().equals("")){
+        if (nombreCompleto.trim().equals("") || email.trim().equals("") || telefono.trim().equals("")){
             JOptionPane.showMessageDialog(null, "Uno o varios campos están vacíos","Campos vacíos",2);
             return false;
         }else {
             return true;
         }
-    }
-
-    //Creamos una funcíon para comprobar si el usuario introducido ya existe en la BBDD
-    public boolean checkUsername(String username) {
-        boolean username_exists = false;
-        
-        if (userController.obtenerUsuarioPorUserName(username) != null){
-            username_exists = true;
-            JOptionPane.showMessageDialog(null, "Este usuario ya existe en la BBDD", "Nombre de usuario fallido",2);
-        }
-        
-        return username_exists;
     }
     
     /**
@@ -379,8 +364,8 @@ public class EditarPerfilForm extends javax.swing.JFrame {
     private javax.swing.JLabel jLabelRutaImagen;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPasswordField jPasswordField;
+    private javax.swing.JTextField jTextFieldEmail;
     private javax.swing.JTextField jTextFieldNombreCompleto;
-    private javax.swing.JTextField jTextFieldNombreUsuario;
     private javax.swing.JTextField jTextFieldTelefono;
     // End of variables declaration//GEN-END:variables
 }

@@ -57,7 +57,7 @@ public class AddUserForm extends javax.swing.JFrame {
         jLabel7 = new javax.swing.JLabel();
         jLabelRutaImagen = new javax.swing.JLabel();
         jTextFieldNombreCompleto = new javax.swing.JTextField();
-        jTextFieldNombreUsuario = new javax.swing.JTextField();
+        jTextFieldEmail = new javax.swing.JTextField();
         jPasswordField = new javax.swing.JPasswordField();
         jTextFieldTelefono = new javax.swing.JTextField();
         jButtonElegirImagen = new javax.swing.JButton();
@@ -79,7 +79,7 @@ public class AddUserForm extends javax.swing.JFrame {
         jLabel2.setText("Nombre completo:");
 
         jLabel3.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jLabel3.setText("Nombre usuario:");
+        jLabel3.setText("Email:");
 
         jLabel4.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel4.setText("Contraseña:");
@@ -155,7 +155,7 @@ public class AddUserForm extends javax.swing.JFrame {
                                 .addComponent(jLabel2))
                             .addGap(28, 28, 28)
                             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(jTextFieldNombreUsuario)
+                                .addComponent(jTextFieldEmail)
                                 .addComponent(jTextFieldNombreCompleto)
                                 .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                                     .addComponent(jButtonElegirImagen, javax.swing.GroupLayout.DEFAULT_SIZE, 125, Short.MAX_VALUE)
@@ -192,7 +192,7 @@ public class AddUserForm extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
-                    .addComponent(jTextFieldNombreUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jTextFieldEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
@@ -247,9 +247,9 @@ public class AddUserForm extends javax.swing.JFrame {
 
     private void jButtonAnadirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAnadirActionPerformed
         // TODO add your handling code here:
-        String username = jTextFieldNombreUsuario.getText();
+        String email = jTextFieldEmail.getText();
         if (verifyFields()){
-            if (!checkUsername(username)){
+            if (!checkEmail(email)){
                 Usuarios user;
                 String nombreCompleto = jTextFieldNombreCompleto.getText();
                 String password = CifradoUtil.getHash(String.valueOf(jPasswordField.getPassword()));
@@ -266,9 +266,9 @@ public class AddUserForm extends javax.swing.JFrame {
                     } catch (IOException ex) {
                         Logger.getLogger(AddUserForm.class.getName()).log(Level.SEVERE, null, ex);
                     }
-                    user = new Usuarios(nombreCompleto, username, password, telefono, imageBlob, rol, null);
+                    user = new Usuarios(nombreCompleto, email, password, telefono, imageBlob, rol, null);
                 }else{
-                    user = new Usuarios(nombreCompleto, username, password, telefono, rol);
+                    user = new Usuarios(nombreCompleto, email, password, telefono, rol);
                 }
                 long result = userController.insertUsuario(user);
                 if (result != 0){
@@ -316,13 +316,13 @@ public class AddUserForm extends javax.swing.JFrame {
     //Se crea un método para verificar y validar los campos
     public boolean verifyFields() {
         String nombreCompleto = jTextFieldNombreCompleto.getText();
-        String username = jTextFieldNombreUsuario.getText();
+        String email = jTextFieldEmail.getText();
         String password = String.valueOf(jPasswordField.getPassword());
         String telefono = jTextFieldTelefono.getText();
         String rol = jComboBoxRol.getSelectedItem().toString();
         
         //Comprobar si hay campos vacíos
-        if (nombreCompleto.trim().equals("") || username.trim().equals("") || password.trim().equals("") 
+        if (nombreCompleto.trim().equals("") || email.trim().equals("") || password.trim().equals("") 
                 || telefono.trim().equals("") || rol.trim().equals("")){
             JOptionPane.showMessageDialog(null, "Uno o varios campos están vacíos","Campos vacíos",2);
             return false;
@@ -332,15 +332,15 @@ public class AddUserForm extends javax.swing.JFrame {
     }
     
     //Creamos una funcíon para comprobar si el usuario introducido ya existe en la BBDD
-    public boolean checkUsername(String username) {
-        boolean username_exists = false;
+    public boolean checkEmail(String email) {
+        boolean email_exists = false;
         
-        if (userController.obtenerUsuarioPorUserName(username) != null){
-            username_exists = true;
-            JOptionPane.showMessageDialog(null, "Este usuario ya existe en la BBDD", "Nombre de usuario fallido",2);
+        if (userController.obtenerUsuarioPorEmail(email) != null){
+            email_exists = true;
+            JOptionPane.showMessageDialog(null, "Este usuario ya existe en la BBDD", "Email fallido",2);
         }
         
-        return username_exists;
+        return email_exists;
     }
     
     /**
@@ -395,8 +395,8 @@ public class AddUserForm extends javax.swing.JFrame {
     private javax.swing.JLabel jLabelRutaImagen;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPasswordField jPasswordField;
+    private javax.swing.JTextField jTextFieldEmail;
     private javax.swing.JTextField jTextFieldNombreCompleto;
-    private javax.swing.JTextField jTextFieldNombreUsuario;
     private javax.swing.JTextField jTextFieldTelefono;
     // End of variables declaration//GEN-END:variables
 }

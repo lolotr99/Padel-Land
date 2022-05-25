@@ -24,15 +24,12 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
-import modelo.Reservas;
 import modelo.Usuarios;
 import org.hibernate.Hibernate;
 import org.hibernate.HibernateException;
-import org.hibernate.Query;
 import org.hibernate.Session;
 import utilidades.NewHibernateUtil;
 import utilidades.SelfClosingInputStreamUtil;
-import static vista.admin.users.ManageUserForm.jTableUsuarios;
 
 
 /**
@@ -101,11 +98,11 @@ public class UsuarioController {
         return usuario;
     }
     
-    public Usuarios obtenerUsuarioPorUsernameAndPassword(String username, String password){
+    public Usuarios obtenerUsuarioPorEmailAndPassword(String email, String password){
         Usuarios usuario = null;
         iniciarOperacion();
         try{
-            usuario = (Usuarios)sesion.createQuery("FROM Usuarios U WHERE U.username='"+username+"' and U.password='"+password+"'").uniqueResult();
+            usuario = (Usuarios)sesion.createQuery("FROM Usuarios U WHERE U.email='"+email+"' and U.password='"+password+"'").uniqueResult();
          }catch(Exception ex){
             Logger.getLogger(UsuarioController.class.getName()).log(Level.SEVERE,null,ex);
         }
@@ -113,11 +110,11 @@ public class UsuarioController {
         return usuario;
     }
     
-    public Usuarios obtenerUsuarioPorUserName(String username){
+    public Usuarios obtenerUsuarioPorEmail(String email){
         Usuarios usuario = null;
         iniciarOperacion();
         try{
-            usuario = (Usuarios)sesion.createQuery("from Usuarios U WHERE U.username='"+username+"'").uniqueResult();
+            usuario = (Usuarios)sesion.createQuery("from Usuarios U WHERE U.email='"+email+"'").uniqueResult();
         }catch(Exception ex){
             Logger.getLogger(UsuarioController.class.getName()).log(Level.SEVERE,null,ex);
         }
@@ -140,7 +137,7 @@ public class UsuarioController {
     public List<Usuarios> getUsuariosBusqueda(String value){
         List<Usuarios> listaUsuarios = null;
         iniciarOperacion();
-        String query = "from Usuarios U WHERE concat(U.nombreCompleto, U.username, U.telefono, U.rol) like '%"+value+"%'";        
+        String query = "from Usuarios U WHERE concat(U.nombreCompleto, U.email, U.telefono, U.rol) like '%"+value+"%'";        
         try{            
             listaUsuarios = sesion.createQuery(query).list();
         }catch(Exception ex){
@@ -153,7 +150,7 @@ public class UsuarioController {
     public void fillUsersJTable(JTable tabla, String valorBusqueda){
         List<Usuarios> listaUser = getUsuariosBusqueda(valorBusqueda);
         Object[] row;
-        DefaultTableModel model = new DefaultTableModel(null,new Object[]{"Id", "Nombre completo", "Nombre usuario", "Nº de Telefono", "Rol"}){
+        DefaultTableModel model = new DefaultTableModel(null,new Object[]{"Id", "Nombre completo", "Email", "Nº de Telefono", "Rol"}){
             @Override
             public boolean isCellEditable(int row, int column){
                 return false;
@@ -164,7 +161,7 @@ public class UsuarioController {
             row = new Object[5];
             row[0] = user.getId();
             row[1] = user.getNombreCompleto();
-            row[2] = user.getUsername();
+            row[2] = user.getEmail();
             row[3] = user.getTelefono();
             row[4] = user.getRol();
                     
