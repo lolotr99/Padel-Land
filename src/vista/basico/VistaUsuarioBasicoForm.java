@@ -63,6 +63,11 @@ public class VistaUsuarioBasicoForm extends javax.swing.JFrame {
 
         jMenuVerPistas.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/img/icono-pistas-menubar.png"))); // NOI18N
         jMenuVerPistas.setText("Ver Pistas");
+        jMenuVerPistas.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jMenuVerPistasMouseClicked(evt);
+            }
+        });
         jMenuBar1.add(jMenuVerPistas);
 
         jMenuReservar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/img/icono-reserva-menubar.png"))); // NOI18N
@@ -122,6 +127,15 @@ public class VistaUsuarioBasicoForm extends javax.swing.JFrame {
         form.setLocationRelativeTo(null);
         form.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     }//GEN-LAST:event_jMenuMiPerfilMouseClicked
+
+    private void jMenuVerPistasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenuVerPistasMouseClicked
+        // TODO add your handling code here:
+        VerPistasForm form = new VerPistasForm();
+        form.setVisible(true);
+        form.pack();
+        form.setLocationRelativeTo(null);
+        form.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+    }//GEN-LAST:event_jMenuVerPistasMouseClicked
 
     /**
      * @param args the command line arguments

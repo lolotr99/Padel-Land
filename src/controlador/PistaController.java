@@ -30,7 +30,6 @@ import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import utilidades.NewHibernateUtil;
 import utilidades.SelfClosingInputStreamUtil;
-import static vista.admin.pistas.ManagePistaForm.jTablePistas;
 /**
  *
  * @author Manolo
