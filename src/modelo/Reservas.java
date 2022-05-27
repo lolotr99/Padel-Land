@@ -1,5 +1,5 @@
 package modelo;
-// Generated 02-may-2022 18:51:33 by Hibernate Tools 4.3.1
+// Generated 27-may-2022 20:07:28 by Hibernate Tools 4.3.1
 
 
 import java.util.Date;
@@ -10,7 +10,7 @@ import java.util.Date;
 public class Reservas  implements java.io.Serializable {
 
 
-     private long id;
+     private Long id;
      private Horarios horarios;
      private Pistas pistas;
      private Usuarios usuarios;
@@ -19,26 +19,18 @@ public class Reservas  implements java.io.Serializable {
     public Reservas() {
     }
 
-	
-    public Reservas(long id, Horarios horarios, Pistas pistas, Usuarios usuarios) {
-        this.id = id;
-        this.horarios = horarios;
-        this.pistas = pistas;
-        this.usuarios = usuarios;
-    }
-    public Reservas(long id, Horarios horarios, Pistas pistas, Usuarios usuarios, Date dia) {
-       this.id = id;
+    public Reservas(Horarios horarios, Pistas pistas, Usuarios usuarios, Date dia) {
        this.horarios = horarios;
        this.pistas = pistas;
        this.usuarios = usuarios;
        this.dia = dia;
     }
    
-    public long getId() {
+    public Long getId() {
         return this.id;
     }
     
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
     public Horarios getHorarios() {

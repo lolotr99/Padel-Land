@@ -1,5 +1,5 @@
 package modelo;
-// Generated 02-may-2022 18:51:33 by Hibernate Tools 4.3.1
+// Generated 27-may-2022 20:07:28 by Hibernate Tools 4.3.1
 
 
 import java.sql.Blob;
@@ -12,7 +12,7 @@ import java.util.Set;
 public class Pistas  implements java.io.Serializable {
 
 
-     private long id;
+     private Long id;
      private String nombrePista;
      private Blob imagenPista;
      private Set reservases = new HashSet(0);
@@ -31,11 +31,11 @@ public class Pistas  implements java.io.Serializable {
        this.reservases = reservases;
     }
    
-    public long getId() {
+    public Long getId() {
         return this.id;
     }
     
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
     public String getNombrePista() {

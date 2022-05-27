@@ -50,6 +50,8 @@ public class VistaUsuarioBasicoForm extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Vista de usuario");
 
+        jPanel1.setBackground(new java.awt.Color(23, 255, 108));
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -72,6 +74,11 @@ public class VistaUsuarioBasicoForm extends javax.swing.JFrame {
 
         jMenuReservar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/img/icono-reserva-menubar.png"))); // NOI18N
         jMenuReservar.setText("Reservar");
+        jMenuReservar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jMenuReservarMouseClicked(evt);
+            }
+        });
         jMenuBar1.add(jMenuReservar);
 
         jMenuMiPerfil.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/img/icons8-configuración-del-administrador-40.png"))); // NOI18N
@@ -136,6 +143,15 @@ public class VistaUsuarioBasicoForm extends javax.swing.JFrame {
         form.setLocationRelativeTo(null);
         form.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     }//GEN-LAST:event_jMenuVerPistasMouseClicked
+
+    private void jMenuReservarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenuReservarMouseClicked
+        // TODO add your handling code here:
+        ReservaForm form = new ReservaForm();
+        form.setVisible(true);
+        form.pack();
+        form.setLocationRelativeTo(null);
+        form.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+    }//GEN-LAST:event_jMenuReservarMouseClicked
 
     /**
      * @param args the command line arguments

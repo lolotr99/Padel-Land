@@ -5,7 +5,9 @@
  */
 package controlador;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import modelo.Reservas;
@@ -117,5 +119,19 @@ public class ReservaController {
         }
         terminarOperacion();
         return exists;
+    }
+    
+    public ArrayList<Map> getPistasYHorasDisponiblesPorDia(String dia) {
+        iniciarOperacion();
+        ArrayList<Map> respuestaHQL = null;
+        String queryHQL = "SELECT new Map(p.id,h.id) FROM Horarios h, Pistas p WHERE NOT EXISTS "
+                + " (SELECT r FROM Reservas r WHERE r.horarios.id = h.id  AND p.id = r.pistas.id AND r.dia = '"+dia+"')";
+        try{
+            respuestaHQL=(ArrayList<Map>)sesion.createQuery(queryHQL).list();
+        }catch(Exception ex){
+            Logger.getLogger(ReservaController.class.getName()).log(Level.SEVERE,null,ex);
+        }
+        terminarOperacion();
+        return respuestaHQL;
     }
 }

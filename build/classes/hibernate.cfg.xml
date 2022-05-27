@@ -49,9 +49,9 @@ Contributor(s):
     <property name="hibernate.current_session_context_class">thread</property>
     <mapping resource="modelo/DiasNoDisponibles.hbm.xml"/>
     <mapping resource="modelo/Reservas.hbm.xml"/>
+    <mapping resource="modelo/Properties.hbm.xml"/>
     <mapping resource="modelo/Usuarios.hbm.xml"/>
     <mapping resource="modelo/Horarios.hbm.xml"/>
     <mapping resource="modelo/Pistas.hbm.xml"/>
-    <mapping resource="modelo/Properties.hbm.xml"/>
   </session-factory>
 </hibernate-configuration>

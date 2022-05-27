@@ -1,5 +1,5 @@
 package modelo;
-// Generated 02-may-2022 18:51:33 by Hibernate Tools 4.3.1
+// Generated 27-may-2022 20:07:28 by Hibernate Tools 4.3.1
 
 
 import java.sql.Blob;
