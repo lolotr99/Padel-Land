@@ -11,7 +11,7 @@
         <property name="nombrePista" type="string">
             <column name="nombrePista" length="191" not-null="true" />
         </property>
-        <property name="imagenPista" type="binary">
+        <property name="imagenPista" type="blob">
             <column name="imagenPista" not-null="true" />
         </property>
         <set name="reservases" table="reservas" inverse="true" lazy="true" fetch="select">

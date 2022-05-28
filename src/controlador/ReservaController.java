@@ -10,6 +10,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import modelo.Horarios;
+import modelo.Pistas;
 import modelo.Reservas;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
@@ -121,17 +123,31 @@ public class ReservaController {
         return exists;
     }
     
-    public ArrayList<Map> getPistasYHorasDisponiblesPorDia(String dia) {
+    public ArrayList<Pistas> getPistasDisponiblesSegunDiayHora(String dia, String hora) {
         iniciarOperacion();
-        ArrayList<Map> respuestaHQL = null;
-        String queryHQL = "SELECT new Map(p.id,h.id) FROM Horarios h, Pistas p WHERE NOT EXISTS "
-                + " (SELECT r FROM Reservas r WHERE r.horarios.id = h.id  AND p.id = r.pistas.id AND r.dia = '"+dia+"')";
+        ArrayList<Pistas> listaPistasDisponibles = null;
+        String queryHQL = "SELECT p FROM Pistas p WHERE NOT EXISTS (SELECT r FROM Reservas r WHERE p.id = r.pistas.id AND r.dia = '"+dia+"' AND EXISTS (SELECT h FROM Horarios h WHERE h.id = r.horarios.id and h.horaComienzo = '"+hora+"'))";
         try{
-            respuestaHQL=(ArrayList<Map>)sesion.createQuery(queryHQL).list();
+            listaPistasDisponibles=(ArrayList<Pistas>)sesion.createQuery(queryHQL).list();
         }catch(Exception ex){
             Logger.getLogger(ReservaController.class.getName()).log(Level.SEVERE,null,ex);
         }
         terminarOperacion();
-        return respuestaHQL;
+        return listaPistasDisponibles;
     }
+    
+    public ArrayList<Horarios> getHorariosQueTenganPistasDisponibles(String dia) {
+        iniciarOperacion();
+        ArrayList<Horarios> listaHorariosConPistasDisponibles = null;
+        String queryHQL = "SELECT h FROM Horarios h WHERE EXISTS (SELECT p FROM Pistas p WHERE NOT EXISTS (SELECT r FROM Reservas r WHERE r.pistas.id = p.id AND r.horarios.id = h.id AND r.dia = '"+dia+"'))";
+        try{
+            listaHorariosConPistasDisponibles = (ArrayList<Horarios>) sesion.createQuery(queryHQL).list();
+        }catch(Exception ex) {
+        
+        }
+        terminarOperacion();
+        return listaHorariosConPistasDisponibles;
+        
+    }
+    
 }

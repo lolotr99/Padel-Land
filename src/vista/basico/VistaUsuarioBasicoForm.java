@@ -146,7 +146,7 @@ public class VistaUsuarioBasicoForm extends javax.swing.JFrame {
 
     private void jMenuReservarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenuReservarMouseClicked
         // TODO add your handling code here:
-        ReservaForm form = new ReservaForm();
+        ReservaForm form = new ReservaForm(user);
         form.setVisible(true);
         form.pack();
         form.setLocationRelativeTo(null);
