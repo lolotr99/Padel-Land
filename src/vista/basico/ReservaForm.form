@@ -60,8 +60,8 @@
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="jPanel2" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace max="-2" attributes="0"/>
-                  <Component id="jPanel3" max="32767" attributes="0"/>
+                  <EmptySpace max="32767" attributes="0"/>
+                  <Component id="jPanel3" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>
           </Group>
@@ -82,7 +82,7 @@
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
-                          <Component id="jDateChooser1" min="-2" pref="233" max="-2" attributes="0"/>
+                          <Component id="jDateChooserCita" min="-2" pref="233" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="32767" attributes="0"/>
                   </Group>
@@ -94,7 +94,7 @@
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Component id="jDateChooser1" min="-2" pref="31" max="-2" attributes="0"/>
+                      <Component id="jDateChooserCita" min="-2" pref="31" max="-2" attributes="0"/>
                       <EmptySpace pref="26" max="32767" attributes="0"/>
                   </Group>
               </Group>
@@ -109,9 +109,12 @@
                 <Property name="text" type="java.lang.String" value="Elige el d&#xed;a de la cita"/>
               </Properties>
             </Component>
-            <Component class="com.toedter.calendar.JDateChooser" name="jDateChooser1">
+            <Component class="com.toedter.calendar.JDateChooser" name="jDateChooserCita">
+              <Properties>
+                <Property name="dateFormatString" type="java.lang.String" value="dd/MM/yyyy"/>
+              </Properties>
               <Events>
-                <EventHandler event="propertyChange" listener="java.beans.PropertyChangeListener" parameters="java.beans.PropertyChangeEvent" handler="jDateChooser1PropertyChange"/>
+                <EventHandler event="propertyChange" listener="java.beans.PropertyChangeListener" parameters="java.beans.PropertyChangeEvent" handler="jDateChooserCitaPropertyChange"/>
               </Events>
             </Component>
           </SubComponents>
@@ -153,7 +156,7 @@
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="jLabelInfo" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="38" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="1" attributes="0">
                           <Group type="102" attributes="0">
                               <Component id="jLabel3" min="-2" max="-2" attributes="0"/>
@@ -166,7 +169,7 @@
                           </Group>
                           <Component id="jPanel4" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace pref="66" max="32767" attributes="0"/>
+                      <EmptySpace max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -194,7 +197,7 @@
                 </Property>
               </Properties>
               <Events>
-                <EventHandler event="propertyChange" listener="java.beans.PropertyChangeListener" parameters="java.beans.PropertyChangeEvent" handler="jComboBoxHorarioPropertyChange"/>
+                <EventHandler event="itemStateChanged" listener="java.awt.event.ItemListener" parameters="java.awt.event.ItemEvent" handler="jComboBoxHorarioItemStateChanged"/>
               </Events>
               <AuxValues>
                 <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>

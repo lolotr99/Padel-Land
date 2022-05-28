@@ -6,6 +6,7 @@
 package vista.basico;
 
 import controlador.ReservaController;
+import java.awt.event.ItemEvent;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -28,7 +29,7 @@ public class ReservaForm extends javax.swing.JFrame {
     ArrayList<Pistas> pistasDisponiblesPorDiaYHora;
     ArrayList<Horarios> listaHorariosConPistasDisponibles;
     
-            public ReservaForm() {
+    public ReservaForm() {
         initComponents();
     }
     
@@ -36,6 +37,7 @@ public class ReservaForm extends javax.swing.JFrame {
         reservaController = new ReservaController();
         this.user = user;
         initComponents();
+        jDateChooserCita.setDate(new Date());
     }
     
     /**
@@ -50,7 +52,7 @@ public class ReservaForm extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        jDateChooser1 = new com.toedter.calendar.JDateChooser();
+        jDateChooserCita = new com.toedter.calendar.JDateChooser();
         jPanel3 = new javax.swing.JPanel();
         jLabelInfo = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
@@ -71,9 +73,10 @@ public class ReservaForm extends javax.swing.JFrame {
         jLabel1.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
         jLabel1.setText("Elige el día de la cita");
 
-        jDateChooser1.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+        jDateChooserCita.setDateFormatString("dd/MM/yyyy");
+        jDateChooserCita.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
             public void propertyChange(java.beans.PropertyChangeEvent evt) {
-                jDateChooser1PropertyChange(evt);
+                jDateChooserCitaPropertyChange(evt);
             }
         });
 
@@ -85,7 +88,7 @@ public class ReservaForm extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel1)
-                    .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, 233, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jDateChooserCita, javax.swing.GroupLayout.PREFERRED_SIZE, 233, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
@@ -94,7 +97,7 @@ public class ReservaForm extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jLabel1)
                 .addGap(18, 18, 18)
-                .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jDateChooserCita, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(26, Short.MAX_VALUE))
         );
 
@@ -105,9 +108,9 @@ public class ReservaForm extends javax.swing.JFrame {
         jLabel2.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
         jLabel2.setText("Elige la pista");
 
-        jComboBoxHorario.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
-            public void propertyChange(java.beans.PropertyChangeEvent evt) {
-                jComboBoxHorarioPropertyChange(evt);
+        jComboBoxHorario.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                jComboBoxHorarioItemStateChanged(evt);
             }
         });
 
@@ -153,7 +156,7 @@ public class ReservaForm extends javax.swing.JFrame {
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabelInfo)
-                .addGap(38, 38, 38)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addComponent(jLabel3)
@@ -164,7 +167,7 @@ public class ReservaForm extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addComponent(jComboBoxPistas, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(66, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -183,8 +186,8 @@ public class ReservaForm extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
@@ -202,32 +205,48 @@ public class ReservaForm extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jComboBoxHorarioPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_jComboBoxHorarioPropertyChange
+    private void jDateChooserCitaPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_jDateChooserCitaPropertyChange
         // TODO add your handling code here:
         SimpleDateFormat formatoDia = new SimpleDateFormat("yyyy/MM/dd");
         SimpleDateFormat formatoHora = new SimpleDateFormat("HH:mm");
-        String dia = formatoDia.format(jDateChooser1.getDate());
-        String hora = formatoHora.format((Date) jComboBoxHorario.getSelectedItem());
-        pistasDisponiblesPorDiaYHora = reservaController.getPistasDisponiblesSegunDiayHora(dia, hora);
-        for (Pistas pista : pistasDisponiblesPorDiaYHora) {
-            jComboBoxPistas.addItem(pista.getNombrePista());
-        }
-    }//GEN-LAST:event_jComboBoxHorarioPropertyChange
-
-    private void jDateChooser1PropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_jDateChooser1PropertyChange
-        // TODO add your handling code here:
-        SimpleDateFormat formatoDia = new SimpleDateFormat("yyyy/MM/dd");
-        SimpleDateFormat formatoHora = new SimpleDateFormat("HH:mm");
-        String dia = formatoDia.format((Date) evt.getNewValue());
+        String dia = "";
+        if (jDateChooserCita.getDate() != null)
+            dia = formatoDia.format(jDateChooserCita.getDate());
+        else
+            dia = formatoDia.format(new Date());
         if ("date".equals(evt.getPropertyName())) {
             listaHorariosConPistasDisponibles = reservaController.getHorariosQueTenganPistasDisponibles(dia);
-            jComboBoxHorario.removeAll();
-            jComboBoxPistas.removeAll();
+            jComboBoxHorario.removeAllItems();
+            jComboBoxPistas.removeAllItems();
             for (Horarios horario : listaHorariosConPistasDisponibles) {
                 jComboBoxHorario.addItem(formatoHora.format(horario.getHoraComienzo()));
             }
         }
-    }//GEN-LAST:event_jDateChooser1PropertyChange
+    }//GEN-LAST:event_jDateChooserCitaPropertyChange
+
+    private void jComboBoxHorarioItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jComboBoxHorarioItemStateChanged
+        // TODO add your handling code here:
+        if (evt.getStateChange() == ItemEvent.SELECTED){
+            SimpleDateFormat formatoDia = new SimpleDateFormat("yyyy/MM/dd");
+            SimpleDateFormat formatoHora = new SimpleDateFormat("HH:mm");
+            String dia = "";
+            String hora = "";
+            if (jDateChooserCita.getDate() != null)
+                dia = formatoDia.format(jDateChooserCita.getDate());
+            else
+                dia = formatoDia.format(new Date());
+
+            if (jComboBoxHorario.getSelectedItem() != null) 
+                hora =  jComboBoxHorario.getSelectedItem().toString();
+            else
+                hora = formatoHora.format(new Date());
+            pistasDisponiblesPorDiaYHora = reservaController.getPistasDisponiblesSegunDiayHora(dia, hora);
+            jComboBoxPistas.removeAllItems();
+            for (Pistas pista : pistasDisponiblesPorDiaYHora) {
+                jComboBoxPistas.addItem(pista.getNombrePista());
+            }
+        }
+    }//GEN-LAST:event_jComboBoxHorarioItemStateChanged
 
     /**
      * @param args the command line arguments
@@ -268,7 +287,7 @@ public class ReservaForm extends javax.swing.JFrame {
     private javax.swing.JButton jButton1;
     private javax.swing.JComboBox<String> jComboBoxHorario;
     private javax.swing.JComboBox<String> jComboBoxPistas;
-    private com.toedter.calendar.JDateChooser jDateChooser1;
+    private com.toedter.calendar.JDateChooser jDateChooserCita;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
