@@ -5,8 +5,13 @@
  */
 package vista.basico;
 
+import controlador.PropertiesController;
+import controlador.ReservaController;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import modelo.Properties;
 import modelo.Usuarios;
 import vista.auth.Login;
 
@@ -21,6 +26,8 @@ public class VistaUsuarioBasicoForm extends javax.swing.JFrame {
      */
     
     Usuarios user;
+    ReservaController reservaController;
+    PropertiesController propertieController;
     
     public VistaUsuarioBasicoForm() {
         initComponents();
@@ -28,6 +35,8 @@ public class VistaUsuarioBasicoForm extends javax.swing.JFrame {
     
     public VistaUsuarioBasicoForm(Usuarios usuario) {
         this.user = usuario;
+        reservaController = new ReservaController();
+        propertieController = new PropertiesController();
         initComponents();
     }
 
@@ -146,11 +155,26 @@ public class VistaUsuarioBasicoForm extends javax.swing.JFrame {
 
     private void jMenuReservarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenuReservarMouseClicked
         // TODO add your handling code here:
-        ReservaForm form = new ReservaForm(user);
-        form.setVisible(true);
-        form.pack();
-        form.setLocationRelativeTo(null);
-        form.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        
+        SimpleDateFormat formatoDia = new SimpleDateFormat("yyyy/MM/dd");
+        SimpleDateFormat formatoHora = new SimpleDateFormat("HH:mm"); 
+        
+        String dia = formatoDia.format(new Date());
+        String hora = formatoHora.format(new Date());
+       
+        Properties propertie = propertieController.selectPropertieFromName("LIMITE_RESERVAS_SIMULTANEAS");
+        int nReservasSimultaneasUsuario = reservaController.getNumeroReservasSimultaneasUsuario(user.getId(), dia, hora);
+        
+        if (Integer.valueOf(propertie.getValue()) <= nReservasSimultaneasUsuario) {
+            //No se permite la reserva porque ya ha llegado al límite simultaneo
+            JOptionPane.showMessageDialog(null,"Este usuario ya ha excedido el número de reservas simultáneas (3). ¡Vuelve cuando ya hayas jugado algún partido!","¡Noo!",2);
+        }else{
+            ReservaForm form = new ReservaForm(user);
+            form.setVisible(true);
+            form.pack();
+            form.setLocationRelativeTo(null);
+            form.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        }
     }//GEN-LAST:event_jMenuReservarMouseClicked
 
     /**

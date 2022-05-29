@@ -7,7 +7,6 @@ package controlador;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import modelo.Horarios;
@@ -73,6 +72,18 @@ public class ReservaController {
            Logger.getLogger(ReservaController.class.getName()).log(Level.SEVERE,null,ex);
         }
         terminarOperacion();
+    }
+    
+    public long insertarReserva(Reservas reserva) {
+        long id = 0;
+        iniciarOperacion();
+        try{
+            id = (long) sesion.save(reserva);
+        }catch (Exception ex){           
+            Logger.getLogger(ReservaController.class.getName()).log(Level.SEVERE,null,ex);
+        }
+        terminarOperacion();
+        return id;
     }
     
     public boolean usuarioTieneReservas(long idUsuario) {
@@ -143,11 +154,37 @@ public class ReservaController {
         try{
             listaHorariosConPistasDisponibles = (ArrayList<Horarios>) sesion.createQuery(queryHQL).list();
         }catch(Exception ex) {
-        
+            Logger.getLogger(ReservaController.class.getName()).log(Level.SEVERE,null,ex);
         }
         terminarOperacion();
         return listaHorariosConPistasDisponibles;
         
     }
     
+    public ArrayList<Horarios> getHorariosQueTenganPistasDisponiblesHoy(String dia, String hora) {
+        iniciarOperacion();
+        ArrayList<Horarios> listaHorariosConPistasDisponibles = null;
+        String queryHQL = "SELECT h FROM Horarios h WHERE EXISTS (SELECT p FROM Pistas p WHERE NOT EXISTS (SELECT r FROM Reservas r WHERE r.pistas.id = p.id AND r.horarios.id = h.id AND r.dia = '"+dia+"')) AND h.horaComienzo > '"+hora+"'";
+        try{
+            listaHorariosConPistasDisponibles = (ArrayList<Horarios>) sesion.createQuery(queryHQL).list();
+        }catch(Exception ex) {
+            Logger.getLogger(ReservaController.class.getName()).log(Level.SEVERE,null,ex);
+        }
+        terminarOperacion();
+        return listaHorariosConPistasDisponibles;
+        
+    }
+    
+    public int getNumeroReservasSimultaneasUsuario(long id, String dia, String hora){
+        int contador = 0;
+        iniciarOperacion();
+        try{
+            contador+= (long) sesion.createQuery("select count(r) from Reservas r where r.usuarios.id = "+id+" and r.dia > '"+dia+"'").uniqueResult();
+            contador+= (long) sesion.createQuery("select count(r) from Reservas r inner join r.horarios h where r.usuarios.id = "+id+" and r.dia = '"+dia+"' and h.horaComienzo > '"+hora+"'").uniqueResult();
+        }catch(Exception ex) {
+            Logger.getLogger(ReservaController.class.getName()).log(Level.SEVERE,null,ex);
+        }
+        terminarOperacion();
+        return contador;
+    }
 }

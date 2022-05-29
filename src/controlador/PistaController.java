@@ -130,6 +130,18 @@ public class PistaController {
         return listaPistas;
     }
     
+    public Pistas getPistaByNombre(String nombrePista){
+        Pistas pista = null;
+        iniciarOperacion();
+        try{
+            pista = (Pistas) sesion.createQuery("FROM Pistas p where p.nombrePista = '"+nombrePista+"'").uniqueResult();
+        }catch(Exception ex) {
+            Logger.getLogger(PistaController.class.getName()).log(Level.SEVERE,null,ex);
+        }
+        terminarOperacion();
+        return pista;
+    }
+    
     public void fillPistasJTable(JTable tablaPistas, String valueBusqueda){
         List<Pistas> listaPistas = getPistasBusqueda(valueBusqueda);
         Object[] row;

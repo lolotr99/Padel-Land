@@ -5,13 +5,24 @@
  */
 package vista.basico;
 
+import controlador.DiasNoDisponiblesController;
+import controlador.HorarioController;
+import controlador.PistaController;
 import controlador.ReservaController;
 import java.awt.event.ItemEvent;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+import modelo.DiasNoDisponibles;
 import modelo.Horarios;
 import modelo.Pistas;
+import modelo.Properties;
+import modelo.Reservas;
 import modelo.Usuarios;
 
 /**
@@ -25,9 +36,14 @@ public class ReservaForm extends javax.swing.JFrame {
      */
     
     Usuarios user;
+    Properties propertie;
     ReservaController reservaController;
+    DiasNoDisponiblesController diasNoDisponiblesController;
+    HorarioController horarioController;
+    PistaController pistaController;
     ArrayList<Pistas> pistasDisponiblesPorDiaYHora;
     ArrayList<Horarios> listaHorariosConPistasDisponibles;
+    List<DiasNoDisponibles> listaDiasNoDisponibles;
     
     public ReservaForm() {
         initComponents();
@@ -35,7 +51,11 @@ public class ReservaForm extends javax.swing.JFrame {
     
     public ReservaForm(Usuarios user) {
         reservaController = new ReservaController();
+        diasNoDisponiblesController = new  DiasNoDisponiblesController();
+        horarioController = new HorarioController();
+        pistaController = new PistaController();
         this.user = user;
+        listaDiasNoDisponibles = diasNoDisponiblesController.getListaDias();
         initComponents();
         jDateChooserCita.setDate(new Date());
     }
@@ -54,13 +74,11 @@ public class ReservaForm extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jDateChooserCita = new com.toedter.calendar.JDateChooser();
         jPanel3 = new javax.swing.JPanel();
-        jLabelInfo = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jComboBoxHorario = new javax.swing.JComboBox<>();
         jLabel3 = new javax.swing.JLabel();
         jComboBoxPistas = new javax.swing.JComboBox<>();
-        jPanel4 = new javax.swing.JPanel();
-        jButton1 = new javax.swing.JButton();
+        jButtonReservar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Reservar en Padel Land");
@@ -85,10 +103,10 @@ public class ReservaForm extends javax.swing.JFrame {
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel1)
-                    .addComponent(jDateChooserCita, javax.swing.GroupLayout.PREFERRED_SIZE, 233, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(64, 64, 64)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jDateChooserCita, javax.swing.GroupLayout.PREFERRED_SIZE, 233, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel1))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
@@ -103,8 +121,6 @@ public class ReservaForm extends javax.swing.JFrame {
 
         jPanel3.setBackground(new java.awt.Color(23, 255, 108));
 
-        jLabelInfo.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
-
         jLabel2.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
         jLabel2.setText("Elige la pista");
 
@@ -117,78 +133,61 @@ public class ReservaForm extends javax.swing.JFrame {
         jLabel3.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
         jLabel3.setText("Elige hora de reserva");
 
-        jButton1.setText("RESERVAR");
-        jButton1.setEnabled(false);
-
-        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
-        jPanel4.setLayout(jPanel4Layout);
-        jPanel4Layout.setHorizontalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 272, Short.MAX_VALUE)
-        );
-        jPanel4Layout.setVerticalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 168, Short.MAX_VALUE)
-        );
+        jButtonReservar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/img/icons8-check-mark-40.png"))); // NOI18N
+        jButtonReservar.setText("RESERVAR");
+        jButtonReservar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonReservarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addContainerGap()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addComponent(jLabelInfo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addContainerGap())
+                        .addGap(71, 71, 71)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel3)
+                            .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 228, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jComboBoxHorario, javax.swing.GroupLayout.PREFERRED_SIZE, 228, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jComboBoxPistas, javax.swing.GroupLayout.PREFERRED_SIZE, 228, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jComboBoxPistas, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jComboBoxHorario, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 118, Short.MAX_VALUE)
-                        .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(97, 97, 97))))
+                        .addGap(101, 101, 101)
+                        .addComponent(jButtonReservar, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(91, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabelInfo)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addComponent(jLabel3)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jComboBoxHorario, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(28, 28, 28)
-                        .addComponent(jLabel2)
-                        .addGap(18, 18, 18)
-                        .addComponent(jComboBoxPistas, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jLabel3)
+                .addGap(18, 18, 18)
+                .addComponent(jComboBoxHorario, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jLabel2)
+                .addGap(18, 18, 18)
+                .addComponent(jComboBoxPistas, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 50, Short.MAX_VALUE)
+                .addComponent(jButtonReservar, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(34, 34, 34))
         );
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap())
+            .addComponent(jPanel3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -212,14 +211,42 @@ public class ReservaForm extends javax.swing.JFrame {
         String dia = "";
         if (jDateChooserCita.getDate() != null)
             dia = formatoDia.format(jDateChooserCita.getDate());
-        else
+        else{
             dia = formatoDia.format(new Date());
+        }
+
         if ("date".equals(evt.getPropertyName())) {
-            listaHorariosConPistasDisponibles = reservaController.getHorariosQueTenganPistasDisponibles(dia);
-            jComboBoxHorario.removeAllItems();
-            jComboBoxPistas.removeAllItems();
-            for (Horarios horario : listaHorariosConPistasDisponibles) {
-                jComboBoxHorario.addItem(formatoHora.format(horario.getHoraComienzo()));
+            boolean isDiaSeleccionadoNoDisponible = false;
+            for (DiasNoDisponibles diaNoDisponible : listaDiasNoDisponibles){
+                if (formatoDia.format(diaNoDisponible.getDia()).equals(dia)){
+                    isDiaSeleccionadoNoDisponible = true;
+                    break;
+                }
+            }
+            String hoy = formatoDia.format(new Date());
+            String horaActual = formatoHora.format(new Date());
+            if (hoy.equals(dia)){
+                listaHorariosConPistasDisponibles = reservaController.getHorariosQueTenganPistasDisponiblesHoy(dia,horaActual);
+                jComboBoxHorario.removeAllItems();
+                jComboBoxPistas.removeAllItems();
+                for (Horarios horario : listaHorariosConPistasDisponibles) {
+                    jComboBoxHorario.addItem(formatoHora.format(horario.getHoraComienzo()));
+                }
+            }else if(jDateChooserCita.getDate().before(new Date())){
+                jComboBoxHorario.removeAllItems();
+                jComboBoxPistas.removeAllItems();
+                JOptionPane.showMessageDialog(null,"El día seleccionado no puede ser anterior a la fecha actual","INFO",2);
+            }else if (isDiaSeleccionadoNoDisponible){
+                jComboBoxHorario.removeAllItems();
+                jComboBoxPistas.removeAllItems();
+                JOptionPane.showMessageDialog(null,"Padel Land cierra en el día seleccionado","INFO",2);
+            }else{
+                listaHorariosConPistasDisponibles = reservaController.getHorariosQueTenganPistasDisponibles(dia);
+                jComboBoxHorario.removeAllItems();
+                jComboBoxPistas.removeAllItems();
+                for (Horarios horario : listaHorariosConPistasDisponibles) {
+                    jComboBoxHorario.addItem(formatoHora.format(horario.getHoraComienzo()));
+                }
             }
         }
     }//GEN-LAST:event_jDateChooserCitaPropertyChange
@@ -248,6 +275,49 @@ public class ReservaForm extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jComboBoxHorarioItemStateChanged
 
+    private void jButtonReservarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonReservarActionPerformed
+        // TODO add your handling code here:
+        if (verifyCampos()){
+            Date dia = jDateChooserCita.getDate();
+            SimpleDateFormat formatoHora = new SimpleDateFormat("HH:mm");
+            Date horaComienzo = null;
+            try {
+                horaComienzo = formatoHora.parse(jComboBoxHorario.getSelectedItem().toString());
+            } catch (ParseException ex) {
+                Logger.getLogger(ReservaForm.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            Horarios horario = horarioController.getHorarioByHoraComienzo(horaComienzo);
+            Pistas pista = pistaController.getPistaByNombre(jComboBoxPistas.getSelectedItem().toString());
+            
+            Reservas reserva = new Reservas(horario, pista, user, dia);
+            long result = reservaController.insertarReserva(reserva);
+            if (result != 0){
+                JOptionPane.showMessageDialog(null,"Reserva añadida correctamente","INFO",2);
+            }else{
+                JOptionPane.showMessageDialog(null,"Lo sentimos, ha ocurrido un error","ERROR",2);
+            }
+        }
+    }//GEN-LAST:event_jButtonReservarActionPerformed
+
+    
+    public boolean verifyCampos(){
+        Date dia = jDateChooserCita.getDate();
+        
+        boolean horarioSelected = jComboBoxHorario.getItemCount() > 0;
+        String horaComienzo = "";
+        if (horarioSelected){
+            horaComienzo = jComboBoxHorario.getSelectedItem().toString();
+        }
+        
+        boolean pistaSelected = jComboBoxPistas.getItemCount() > 0;
+        String nombrePista = "";
+        if (pistaSelected){
+            nombrePista = jComboBoxPistas.getSelectedItem().toString();
+        }
+        
+        return dia != null && !horaComienzo.trim().equals("") && !horaComienzo.trim().equals("");
+        
+    }
     /**
      * @param args the command line arguments
      */
@@ -284,17 +354,15 @@ public class ReservaForm extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButtonReservar;
     private javax.swing.JComboBox<String> jComboBoxHorario;
     private javax.swing.JComboBox<String> jComboBoxPistas;
     private com.toedter.calendar.JDateChooser jDateChooserCita;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabelInfo;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
-    private javax.swing.JPanel jPanel4;
     // End of variables declaration//GEN-END:variables
 }
