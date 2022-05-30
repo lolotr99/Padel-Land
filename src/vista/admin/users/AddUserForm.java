@@ -18,6 +18,7 @@ import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import modelo.Usuarios;
 import utilidades.CifradoUtil;
+import validator.EmailValidator;
 
 /**
  *
@@ -272,9 +273,9 @@ public class AddUserForm extends javax.swing.JFrame {
                 }
                 long result = userController.insertUsuario(user);
                 if (result != 0){
-                    JOptionPane.showMessageDialog(null, "¡Tu usuario ha sido creado correctamente!");
+                    JOptionPane.showMessageDialog(null, "¡Tu usuario ha sido creado correctamente!","INFO",JOptionPane.INFORMATION_MESSAGE);
                 }else{
-                    JOptionPane.showMessageDialog(null, "Error en el registro, revisa tus datos");
+                    JOptionPane.showMessageDialog(null, "Error en el registro, revisa tus datos","ERROR",JOptionPane.ERROR_MESSAGE);
                 }
             }
         }
@@ -320,11 +321,15 @@ public class AddUserForm extends javax.swing.JFrame {
         String password = String.valueOf(jPasswordField.getPassword());
         String telefono = jTextFieldTelefono.getText();
         String rol = jComboBoxRol.getSelectedItem().toString();
-        
+        EmailValidator emailValidator = new EmailValidator();
+
         //Comprobar si hay campos vacíos
         if (nombreCompleto.trim().equals("") || email.trim().equals("") || password.trim().equals("") 
                 || telefono.trim().equals("") || rol.trim().equals("")){
-            JOptionPane.showMessageDialog(null, "Uno o varios campos están vacíos","Campos vacíos",2);
+            JOptionPane.showMessageDialog(null, "Uno o varios campos están vacíos","Campos vacíos",JOptionPane.WARNING_MESSAGE);
+            return false;
+        }else if (!emailValidator.validate(email.trim())){
+            JOptionPane.showMessageDialog(null, "No se cumple el formato de email","Email inválido",JOptionPane.WARNING_MESSAGE);
             return false;
         }else {
             return true;
@@ -337,7 +342,7 @@ public class AddUserForm extends javax.swing.JFrame {
         
         if (userController.obtenerUsuarioPorEmail(email) != null){
             email_exists = true;
-            JOptionPane.showMessageDialog(null, "Este usuario ya existe en la BBDD", "Email fallido",2);
+            JOptionPane.showMessageDialog(null, "Este usuario ya existe en la BBDD", "Email fallido",JOptionPane.ERROR_MESSAGE);
         }
         
         return email_exists;

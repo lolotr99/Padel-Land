@@ -10,6 +10,7 @@ import controlador.PropertiesController;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import modelo.DiasNoDisponibles;
 import modelo.Properties;
 
 
@@ -190,7 +191,8 @@ public class ManageDiasNoDisponiblesForm extends javax.swing.JFrame {
                 ((JButton) value).doClick();
                 diasNoDisponiblesController.fillTableDiasNoDisponibles(jTableDiasNoDisponibles);
                 if (JOptionPane.showConfirmDialog(null, "¿Seguro que quieres eliminar el día "+ jTableDiasNoDisponibles.getModel().getValueAt(row,1).toString()+"?", "WARNING",JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
-                    diasNoDisponiblesController.deleteDiaNoDisponible(diasNoDisponiblesController.selectDia(Long.valueOf(jTableDiasNoDisponibles.getModel().getValueAt(row,0).toString())));
+                    DiasNoDisponibles diaNoDisponible = diasNoDisponiblesController.selectDia(Long.valueOf(jTableDiasNoDisponibles.getModel().getValueAt(row,0).toString()));
+                    diasNoDisponiblesController.deleteDiaNoDisponible(diaNoDisponible);
                     diasNoDisponiblesController.fillTableDiasNoDisponibles(jTableDiasNoDisponibles);
                 }
             }

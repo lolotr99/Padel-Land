@@ -417,10 +417,10 @@ public class Login extends javax.swing.JFrame {
                             this.dispose();
                         }
                     }else{
-                        JOptionPane.showMessageDialog(null,"Contraseña no es válida para este usuario","Error de inicio de sesión",2);
+                        JOptionPane.showMessageDialog(null,"Contraseña no es válida para este usuario","Error de inicio de sesión",JOptionPane.ERROR_MESSAGE);
                     }
                 }else{
-                    JOptionPane.showMessageDialog(null,"Usuario no existe","Error de inicio de sesión",2);
+                    JOptionPane.showMessageDialog(null,"Usuario no existe","Error de inicio de sesión",JOptionPane.ERROR_MESSAGE);
                 }
             }catch(HeadlessException ex){
                 Logger.getLogger(Login.class.getName()).log(Level.SEVERE,null,ex);
@@ -479,13 +479,12 @@ public class Login extends javax.swing.JFrame {
     public boolean verifyFields() {
         String email = jTextFieldEmail.getText();
         String password = String.valueOf(jPasswordField.getPassword());
-        
         //Comprobar si hay campos vacíos
         if (email.trim().equals("")){
-            JOptionPane.showMessageDialog(null, "Introduce email","Email vacío",2);
+            JOptionPane.showMessageDialog(null, "Introduce email","Email vacío",JOptionPane.WARNING_MESSAGE);
             return false;
         }else if(password.trim().equals("")){
-            JOptionPane.showMessageDialog(null, "Introduce password","Password vacía",2);
+            JOptionPane.showMessageDialog(null, "Introduce password","Password vacía",JOptionPane.WARNING_MESSAGE);
             return false;
         }else {
             return true;

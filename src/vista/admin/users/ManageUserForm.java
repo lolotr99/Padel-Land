@@ -24,6 +24,7 @@ import javax.swing.JTable;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import modelo.Usuarios;
 import utilidades.CifradoUtil;
+import validator.EmailValidator;
 
 /**
  *
@@ -363,12 +364,12 @@ public class ManageUserForm extends javax.swing.JFrame {
         // TODO add your handling code here:
         String id = jTextFieldId.getText();
         if (id.equals("")){
-            JOptionPane.showMessageDialog(null, "No se ha seleccionado ningún usuario");
+            JOptionPane.showMessageDialog(null, "No se ha seleccionado ningún usuario","WARNING",JOptionPane.WARNING_MESSAGE);
         }else{
             Usuarios user = userController.selectUsuario(Integer.valueOf(id));
             if (JOptionPane.showConfirmDialog(null, "¿Seguro que quieres eliminar el usuario con id "+id+"?", "WARNING",JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
                 if (reservaController.usuarioTieneReservas(Long.valueOf(id))){
-                    JOptionPane.showMessageDialog(null,"No se puede eliminar un usuario que tiene reservas asociadas","¡NOO!",2);
+                    JOptionPane.showMessageDialog(null,"No se puede eliminar un usuario que tiene reservas asociadas","¡NOO!",JOptionPane.ERROR_MESSAGE);
                 }else{
                     userController.deleteUsuario(user);
                     userController.fillUsersJTable(jTableUsuarios, jTextFieldValorBusqueda.getText());
@@ -391,21 +392,32 @@ public class ManageUserForm extends javax.swing.JFrame {
     private void jButtonActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonActualizarActionPerformed
         // TODO add your handling code here:
         if (!jTextFieldId.getText().trim().equals("")){
+            EmailValidator emailValidator = new EmailValidator();
             String nombreCompleto = jTextFieldNombreCompleto.getText();
             String email = jTextFieldEmail.getText();
             String password = String.valueOf(jPasswordField.getPassword());
             String telefono = jTextFieldTelefono.getText();
             String rol = jComboBoxRol.getSelectedItem().toString();
             Usuarios user = userController.selectUsuario(Integer.valueOf(jTextFieldId.getText()));
-
             
-            user.setNombreCompleto(nombreCompleto);
-            user.setEmail(email);
+            if(!nombreCompleto.trim().equals(""))
+                user.setNombreCompleto(nombreCompleto);
+            
+            if (!emailValidator.validate(email.trim())){
+                JOptionPane.showMessageDialog(null, "No se cumple el formato de email","Email inválido",JOptionPane.WARNING_MESSAGE);
+                return;
+            }else{
+                user.setEmail(email);
+            }
+            
             if (!password.equals(""))
                 user.setPassword(CifradoUtil.getHash(password));
             
-            user.setTelefono(telefono);
+            if(!telefono.trim().equals(""))
+                user.setTelefono(telefono);
+            
             user.setRol(rol);
+            
             if (img_path != null && !img_path.equals("")){
                 File file = new File(img_path);
                 Blob imageBlob = null;
@@ -421,10 +433,10 @@ public class ManageUserForm extends javax.swing.JFrame {
             }
             
             userController.updateUsuario(user);
-            JOptionPane.showMessageDialog(null, "Usuario modificado correctamente");
+            JOptionPane.showMessageDialog(null, "Usuario modificado correctamente","INFO",JOptionPane.INFORMATION_MESSAGE);
             userController.fillUsersJTable(ManageUserForm.jTableUsuarios, "");
         } else{
-             JOptionPane.showMessageDialog(null, "No se ha seleccionado ningún usuario", "Error al actualizar", 2);
+             JOptionPane.showMessageDialog(null, "No se ha seleccionado ningún usuario", "Error al actualizar", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_jButtonActualizarActionPerformed
 

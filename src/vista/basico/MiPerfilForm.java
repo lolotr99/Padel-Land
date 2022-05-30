@@ -359,8 +359,9 @@ public class MiPerfilForm extends javax.swing.JFrame {
                 ((JButton) value).doClick();
                 fillTablaReservas(jTableReservasUser, user.getId());
                 if (JOptionPane.showConfirmDialog(null, "¿Seguro que quieres eliminar la reserva del día "+ jTableReservasUser.getModel().getValueAt(row,3) + " a las " + jTableReservasUser.getModel().getValueAt(row,2) +" en la pista " + jTableReservasUser.getModel().getValueAt(row,1) + "?", "WARNING",JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
-                        reservaController.deleteReserva(reservaController.selectReserva(Long.valueOf(jTableReservasUser.getModel().getValueAt(row,0).toString())));
-                        fillTablaReservas(jTableReservasUser, user.getId());
+                    Reservas reserva = reservaController.selectReserva(Long.valueOf(jTableReservasUser.getModel().getValueAt(row,0).toString()));
+                    reservaController.deleteReserva(reserva);
+                    fillTablaReservas(jTableReservasUser, user.getId());
                 }
             }
         }

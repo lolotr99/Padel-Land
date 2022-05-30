@@ -158,9 +158,9 @@ public class AddHorarioForm extends javax.swing.JFrame {
                         Horarios horario = new Horarios(turno, horaComienzo);
                         long result = horarioController.insertarHorario(horario);
                         if (result != 0){
-                            JOptionPane.showMessageDialog(null, "¡Tu tramo horario ha sido creado correctamente!");
+                            JOptionPane.showMessageDialog(null, "¡Tu tramo horario ha sido creado correctamente!","INFO",JOptionPane.INFORMATION_MESSAGE);
                         }else{
-                            JOptionPane.showMessageDialog(null, "Ha ocurrido un error en el registro, revisa tus datos.");
+                            JOptionPane.showMessageDialog(null, "Ha ocurrido un error en el registro, revisa tus datos.","ERROR",JOptionPane.ERROR_MESSAGE);
                         }
                     } catch (ParseException ex) {
                         Logger.getLogger(AddHorarioForm.class.getName()).log(Level.SEVERE, null, ex);
@@ -168,7 +168,7 @@ public class AddHorarioForm extends javax.swing.JFrame {
                 }
             } 
         } else{
-            JOptionPane.showMessageDialog(null, "Introduce una hora válida (HH:mm) ", "Formato incorrecto",2);
+            JOptionPane.showMessageDialog(null, "Introduce una hora válida (HH:mm) ", "Formato incorrecto",JOptionPane.ERROR_MESSAGE);
         }
         
         if (ManageHorarioForm.jTableHorarios != null){
@@ -180,10 +180,11 @@ public class AddHorarioForm extends javax.swing.JFrame {
     //Creamos una funcíon para comprobar si el horario introducido ya existe en la BBDD
     public boolean checkHorario(Date horario) {
         boolean horario_exists = false;
-        
-        if (horarioController.getHorarioByHoraComienzo(horario) != null){
+        SimpleDateFormat formatoHora = new SimpleDateFormat("HH:mm");
+        String horaComienzo = formatoHora.format(horario);
+        if (horarioController.getHorarioByHoraComienzo(horaComienzo) != null){
             horario_exists = true;
-            JOptionPane.showMessageDialog(null, "Este tramo horario ya existe en la BBDD", "Horario fallido",2);
+            JOptionPane.showMessageDialog(null, "Este tramo horario ya existe en la BBDD", "Horario fallido",JOptionPane.ERROR_MESSAGE);
         }
         
         return horario_exists;

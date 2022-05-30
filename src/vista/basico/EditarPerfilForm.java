@@ -277,7 +277,7 @@ public class EditarPerfilForm extends javax.swing.JFrame {
             }
             
             userController.updateUsuario(user);
-            JOptionPane.showMessageDialog(null, "¡Tu usuario ha sido actualizado correctamente!");
+            JOptionPane.showMessageDialog(null, "¡Tu usuario ha sido actualizado correctamente!","INFO",JOptionPane.INFORMATION_MESSAGE);
             actualizarCamposPerfil();
         }
     }//GEN-LAST:event_jButtonAnadirActionPerformed
@@ -309,7 +309,7 @@ public class EditarPerfilForm extends javax.swing.JFrame {
         
         //Comprobar si hay campos vacíos
         if (nombreCompleto.trim().equals("") || email.trim().equals("") || telefono.trim().equals("")){
-            JOptionPane.showMessageDialog(null, "Uno o varios campos están vacíos","Campos vacíos",2);
+            JOptionPane.showMessageDialog(null, "Uno o varios campos están vacíos","Campos vacíos",JOptionPane.WARNING_MESSAGE);
             return false;
         }else {
             return true;

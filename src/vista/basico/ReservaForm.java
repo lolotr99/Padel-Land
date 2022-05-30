@@ -10,13 +10,11 @@ import controlador.HorarioController;
 import controlador.PistaController;
 import controlador.ReservaController;
 import java.awt.event.ItemEvent;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import modelo.DiasNoDisponibles;
 import modelo.Horarios;
@@ -235,11 +233,11 @@ public class ReservaForm extends javax.swing.JFrame {
             }else if(jDateChooserCita.getDate().before(new Date())){
                 jComboBoxHorario.removeAllItems();
                 jComboBoxPistas.removeAllItems();
-                JOptionPane.showMessageDialog(null,"El día seleccionado no puede ser anterior a la fecha actual","INFO",2);
+                JOptionPane.showMessageDialog(null,"El día seleccionado no puede ser anterior a la fecha actual","WARNING",JOptionPane.WARNING_MESSAGE);
             }else if (isDiaSeleccionadoNoDisponible){
                 jComboBoxHorario.removeAllItems();
                 jComboBoxPistas.removeAllItems();
-                JOptionPane.showMessageDialog(null,"Padel Land cierra en el día seleccionado","INFO",2);
+                JOptionPane.showMessageDialog(null,"Padel Land cierra en el día seleccionado","WARNING",JOptionPane.WARNING_MESSAGE);
             }else{
                 listaHorariosConPistasDisponibles = reservaController.getHorariosQueTenganPistasDisponibles(dia);
                 jComboBoxHorario.removeAllItems();
@@ -279,22 +277,23 @@ public class ReservaForm extends javax.swing.JFrame {
         // TODO add your handling code here:
         if (verifyCampos()){
             Date dia = jDateChooserCita.getDate();
-            SimpleDateFormat formatoHora = new SimpleDateFormat("HH:mm");
-            Date horaComienzo = null;
-            try {
-                horaComienzo = formatoHora.parse(jComboBoxHorario.getSelectedItem().toString());
-            } catch (ParseException ex) {
-                Logger.getLogger(ReservaForm.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            String horaComienzo =jComboBoxHorario.getSelectedItem().toString();
+           
             Horarios horario = horarioController.getHorarioByHoraComienzo(horaComienzo);
             Pistas pista = pistaController.getPistaByNombre(jComboBoxPistas.getSelectedItem().toString());
             
             Reservas reserva = new Reservas(horario, pista, user, dia);
             long result = reservaController.insertarReserva(reserva);
             if (result != 0){
-                JOptionPane.showMessageDialog(null,"Reserva añadida correctamente","INFO",2);
+                JOptionPane.showMessageDialog(null,"Reserva añadida correctamente","INFO",JOptionPane.INFORMATION_MESSAGE);
+                dispose();
+                MiPerfilForm form = new MiPerfilForm(user);
+                form.pack();
+                form.setVisible(true);
+                form.setLocationRelativeTo(null);
+                form.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
             }else{
-                JOptionPane.showMessageDialog(null,"Lo sentimos, ha ocurrido un error","ERROR",2);
+                JOptionPane.showMessageDialog(null,"Lo sentimos, ha ocurrido un error","ERROR",JOptionPane.ERROR_MESSAGE);
             }
         }
     }//GEN-LAST:event_jButtonReservarActionPerformed

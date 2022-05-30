@@ -126,19 +126,19 @@ public class AddDiaNoDisponibleForm extends javax.swing.JFrame {
         String fechaFormateada = formato.format(fecha);
         
         if (fecha.before(new Date())){
-            JOptionPane.showMessageDialog(null, "No se puede añadir un día anterior al de hoy","Información",2);
+            JOptionPane.showMessageDialog(null, "No se puede añadir un día anterior al de hoy","Información",JOptionPane.ERROR_MESSAGE);
         }else if(JOptionPane.showConfirmDialog(null, "¿Seguro que quieres insertar el día : "+fechaFormateada+"?", "WARNING",JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
             if (reservaController.diaNoDisponibleEstaEnReservas(fechaFormateada)){
-                JOptionPane.showMessageDialog(null,"No se puede insertar este dia como no disponible porque ya tiene reservas asociadas","¡NOO!",2);
+                JOptionPane.showMessageDialog(null,"No se puede insertar este dia como no disponible porque ya tiene reservas asociadas","¡NOO!",JOptionPane.ERROR_MESSAGE);
             }else{
                 //Se comprueba que ese tramo horario no exista ya
                 if (!checkDia(fechaFormateada)){
                     DiasNoDisponibles dia = new DiasNoDisponibles(fecha);
                     long result = diasNoDisponiblesController.insertarDia(dia);
                     if (result != 0){
-                        JOptionPane.showMessageDialog(null, "¡Nuevo día no disponible ha sido creado correctamente!");
+                        JOptionPane.showMessageDialog(null, "¡Nuevo día no disponible ha sido creado correctamente!","INFO",JOptionPane.INFORMATION_MESSAGE);
                     }else{
-                        JOptionPane.showMessageDialog(null, "Ha ocurrido un error en el registro, revisa tus datos.");
+                        JOptionPane.showMessageDialog(null, "Ha ocurrido un error en el registro, revisa tus datos.","ERROR",JOptionPane.ERROR_MESSAGE);
                     }
                 }
             }
@@ -155,7 +155,7 @@ public class AddDiaNoDisponibleForm extends javax.swing.JFrame {
         
         if (diasNoDisponiblesController.getDiaNoDisponibleByDate(dia) != null){
             dia_exists = true;
-            JOptionPane.showMessageDialog(null, "Este día no disponible ya está registrado en la BBDD", "No se puede insertar este registro",2);
+            JOptionPane.showMessageDialog(null, "Este día no disponible ya está registrado en la BBDD", "No se puede insertar este registro",JOptionPane.ERROR_MESSAGE);
         }
         
         return dia_exists;

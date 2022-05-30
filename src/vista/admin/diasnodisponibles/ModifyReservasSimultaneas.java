@@ -126,10 +126,10 @@ public class ModifyReservasSimultaneas extends javax.swing.JDialog {
             propertie.setValue(String.valueOf(limite));
             propertiesController.updatePropertie(propertie);
             ManageDiasNoDisponiblesForm.jTextFieldNumeroReservasSimultaneas.setText(String.valueOf(propertie.getValue()));
-            JOptionPane.showMessageDialog(null, "¡Se ha actualizado correctamente!","Actualizar límite reservas simultáneas",2);
+            JOptionPane.showMessageDialog(null, "¡Se ha actualizado correctamente!","Actualizar límite reservas simultáneas",JOptionPane.INFORMATION_MESSAGE);
             this.dispose();
         }else{
-            JOptionPane.showMessageDialog(null,"El límite debe ser superior a 0","Error al actualizar",2);
+            JOptionPane.showMessageDialog(null,"El límite debe ser superior a 0","Error al actualizar",JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_jButtonActualizarActionPerformed
 

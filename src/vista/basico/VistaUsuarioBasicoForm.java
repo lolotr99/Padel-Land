@@ -167,7 +167,7 @@ public class VistaUsuarioBasicoForm extends javax.swing.JFrame {
         
         if (Integer.valueOf(propertie.getValue()) <= nReservasSimultaneasUsuario) {
             //No se permite la reserva porque ya ha llegado al límite simultaneo
-            JOptionPane.showMessageDialog(null,"Este usuario ya ha excedido el número de reservas simultáneas (3). ¡Vuelve cuando ya hayas jugado algún partido!","¡Noo!",2);
+            JOptionPane.showMessageDialog(null,"Este usuario ya ha excedido el número de reservas simultáneas (3). ¡Vuelve cuando ya hayas jugado algún partido!","¡Noo!",JOptionPane.WARNING_MESSAGE);
         }else{
             ReservaForm form = new ReservaForm(user);
             form.setVisible(true);

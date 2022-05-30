@@ -294,12 +294,12 @@ public class ManagePistaForm extends javax.swing.JFrame {
         // TODO add your handling code here:
         String id = jTextFieldId.getText();
         if (id.equals("")){
-            JOptionPane.showMessageDialog(null, "No se ha seleccionado ninguna pista");
+            JOptionPane.showMessageDialog(null, "No se ha seleccionado ninguna pista","WARNING", JOptionPane.WARNING_MESSAGE);
         }else{
             Pistas pista = pistaController.selectPista(Integer.valueOf(id));
             if (JOptionPane.showConfirmDialog(null, "¿Seguro que quieres eliminar la pista con id "+id+"?", "WARNING",JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
                 if (reservaController.pistaTieneReservas(Long.valueOf(id))){
-                    JOptionPane.showMessageDialog(null,"No se puede eliminar una pista que tiene reservas asociadas","¡NOO!",2);
+                    JOptionPane.showMessageDialog(null,"No se puede eliminar una pista que tiene reservas asociadas","¡NOO!",JOptionPane.ERROR_MESSAGE);
                 }else{
                     pistaController.deletePista(pista);
                     pistaController.fillPistasJTable(jTablePistas, jTextFieldValorBusqueda.getText());
@@ -344,10 +344,10 @@ public class ManagePistaForm extends javax.swing.JFrame {
             }
             
             pistaController.updatePista(pista);
-            JOptionPane.showMessageDialog(null, "Pista modificada correctamente");
+            JOptionPane.showMessageDialog(null, "Pista modificada correctamente","INFO",JOptionPane.INFORMATION_MESSAGE);
             pistaController.fillPistasJTable(jTablePistas, "");
         } else{
-            JOptionPane.showMessageDialog(null,"No se ha seleccionado ninguna pista","Error al actualizar",2);
+            JOptionPane.showMessageDialog(null,"No se ha seleccionado ninguna pista","Error al actualizar",JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_jButtonActualizarActionPerformed
 

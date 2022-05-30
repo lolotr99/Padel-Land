@@ -22,6 +22,7 @@ import javax.swing.border.Border;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import modelo.Usuarios;
 import utilidades.CifradoUtil;
+import validator.EmailValidator;
 import vista.admin.AdminForm;
 import vista.basico.VistaUsuarioBasicoForm;
 /**
@@ -468,7 +469,7 @@ public class Registro extends javax.swing.JFrame {
                 }
                 long result = userController.insertUsuario(user);
                 if (result != 0){
-                    JOptionPane.showMessageDialog(null, "¡Usuario creado correctamente!");
+                    JOptionPane.showMessageDialog(null, "¡Usuario creado correctamente!","INFO", JOptionPane.INFORMATION_MESSAGE);
                     if (user.getRol().equals("basico")){
                         VistaUsuarioBasicoForm form = new VistaUsuarioBasicoForm(user);
                         form.setVisible(true);
@@ -486,7 +487,7 @@ public class Registro extends javax.swing.JFrame {
                     }
                     
                 }else{
-                    JOptionPane.showMessageDialog(null, "Error en el registro, revisa tus datos");
+                    JOptionPane.showMessageDialog(null, "Error en el registro, revisa tus datos","ERROR",JOptionPane.ERROR_MESSAGE);
                 }
             }
         }
@@ -559,15 +560,19 @@ public class Registro extends javax.swing.JFrame {
         String password = String.valueOf(jPasswordField.getPassword());
         String confirmPass = String.valueOf(jPasswordConfirmField.getPassword());
         String telefono = jTextFieldTelefono.getText();
-        
+        EmailValidator emailValidator = new EmailValidator();
+
         //Comprobar si hay campos vacíos
         if (nombreCompleto.trim().equals("") || email.trim().equals("") || password.trim().equals("")
                 || confirmPass.trim().equals("") || telefono.trim().equals("")){
-            JOptionPane.showMessageDialog(null, "Uno o varios campos están vacíos","Campos vacíos",2);
+            JOptionPane.showMessageDialog(null, "Uno o varios campos están vacíos","Campos vacíos",JOptionPane.WARNING_MESSAGE);
+            return false;
+        }else if(!emailValidator.validate(email.trim())){
+            JOptionPane.showMessageDialog(null, "No se cumple el formato de email","Email inválido",JOptionPane.WARNING_MESSAGE);
             return false;
         } //Comprobar que las contraseñas coincide
         else if (!password.equals(confirmPass)) {
-            JOptionPane.showMessageDialog(null,"Las contraseñas no coinciden","Confirmar contraseña",2);
+            JOptionPane.showMessageDialog(null,"Las contraseñas no coinciden","Confirmar contraseña",JOptionPane.WARNING_MESSAGE);
             return false;
         }else {
             return true;
@@ -580,7 +585,7 @@ public class Registro extends javax.swing.JFrame {
         
         if (userController.obtenerUsuarioPorEmail(email) != null){
             username_exists = true;
-            JOptionPane.showMessageDialog(null, "Este usuario ya existe en la BBDD", "Email fallido",2);
+            JOptionPane.showMessageDialog(null, "Este usuario ya existe en la BBDD", "Email fallido",JOptionPane.ERROR_MESSAGE);
         }
         
         return username_exists;

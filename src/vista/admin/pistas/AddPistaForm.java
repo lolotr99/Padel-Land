@@ -197,11 +197,11 @@ public class AddPistaForm extends javax.swing.JFrame {
             pista = new Pistas(nombrePista, imageBlob, null);
             long result = pistaController.insertarPista(pista);
             if (result != 0){
-                JOptionPane.showMessageDialog(null, "¡Tu pista ha sido creada correctamente!");
+                JOptionPane.showMessageDialog(null, "¡Tu pista ha sido creada correctamente!","INFO",JOptionPane.INFORMATION_MESSAGE);
                 image_path = null;
                 jTextFieldNombrePista.setText("");
             }else{
-                JOptionPane.showMessageDialog(null, "Error en el registro de la pista, revisa tus datos");
+                JOptionPane.showMessageDialog(null, "Error en el registro de la pista, revisa tus datos","ERROR",JOptionPane.ERROR_MESSAGE);
             }
         }
         if (ManagePistaForm.jTablePistas != null){
