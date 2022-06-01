@@ -15,6 +15,8 @@ import vista.admin.horarios.ManageHorarioForm;
 import vista.admin.users.AddUserForm;
 import vista.admin.pistas.AddPistaForm;
 import vista.admin.pistas.ManagePistaForm;
+import vista.admin.reservas.AddReservasForm;
+import vista.admin.reservas.ManageReservasForm;
 import vista.auth.Login;
 
 
@@ -31,6 +33,7 @@ public class AdminForm extends javax.swing.JFrame {
     ManagePistaForm mpf;
     ManageHorarioForm mhf;
     ManageDiasNoDisponiblesForm mdndf;
+    ManageReservasForm mrf;
     
     public AdminForm() {
         initComponents();
@@ -59,6 +62,8 @@ public class AdminForm extends javax.swing.JFrame {
         jMenuItemAddHorario = new javax.swing.JMenuItem();
         jMenuItemManageHorario = new javax.swing.JMenuItem();
         jMenuReservas = new javax.swing.JMenu();
+        jMenuItemAddReserva = new javax.swing.JMenuItem();
+        jMenuItemManageReserva = new javax.swing.JMenuItem();
         jMenuDiasNoDisponibles = new javax.swing.JMenu();
         jMenuItemAddDias = new javax.swing.JMenuItem();
         jMenuItemGestionDias = new javax.swing.JMenuItem();
@@ -170,6 +175,25 @@ public class AdminForm extends javax.swing.JFrame {
 
         jMenuReservas.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/img/icono-reserva-menubar.png"))); // NOI18N
         jMenuReservas.setText("Reservas");
+
+        jMenuItemAddReserva.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/img/icono-crear.png"))); // NOI18N
+        jMenuItemAddReserva.setText("Añadir");
+        jMenuItemAddReserva.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemAddReservaActionPerformed(evt);
+            }
+        });
+        jMenuReservas.add(jMenuItemAddReserva);
+
+        jMenuItemManageReserva.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/img/icono-gestionar.png"))); // NOI18N
+        jMenuItemManageReserva.setText("Gestionar tramos horarios");
+        jMenuItemManageReserva.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemManageReservaActionPerformed(evt);
+            }
+        });
+        jMenuReservas.add(jMenuItemManageReserva);
+
         jMenuBar1.add(jMenuReservas);
 
         jMenuDiasNoDisponibles.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/img/icono-dianodisponible.png"))); // NOI18N
@@ -303,6 +327,24 @@ public class AdminForm extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jMenuSalirMouseClicked
 
+    private void jMenuItemAddReservaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemAddReservaActionPerformed
+        // TODO add your handling code here:
+        AddReservasForm arf = new AddReservasForm();
+        arf.setVisible(true);
+        arf.setLocationRelativeTo(null);
+        arf.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        arf.pack();
+    }//GEN-LAST:event_jMenuItemAddReservaActionPerformed
+
+    private void jMenuItemManageReservaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemManageReservaActionPerformed
+        // TODO add your handling code here:
+        mrf = new ManageReservasForm();
+        mrf.setVisible(true);
+        mrf.setLocationRelativeTo(null);
+        mrf.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        mrf.pack();
+    }//GEN-LAST:event_jMenuItemManageReservaActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -347,10 +389,12 @@ public class AdminForm extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItemAddDias;
     private javax.swing.JMenuItem jMenuItemAddHorario;
     private javax.swing.JMenuItem jMenuItemAddPista;
+    private javax.swing.JMenuItem jMenuItemAddReserva;
     private javax.swing.JMenuItem jMenuItemAddUser;
     private javax.swing.JMenuItem jMenuItemGestionDias;
     private javax.swing.JMenuItem jMenuItemManageHorario;
     private javax.swing.JMenuItem jMenuItemManagePista;
+    private javax.swing.JMenuItem jMenuItemManageReserva;
     private javax.swing.JMenuItem jMenuItemManageUser;
     private javax.swing.JMenu jMenuPistas;
     private javax.swing.JMenu jMenuReservas;

@@ -64,6 +64,20 @@ public class ReservaController {
         return listaReservasUsuario;
     }
     
+    
+    public List<Reservas> getReservasDesdeHoy(String dia) {
+        List<Reservas> listaReservas = null;
+        iniciarOperacion();
+        try{
+            listaReservas = sesion.createQuery("SELECT r FROM Reservas r , Horarios h WHERE r.horarios.id = h.id AND r.dia >= '"+dia+"'").list();
+        }catch(Exception ex){
+            Logger.getLogger(ReservaController.class.getName()).log(Level.SEVERE,null,ex);
+        }
+        terminarOperacion();
+        return listaReservas;
+    }
+    
+    
     public void deleteReserva(Reservas reserva){
         iniciarOperacion();
         try{
