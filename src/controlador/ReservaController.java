@@ -201,4 +201,17 @@ public class ReservaController {
         terminarOperacion();
         return contador;
     }
+    
+    public int getNumeroReservasSimultaneasUsuario(String email, String dia, String hora){
+        int contador = 0;
+        iniciarOperacion();
+        try{
+            contador+= (long) sesion.createQuery("select count(r) from Reservas r where r.usuarios.email = '"+email+"' and r.dia > '"+dia+"'").uniqueResult();
+            contador+= (long) sesion.createQuery("select count(r) from Reservas r inner join r.horarios h where r.usuarios.email = '"+email+"' and r.dia = '"+dia+"' and h.horaComienzo > '"+hora+"'").uniqueResult();
+        }catch(Exception ex) {
+            Logger.getLogger(ReservaController.class.getName()).log(Level.SEVERE,null,ex);
+        }
+        terminarOperacion();
+        return contador;
+    }
 }

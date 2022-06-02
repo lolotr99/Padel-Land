@@ -10,8 +10,6 @@ import controlador.ReservaController;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-import modelo.Horarios;
-
 /**
  *
  * @author Manolo

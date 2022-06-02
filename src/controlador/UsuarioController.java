@@ -110,6 +110,7 @@ public class UsuarioController {
         return usuario;
     }
     
+    
     public Usuarios obtenerUsuarioPorEmail(String email){
         Usuarios usuario = null;
         iniciarOperacion();

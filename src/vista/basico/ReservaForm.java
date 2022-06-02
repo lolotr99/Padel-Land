@@ -19,7 +19,6 @@ import javax.swing.JOptionPane;
 import modelo.DiasNoDisponibles;
 import modelo.Horarios;
 import modelo.Pistas;
-import modelo.Properties;
 import modelo.Reservas;
 import modelo.Usuarios;
 
@@ -34,7 +33,6 @@ public class ReservaForm extends javax.swing.JFrame {
      */
     
     Usuarios user;
-    Properties propertie;
     ReservaController reservaController;
     DiasNoDisponiblesController diasNoDisponiblesController;
     HorarioController horarioController;

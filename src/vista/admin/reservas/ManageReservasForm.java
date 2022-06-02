@@ -87,6 +87,11 @@ public class ManageReservasForm extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        jTableReservas.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                jTableReservasMousePressed(evt);
+            }
+        });
         jScrollPane1.setViewportView(jTableReservas);
         if (jTableReservas.getColumnModel().getColumnCount() > 0) {
             jTableReservas.getColumnModel().getColumn(0).setResizable(false);
@@ -135,7 +140,7 @@ public class ManageReservasForm extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(0, 226, Short.MAX_VALUE)
+                        .addGap(0, 326, Short.MAX_VALUE)
                         .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -182,6 +187,17 @@ public class ManageReservasForm extends javax.swing.JFrame {
         arf.pack();
     }//GEN-LAST:event_jButton2ActionPerformed
 
+    private void jTableReservasMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableReservasMousePressed
+        // TODO add your handling code here:
+        int column = jTableReservas.getColumnModel().getColumnIndexAtX(evt.getX());
+        int row = evt.getY()/jTableReservas.getRowHeight();
+        if (column == 5){
+            //Modificar
+        }else if (column == 6){
+            //Eliminar
+        }
+    }//GEN-LAST:event_jTableReservasMousePressed
+    
     public void fillTablaReservas(JTable tablaReservas) {
         tablaReservas.setDefaultRenderer(Object.class, new RenderUtil());
         model = new DefaultTableModel(null,new Object[]{"Id","Cliente", "Pista", "Horario","Dia","",""}){
@@ -279,7 +295,7 @@ public class ManageReservasForm extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTableReservas;
+    protected static javax.swing.JTable jTableReservas;
     private javax.swing.JTextField jTextField1;
     // End of variables declaration//GEN-END:variables
 }
