@@ -7,10 +7,14 @@ package vista.basico;
 
 import controlador.PropertiesController;
 import controlador.ReservaController;
+import java.awt.Graphics;
+import java.awt.Image;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import modelo.Properties;
 import modelo.Usuarios;
 import vista.auth.Login;
@@ -28,6 +32,7 @@ public class VistaUsuarioBasicoForm extends javax.swing.JFrame {
     Usuarios user;
     ReservaController reservaController;
     PropertiesController propertieController;
+    ImagenFondo imagenFondo = new ImagenFondo();
     
     public VistaUsuarioBasicoForm() {
         initComponents();
@@ -38,6 +43,8 @@ public class VistaUsuarioBasicoForm extends javax.swing.JFrame {
         reservaController = new ReservaController();
         propertieController = new PropertiesController();
         initComponents();
+        this.setContentPane(imagenFondo);
+        imagenFondo.paint(super.getGraphics());
     }
 
     /**
@@ -49,7 +56,7 @@ public class VistaUsuarioBasicoForm extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel1 = new javax.swing.JPanel();
+        jPanel1 = new ImagenFondo();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenuVerPistas = new javax.swing.JMenu();
         jMenuReservar = new javax.swing.JMenu();
@@ -210,6 +217,19 @@ public class VistaUsuarioBasicoForm extends javax.swing.JFrame {
                 new VistaUsuarioBasicoForm().setVisible(true);
             }
         });
+    }
+    
+    class ImagenFondo extends JPanel{
+        private Image imagen;
+        
+        public void paint(Graphics g){
+            imagen = new ImageIcon(VistaUsuarioBasicoForm.class.getClassLoader().getResource("resources/img/granulado1.png")).getImage();
+            g.drawImage(imagen, 0, 0, getWidth(),getHeight(), this);            
+            setOpaque(false);
+            super.paint(g);
+        }
+        
+        
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
