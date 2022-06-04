@@ -8,6 +8,7 @@ package vista.admin;
 import vista.admin.users.ManageUserForm;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import modelo.Usuarios;
 import vista.admin.diasnodisponibles.AddDiaNoDisponibleForm;
 import vista.admin.diasnodisponibles.ManageDiasNoDisponiblesForm;
 import vista.admin.horarios.AddHorarioForm;
@@ -18,6 +19,7 @@ import vista.admin.pistas.ManagePistaForm;
 import vista.admin.reservas.AddReservasForm;
 import vista.admin.reservas.ManageReservasForm;
 import vista.auth.Login;
+import vista.basico.MiPerfilForm;
 
 
 /**
@@ -34,8 +36,14 @@ public class AdminForm extends javax.swing.JFrame {
     ManageHorarioForm mhf;
     ManageDiasNoDisponiblesForm mdndf;
     ManageReservasForm mrf;
+    Usuarios user;
     
     public AdminForm() {
+        initComponents();
+    }
+    
+    public AdminForm(Usuarios user) {
+        this.user = user;
         initComponents();
     }
 
@@ -67,6 +75,7 @@ public class AdminForm extends javax.swing.JFrame {
         jMenuDiasNoDisponibles = new javax.swing.JMenu();
         jMenuItemAddDias = new javax.swing.JMenuItem();
         jMenuItemGestionDias = new javax.swing.JMenuItem();
+        jMenuMiPerfil = new javax.swing.JMenu();
         jMenuSalir = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -219,6 +228,15 @@ public class AdminForm extends javax.swing.JFrame {
 
         jMenuBar1.add(jMenuDiasNoDisponibles);
 
+        jMenuMiPerfil.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/img/icons8-configuración-del-administrador-40.png"))); // NOI18N
+        jMenuMiPerfil.setText("Ver Perfil");
+        jMenuMiPerfil.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jMenuMiPerfilMouseClicked(evt);
+            }
+        });
+        jMenuBar1.add(jMenuMiPerfil);
+
         jMenuSalir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/img/icono-salir.png"))); // NOI18N
         jMenuSalir.setText("Cerrar");
         jMenuSalir.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -345,6 +363,15 @@ public class AdminForm extends javax.swing.JFrame {
         mrf.pack();
     }//GEN-LAST:event_jMenuItemManageReservaActionPerformed
 
+    private void jMenuMiPerfilMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenuMiPerfilMouseClicked
+        // TODO add your handling code here:
+        MiPerfilForm form = new MiPerfilForm(user);
+        form.setVisible(true);
+        form.pack();
+        form.setLocationRelativeTo(null);
+        form.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+    }//GEN-LAST:event_jMenuMiPerfilMouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -396,6 +423,7 @@ public class AdminForm extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItemManagePista;
     private javax.swing.JMenuItem jMenuItemManageReserva;
     private javax.swing.JMenuItem jMenuItemManageUser;
+    private javax.swing.JMenu jMenuMiPerfil;
     private javax.swing.JMenu jMenuPistas;
     private javax.swing.JMenu jMenuReservas;
     private javax.swing.JMenu jMenuSalir;

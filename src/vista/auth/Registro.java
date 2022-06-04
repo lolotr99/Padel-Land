@@ -478,7 +478,7 @@ public class Registro extends javax.swing.JFrame {
                         //Cerramos el formulario actual
                         this.dispose();
                     }else if (user.getRol().equals("administrador")){
-                        AdminForm af = new AdminForm();
+                        AdminForm af = new AdminForm(user);
                         af.setVisible(true);
                         af.pack();
                         af.setLocationRelativeTo(null);

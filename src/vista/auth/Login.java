@@ -409,7 +409,7 @@ public class Login extends javax.swing.JFrame {
                             //Cerramos el formulario actual
                             this.dispose();
                         }else if (usuario.getRol().equals("administrador")){
-                            AdminForm af = new AdminForm();
+                            AdminForm af = new AdminForm(usuario);
                             af.setVisible(true);
                             af.pack();
                             af.setLocationRelativeTo(null);

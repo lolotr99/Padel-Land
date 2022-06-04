@@ -173,6 +173,8 @@ public class ManageHorarioForm extends javax.swing.JFrame {
                 if (JOptionPane.showConfirmDialog(null, "¿Seguro que quieres eliminar el tramo horario de las "+ jTableHorarios.getModel().getValueAt(row,2)+"?", "WARNING",JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
                     if (reservaController.horarioTieneReservas(Long.valueOf(jTableHorarios.getModel().getValueAt(row,0).toString()))){
                         JOptionPane.showMessageDialog(null,"No se puede eliminar un horario que tiene reservas asociadas","¡NOO!",JOptionPane.ERROR_MESSAGE);
+                    }else{
+                        horarioController.deleteHorario(horarioController.selectHorario(Long.valueOf(jTableHorarios.getModel().getValueAt(row,0).toString())));
                     }
                 }
             }
