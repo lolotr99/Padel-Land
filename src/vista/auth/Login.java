@@ -17,6 +17,7 @@ import javax.swing.JOptionPane;
 import javax.swing.border.Border;
 import modelo.Usuarios;
 import utilidades.CifradoUtil;
+import utilidades.Mailer;
 import vista.basico.VistaUsuarioBasicoForm;
 
 /**
