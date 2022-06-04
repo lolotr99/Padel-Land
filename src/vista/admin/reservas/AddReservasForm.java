@@ -28,6 +28,7 @@ import modelo.Pistas;
 import modelo.Properties;
 import modelo.Reservas;
 import modelo.Usuarios;
+import utilidades.Mailer;
 import utilidades.RenderUtil;
 import static vista.admin.reservas.ManageReservasForm.jTableReservas;
 
@@ -312,6 +313,10 @@ public class AddReservasForm extends javax.swing.JFrame {
             long result = reservaController.insertarReserva(reserva);
             if (result != 0){
                 JOptionPane.showMessageDialog(null,"Reserva añadida correctamente","INFO",JOptionPane.INFORMATION_MESSAGE);
+                Mailer mailer = new Mailer();
+                String diaFormateado = new SimpleDateFormat("dd-MM-yyyy").format(dia);
+                String mensaje = "¡Hola "+user.getNombreCompleto()+"!\nDesde Padel Land te confirmamos la reserva para el día "+diaFormateado+" a las "+horario.getHoraComienzo()+ " en la pista "+pista.getNombrePista()+"\n¡A jugar!";
+                mailer.enviarMail("Asignación de reserva", user.getEmail(), mensaje);
                 if (ManageReservasForm.jTableReservas != null){
                     fillTablaReservas(ManageReservasForm.jTableReservas);
                 }

@@ -22,6 +22,7 @@ import javax.swing.border.Border;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import modelo.Usuarios;
 import utilidades.CifradoUtil;
+import utilidades.Mailer;
 import validator.EmailValidator;
 import vista.admin.AdminForm;
 import vista.basico.VistaUsuarioBasicoForm;
@@ -485,7 +486,9 @@ public class Registro extends javax.swing.JFrame {
                         AdminForm.jLabelBienvenida.setText("<html><body>¡Bienvenido #"+user.getEmail()+"#!<br>Esta es la vista de Administrador de Padel Land</body></html>");
                         this.dispose();
                     }
-                    
+                    Mailer mailer = new Mailer();
+                    String mensaje = "¡Hola " + user.getNombreCompleto()+ "!\nNos complace darte la bienvenida a Padel Land, esperemos que te guste nuestro servicio y que disfrutes de nuestras maravillosas pistas\n¡A jugar!";
+                    mailer.enviarMail("¡Bienvenido a Padel Land!", user.getEmail(), mensaje);
                 }else{
                     JOptionPane.showMessageDialog(null, "Error en el registro, revisa tus datos","ERROR",JOptionPane.ERROR_MESSAGE);
                 }

@@ -21,6 +21,7 @@ import modelo.Horarios;
 import modelo.Pistas;
 import modelo.Reservas;
 import modelo.Usuarios;
+import utilidades.Mailer;
 
 /**
  *
@@ -290,6 +291,10 @@ public class ReservaForm extends javax.swing.JFrame {
                 form.setVisible(true);
                 form.setLocationRelativeTo(null);
                 form.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                Mailer mailer = new Mailer();
+                String diaFormateado = new SimpleDateFormat("dd-MM-yyyy").format(dia);
+                String mensaje = "¡Hola "+user.getNombreCompleto()+"!\nDesde Padel Land te confirmamos la reserva para el día "+diaFormateado+" a las "+horario.getHoraComienzo()+ " en la pista "+pista.getNombrePista()+"\n¡A jugar!";
+                mailer.enviarMail("Confirmación de reserva", user.getEmail(), mensaje);
             }else{
                 JOptionPane.showMessageDialog(null,"Lo sentimos, ha ocurrido un error","ERROR",JOptionPane.ERROR_MESSAGE);
             }

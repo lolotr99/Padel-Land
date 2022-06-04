@@ -20,6 +20,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import modelo.Reservas;
+import utilidades.Mailer;
 import utilidades.RenderUtil;
 
 /**
@@ -184,10 +185,11 @@ public class ManageReservasForm extends javax.swing.JFrame {
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jDateChooserFechaInicio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(jLabel3)
-                                    .addComponent(jLabel2)
-                                    .addComponent(jLabel1))
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                        .addComponent(jLabel3)
+                                        .addComponent(jLabel1)))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                     .addComponent(jDateChooserFechaFin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -235,7 +237,14 @@ public class ManageReservasForm extends javax.swing.JFrame {
                         + jTableReservas.getModel().getValueAt(row,4) + " para el cliente "+ jTableReservas.getModel().getValueAt(row,1) 
                         + " en la pista " + jTableReservas.getModel().getValueAt(row, 2) + "?";
                 if (JOptionPane.showConfirmDialog(null, mensaje, "WARNING",JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
-                    reservaController.deleteReserva(reservaController.selectReserva(Long.valueOf(jTableReservas.getModel().getValueAt(row,0).toString())));
+                    Reservas reserva = reservaController.selectReserva(Long.valueOf(jTableReservas.getModel().getValueAt(row,0).toString()));
+                    String email = usuarioController.selectUsuario(reserva.getUsuarios().getId()).getEmail();
+                    reservaController.deleteReserva(reserva);
+                    String message = "¡Hola "+jTableReservas.getModel().getValueAt(row, 1)+"!\nDesde Padel Land confirmamos que se ha cancelado la reserva en la pista " +jTableReservas.getModel().getValueAt(row, 2)
+                            + " para el día "+ jTableReservas.getModel().getValueAt(row, 4) + " a las " + jTableReservas.getModel().getValueAt(row, 3);
+                    mensaje+="\n ¡Pase usted un buen día!";
+                    Mailer mailer = new Mailer();
+                    mailer.enviarMail("Confirmación de Anulación de reserva", email, message);                    
                     fillTablaReservasFiltro(jTableReservas, "", "", "");
                 }
             }
@@ -331,58 +340,6 @@ public class ManageReservasForm extends javax.swing.JFrame {
         
         jTableReservas.setModel(model);
     }
-    
-    /*public void fillTablaReservas(JTable tablaReservas) {
-        tablaReservas.setDefaultRenderer(Object.class, new RenderUtil());
-        model = new DefaultTableModel(null,new Object[]{"Id","Cliente", "Pista", "Horario","Dia",""}){
-            @Override
-            public boolean isCellEditable(int row, int column){
-                return false;
-            }  
-        };
-        
-        
-        Object[] row;
-        model.setRowCount(0);
-        
-        SimpleDateFormat formatoHora = new SimpleDateFormat("HH:mm");
-        SimpleDateFormat formatoDia = new SimpleDateFormat("dd-MM-yyyy");
-        
-        List<Reservas> listaReservas = reservaController.getReservasDesdeHoy(formatoDia.format(new Date()));
-        
-        for(Reservas reserva : listaReservas){
-            String dia = formatoDia.format(reserva.getDia());
-            String hora = formatoHora.format(horarioController.selectHorario(reserva.getHorarios().getId()).getHoraComienzo());
-            if (reserva.getDia().after(new Date())){
-                row = new Object[6];
-                row[0] = reserva.getId();
-                row[1] = usuarioController.selectUsuario(reserva.getUsuarios().getId()).getNombreCompleto();
-                row[2] = pistaController.selectPista(reserva.getPistas().getId()).getNombrePista();
-                row[3] = hora;
-                row[4] = dia;
-                row[5] = new JButton("Eliminar");
-                model.addRow(row);
-            }else {
-                if (dia.equals(formatoDia.format(new Date())) && LocalTime.now().isBefore(LocalTime.parse(hora))){
-                    row = new Object[6];
-                    row[0] = reserva.getId();
-                    row[1] = usuarioController.selectUsuario(reserva.getUsuarios().getId()).getNombreCompleto();
-                    row[2] = pistaController.selectPista(reserva.getPistas().getId()).getNombrePista();
-                    row[3] = hora;
-                    row[4] = dia;
-                    row[5] = new JButton("Eliminar");
-                    model.addRow(row);
-                }
-            }
-            
-        }
-        
-        tablaReservas.setRowHeight(45);
-        tablaReservas.setGridColor(Color.yellow);
-        tablaReservas.setSelectionBackground(Color.cyan);
-        
-        jTableReservas.setModel(model);
-    }*/
     
     /**
      * @param args the command line arguments

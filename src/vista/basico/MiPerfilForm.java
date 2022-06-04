@@ -31,6 +31,7 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import modelo.Reservas;
 import modelo.Usuarios;
+import utilidades.Mailer;
 import utilidades.RenderUtil;
 
 /**
@@ -361,6 +362,11 @@ public class MiPerfilForm extends javax.swing.JFrame {
                 if (JOptionPane.showConfirmDialog(null, "¿Seguro que quieres eliminar la reserva del día "+ jTableReservasUser.getModel().getValueAt(row,3) + " a las " + jTableReservasUser.getModel().getValueAt(row,2) +" en la pista " + jTableReservasUser.getModel().getValueAt(row,1) + "?", "WARNING",JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
                     Reservas reserva = reservaController.selectReserva(Long.valueOf(jTableReservasUser.getModel().getValueAt(row,0).toString()));
                     reservaController.deleteReserva(reserva);
+                    String mensaje = "¡Hola "+user.getNombreCompleto()+"!\nDesde Padel Land confirmamos que se ha cancelado la reserva en la pista " +jTableReservasUser.getModel().getValueAt(row, 1)
+                            + " para el día "+ jTableReservasUser.getModel().getValueAt(row, 3) + " a las " + jTableReservasUser.getModel().getValueAt(row, 2);
+                    mensaje+="\n ¡Pase usted un buen día!";
+                    Mailer mailer = new Mailer();
+                    mailer.enviarMail("Confirmación de Anulación de reserva", user.getEmail(), mensaje);
                     fillTablaReservas(jTableReservasUser, user.getId());
                 }
             }
