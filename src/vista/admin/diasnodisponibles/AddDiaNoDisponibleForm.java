@@ -11,6 +11,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import javax.swing.JOptionPane;
 import modelo.DiasNoDisponibles;
+import utilidades.ImagenFondo;
 
 /**
  *
@@ -39,7 +40,7 @@ public class AddDiaNoDisponibleForm extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel1 = new javax.swing.JPanel();
+        jPanel1 = new ImagenFondo();
         jLabel1 = new javax.swing.JLabel();
         jCalendar = new com.toedter.calendar.JCalendar();
         jButtonCancelar = new javax.swing.JButton();
@@ -47,8 +48,6 @@ public class AddDiaNoDisponibleForm extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Añadir dia no disponible");
-
-        jPanel1.setBackground(new java.awt.Color(23, 255, 108));
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 28)); // NOI18N
         jLabel1.setText("Nuevo día no disponible");

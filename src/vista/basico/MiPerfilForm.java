@@ -31,6 +31,7 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import modelo.Reservas;
 import modelo.Usuarios;
+import utilidades.ImagenFondo;
 import utilidades.Mailer;
 import utilidades.RenderUtil;
 
@@ -119,10 +120,22 @@ public class MiPerfilForm extends javax.swing.JFrame {
             row[2] = hora;
             row[3] = dia;
             if (reserva.getDia().after(new Date())){
-                row[4] = new JButton("Anular reserva");
+                Image imgEliminar = null;
+                try {
+                    imgEliminar = ImageIO.read(MiPerfilForm.class.getClassLoader().getResource("resources/img/icono-borrar.png"));
+                } catch (IOException ex) {
+                    Logger.getLogger(MiPerfilForm.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                row[4] = new JButton("Anular", new ImageIcon(imgEliminar));
             }else{
                 if (dia.equals(diaActual) && LocalTime.now().isBefore(LocalTime.parse(hora))){
-                    row[4] = new JButton("Anular reserva");
+                    Image imgEliminar = null;
+                    try {
+                        imgEliminar = ImageIO.read(MiPerfilForm.class.getClassLoader().getResource("resources/img/icono-borrar.png"));
+                    } catch (IOException ex) {
+                        Logger.getLogger(MiPerfilForm.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    row[4] = new JButton("Anular", new ImageIcon(imgEliminar));
                 }
             }
             model.addRow(row);
@@ -143,104 +156,22 @@ public class MiPerfilForm extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel1 = new javax.swing.JPanel();
-        jPanelImagenUser = new javax.swing.JPanel();
+        jPanel1 = new ImagenFondo();
+        jSeparator1 = new javax.swing.JSeparator();
         imgUsuario = new javax.swing.JLabel();
-        jPanelDatosUser = new javax.swing.JPanel();
+        jLabel2 = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTableReservasUser = new javax.swing.JTable();
         jLabel1 = new javax.swing.JLabel();
         jSeparator2 = new javax.swing.JSeparator();
         jLabelEmail = new javax.swing.JLabel();
         jLabelNombreCompleto = new javax.swing.JLabel();
         jButtonEditarPerfil = new javax.swing.JButton();
         jLabelNTelefono = new javax.swing.JLabel();
-        jSeparator1 = new javax.swing.JSeparator();
-        jPanelHistorialReservasUser = new javax.swing.JPanel();
-        jLabel2 = new javax.swing.JLabel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTableReservasUser = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("PADEL LAND - Vista de usuario");
         setResizable(false);
-
-        jPanel1.setBackground(new java.awt.Color(23, 255, 108));
-
-        jPanelImagenUser.setBackground(new java.awt.Color(23, 255, 108));
-
-        javax.swing.GroupLayout jPanelImagenUserLayout = new javax.swing.GroupLayout(jPanelImagenUser);
-        jPanelImagenUser.setLayout(jPanelImagenUserLayout);
-        jPanelImagenUserLayout.setHorizontalGroup(
-            jPanelImagenUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(imgUsuario, javax.swing.GroupLayout.DEFAULT_SIZE, 180, Short.MAX_VALUE)
-        );
-        jPanelImagenUserLayout.setVerticalGroup(
-            jPanelImagenUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(imgUsuario, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
-
-        jPanelDatosUser.setBackground(new java.awt.Color(23, 255, 108));
-
-        jLabel1.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        jLabel1.setText("DATOS DEL USUARIO");
-
-        jLabelEmail.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/img/icono-nombre-usuario.png"))); // NOI18N
-        jLabelEmail.setText("email");
-
-        jLabelNombreCompleto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/img/icono-nombre-completo.png"))); // NOI18N
-        jLabelNombreCompleto.setText("nombre completo");
-
-        jButtonEditarPerfil.setText("Editar perfil");
-        jButtonEditarPerfil.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonEditarPerfilActionPerformed(evt);
-            }
-        });
-
-        jLabelNTelefono.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/img/icons8-phone-50.png"))); // NOI18N
-        jLabelNTelefono.setText("nº telefono");
-
-        javax.swing.GroupLayout jPanelDatosUserLayout = new javax.swing.GroupLayout(jPanelDatosUser);
-        jPanelDatosUser.setLayout(jPanelDatosUserLayout);
-        jPanelDatosUserLayout.setHorizontalGroup(
-            jPanelDatosUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jSeparator2)
-            .addGroup(jPanelDatosUserLayout.createSequentialGroup()
-                .addGroup(jPanelDatosUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanelDatosUserLayout.createSequentialGroup()
-                        .addGap(122, 122, 122)
-                        .addComponent(jButtonEditarPerfil, javax.swing.GroupLayout.PREFERRED_SIZE, 202, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanelDatosUserLayout.createSequentialGroup()
-                        .addGap(19, 19, 19)
-                        .addComponent(jLabel1))
-                    .addGroup(jPanelDatosUserLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(jPanelDatosUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabelEmail)
-                            .addGroup(jPanelDatosUserLayout.createSequentialGroup()
-                                .addComponent(jLabelNombreCompleto)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 157, Short.MAX_VALUE)
-                                .addComponent(jLabelNTelefono)))))
-                .addGap(52, 52, 52))
-        );
-        jPanelDatosUserLayout.setVerticalGroup(
-            jPanelDatosUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanelDatosUserLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanelDatosUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabelNombreCompleto)
-                    .addComponent(jLabelNTelefono))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabelEmail)
-                .addGap(7, 7, 7)
-                .addComponent(jButtonEditarPerfil, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
-        );
-
-        jPanelHistorialReservasUser.setBackground(new java.awt.Color(23, 255, 108));
 
         jLabel2.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         jLabel2.setText("Historial de reservas de " + user.getNombreCompleto());
@@ -261,11 +192,6 @@ public class MiPerfilForm extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        jTableReservasUser.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mousePressed(java.awt.event.MouseEvent evt) {
-                jTableReservasUserMousePressed(evt);
-            }
-        });
         jScrollPane1.setViewportView(jTableReservasUser);
         if (jTableReservasUser.getColumnModel().getColumnCount() > 0) {
             jTableReservasUser.getColumnModel().getColumn(0).setResizable(false);
@@ -275,28 +201,20 @@ public class MiPerfilForm extends javax.swing.JFrame {
             jTableReservasUser.getColumnModel().getColumn(4).setResizable(false);
         }
 
-        javax.swing.GroupLayout jPanelHistorialReservasUserLayout = new javax.swing.GroupLayout(jPanelHistorialReservasUser);
-        jPanelHistorialReservasUser.setLayout(jPanelHistorialReservasUserLayout);
-        jPanelHistorialReservasUserLayout.setHorizontalGroup(
-            jPanelHistorialReservasUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanelHistorialReservasUserLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanelHistorialReservasUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1)
-                    .addGroup(jPanelHistorialReservasUserLayout.createSequentialGroup()
-                        .addComponent(jLabel2)
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addContainerGap())
-        );
-        jPanelHistorialReservasUserLayout.setVerticalGroup(
-            jPanelHistorialReservasUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanelHistorialReservasUserLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel2)
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
+        jLabel1.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        jLabel1.setText("DATOS DEL USUARIO");
+
+        jLabelEmail.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/img/icono-nombre-usuario.png"))); // NOI18N
+        jLabelEmail.setText("email");
+
+        jLabelNombreCompleto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/img/icono-nombre-completo.png"))); // NOI18N
+        jLabelNombreCompleto.setText("nombre completo");
+
+        jButtonEditarPerfil.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/img/icono-actualizar.png"))); // NOI18N
+        jButtonEditarPerfil.setText("Editar perfil");
+
+        jLabelNTelefono.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/img/icons8-phone-50.png"))); // NOI18N
+        jLabelNTelefono.setText("nº telefono");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -306,25 +224,63 @@ public class MiPerfilForm extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanelHistorialReservasUser, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addGroup(jPanel1Layout.createSequentialGroup()
+                            .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 440, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addContainerGap())
+                        .addGroup(jPanel1Layout.createSequentialGroup()
+                            .addComponent(jLabelNombreCompleto)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabelNTelefono)
+                            .addGap(42, 42, 42)))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jPanelImagenUser, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jPanelDatosUser, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                .addContainerGap())
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane1)
+                            .addComponent(jLabelEmail, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 440, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel2)
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addGap(9, 9, 9)
+                                        .addComponent(imgUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                                .addGap(177, 177, 177)
+                                                .addComponent(jLabel1))
+                                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                                .addGap(183, 183, 183)
+                                                .addComponent(jButtonEditarPerfil)))))
+                                .addGap(0, 182, Short.MAX_VALUE)))
+                        .addContainerGap())))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jPanelImagenUser, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanelDatosUser, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(18, 18, 18)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addGap(21, 21, 21)
+                        .addComponent(jLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabelNombreCompleto)
+                            .addComponent(jLabelNTelefono))
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabelEmail)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jButtonEditarPerfil)
+                        .addGap(6, 6, 6))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addGap(4, 4, 4)
+                        .addComponent(imgUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)))
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanelHistorialReservasUser, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+                .addGap(3, 3, 3)
+                .addComponent(jLabel2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(17, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -340,38 +296,6 @@ public class MiPerfilForm extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void jButtonEditarPerfilActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEditarPerfilActionPerformed
-        // TODO add your handling code here:
-        EditarPerfilForm form = new EditarPerfilForm(user);
-        form.setVisible(true);
-        form.pack();
-        form.setLocationRelativeTo(null);
-        form.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-    }//GEN-LAST:event_jButtonEditarPerfilActionPerformed
-
-    private void jTableReservasUserMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableReservasUserMousePressed
-        // TODO add your handling code here:
-        int column = jTableReservasUser.getColumnModel().getColumnIndexAtX(evt.getX());
-        int row = evt.getY()/jTableReservasUser.getRowHeight();
-        if (column == 4) {
-            Object value = jTableReservasUser.getValueAt(row, column);
-            if (value instanceof JButton) {
-                ((JButton) value).doClick();
-                fillTablaReservas(jTableReservasUser, user.getId());
-                if (JOptionPane.showConfirmDialog(null, "¿Seguro que quieres eliminar la reserva del día "+ jTableReservasUser.getModel().getValueAt(row,3) + " a las " + jTableReservasUser.getModel().getValueAt(row,2) +" en la pista " + jTableReservasUser.getModel().getValueAt(row,1) + "?", "WARNING",JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
-                    Reservas reserva = reservaController.selectReserva(Long.valueOf(jTableReservasUser.getModel().getValueAt(row,0).toString()));
-                    reservaController.deleteReserva(reserva);
-                    String mensaje = "¡Hola "+user.getNombreCompleto()+"!\nDesde Padel Land confirmamos que se ha cancelado la reserva en la pista " +jTableReservasUser.getModel().getValueAt(row, 1)
-                            + " para el día "+ jTableReservasUser.getModel().getValueAt(row, 3) + " a las " + jTableReservasUser.getModel().getValueAt(row, 2);
-                    mensaje+="\n ¡Pase usted un buen día!";
-                    Mailer mailer = new Mailer();
-                    mailer.enviarMail("Confirmación de Anulación de reserva", user.getEmail(), mensaje);
-                    fillTablaReservas(jTableReservasUser, user.getId());
-                }
-            }
-        }
-    }//GEN-LAST:event_jTableReservasUserMousePressed
 
     /**
      * @param args the command line arguments
@@ -418,9 +342,6 @@ public class MiPerfilForm extends javax.swing.JFrame {
     protected static javax.swing.JLabel jLabelNTelefono;
     protected static javax.swing.JLabel jLabelNombreCompleto;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanelDatosUser;
-    private javax.swing.JPanel jPanelHistorialReservasUser;
-    private javax.swing.JPanel jPanelImagenUser;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;

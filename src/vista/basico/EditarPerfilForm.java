@@ -24,6 +24,7 @@ import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import modelo.Usuarios;
 import utilidades.CifradoUtil;
+import utilidades.ImagenFondo;
 import vista.admin.users.AddUserForm;
 import static vista.basico.MiPerfilForm.imgUsuario;
 
@@ -66,7 +67,7 @@ public class EditarPerfilForm extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel1 = new javax.swing.JPanel();
+        jPanel1 = new ImagenFondo();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
@@ -84,8 +85,6 @@ public class EditarPerfilForm extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("PadelLand - Editar perfil");
-
-        jPanel1.setBackground(new java.awt.Color(23, 255, 108));
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 28)); // NOI18N
         jLabel1.setText("Editar perfil");
@@ -152,18 +151,19 @@ public class EditarPerfilForm extends javax.swing.JFrame {
                             .addComponent(jLabel4)
                             .addComponent(jLabel3)
                             .addComponent(jLabel5)
-                            .addComponent(jLabel6)
-                            .addComponent(jLabelRutaImagen))
+                            .addComponent(jLabel6))
                         .addGap(45, 45, 45)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jTextFieldEmail, javax.swing.GroupLayout.DEFAULT_SIZE, 205, Short.MAX_VALUE)
-                            .addComponent(jTextFieldTelefono, javax.swing.GroupLayout.DEFAULT_SIZE, 205, Short.MAX_VALUE)
-                            .addComponent(jTextFieldNombreCompleto, javax.swing.GroupLayout.DEFAULT_SIZE, 205, Short.MAX_VALUE)
-                            .addComponent(jPasswordField)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jButtonElegirImagen, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jButtonQuitarImagen, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabelRutaImagen)
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(jTextFieldEmail, javax.swing.GroupLayout.DEFAULT_SIZE, 205, Short.MAX_VALUE)
+                                .addComponent(jTextFieldTelefono, javax.swing.GroupLayout.DEFAULT_SIZE, 205, Short.MAX_VALUE)
+                                .addComponent(jTextFieldNombreCompleto, javax.swing.GroupLayout.DEFAULT_SIZE, 205, Short.MAX_VALUE)
+                                .addComponent(jPasswordField)
+                                .addGroup(jPanel1Layout.createSequentialGroup()
+                                    .addComponent(jButtonElegirImagen, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jButtonQuitarImagen, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))))))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addGap(0, 167, Short.MAX_VALUE)
@@ -197,9 +197,9 @@ public class EditarPerfilForm extends javax.swing.JFrame {
                             .addComponent(jButtonElegirImagen)
                             .addComponent(jButtonQuitarImagen)
                             .addComponent(jLabel6))))
-                .addGap(35, 35, 35)
+                .addGap(18, 18, 18)
                 .addComponent(jLabelRutaImagen)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 40, Short.MAX_VALUE)
                 .addComponent(jButtonAnadir, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(29, 29, 29))
         );
@@ -241,7 +241,7 @@ public class EditarPerfilForm extends javax.swing.JFrame {
         if (filestate == JFileChooser.APPROVE_OPTION){
             File selectedImage = chooser.getSelectedFile();
             path = selectedImage.getAbsolutePath();
-            jLabelRutaImagen.setText(path);
+            jLabelRutaImagen.setText("Imagen Seleccionada");
 
             img_path = path;
         }

@@ -6,9 +6,13 @@
 package controlador;
 
 import java.awt.Color;
+import java.awt.Image;
+import java.io.IOException;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
@@ -17,6 +21,8 @@ import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import utilidades.NewHibernateUtil;
 import utilidades.RenderUtil;
+import vista.admin.reservas.ManageReservasForm;
+import vista.basico.MiPerfilForm;
 
 /**
  *
@@ -117,7 +123,13 @@ public class HorarioController {
             row[0] = horario.getId();
             row[1] = horario.getTurno();
             row[2] = horario.getHoraComienzo();
-            row[3] = new JButton("Eliminar");
+            Image imgEliminar = null;
+            try {
+                imgEliminar = ImageIO.read(HorarioController.class.getClassLoader().getResource("resources/img/icono-borrar.png"));
+            } catch (IOException ex) {
+                Logger.getLogger(HorarioController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            row[3] = new JButton(new ImageIcon(imgEliminar));            
             model.addRow(row);
         }
         

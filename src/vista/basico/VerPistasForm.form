@@ -36,11 +36,9 @@
   </Layout>
   <SubComponents>
     <Container class="javax.swing.JPanel" name="jPanel1">
-      <Properties>
-        <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-          <Color blue="6c" green="ff" red="12" type="rgb"/>
-        </Property>
-      </Properties>
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new ImagenFondo()"/>
+      </AuxValues>
 
       <Layout>
         <DimensionLayout dim="0">
@@ -86,11 +84,9 @@
           </Properties>
         </Component>
         <Container class="javax.swing.JPanel" name="jPanel2">
-          <Properties>
-            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color blue="6c" green="ff" red="19" type="rgb"/>
-            </Property>
-          </Properties>
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new ImagenFondo()"/>
+          </AuxValues>
 
           <Layout>
             <DimensionLayout dim="0">
@@ -109,7 +105,7 @@
             <DimensionLayout dim="1">
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="1" attributes="0">
-                      <EmptySpace pref="35" max="32767" attributes="0"/>
+                      <EmptySpace pref="31" max="32767" attributes="0"/>
                       <Component id="jLabelNombrePista" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Component id="jLabelImagenPista" min="-2" pref="274" max="-2" attributes="0"/>
@@ -130,11 +126,9 @@
           </SubComponents>
         </Container>
         <Container class="javax.swing.JPanel" name="jPanel3">
-          <Properties>
-            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color blue="6c" green="ff" red="19" type="rgb"/>
-            </Property>
-          </Properties>
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new ImagenFondo()"/>
+          </AuxValues>
 
           <Layout>
             <DimensionLayout dim="0">
@@ -152,7 +146,7 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
                       <Group type="103" groupAlignment="1" max="-2" attributes="0">
-                          <Component id="jButtonSiguiente" alignment="0" pref="45" max="32767" attributes="0"/>
+                          <Component id="jButtonSiguiente" alignment="0" max="32767" attributes="0"/>
                           <Component id="jButtonAnterior" alignment="0" max="32767" attributes="0"/>
                       </Group>
                       <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
@@ -163,7 +157,9 @@
           <SubComponents>
             <Component class="javax.swing.JButton" name="jButtonAnterior">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Anterior"/>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="3" name="/resources/img/icons8-saltar-a-inicio-30.png"/>
+                </Property>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonAnteriorActionPerformed"/>
@@ -171,7 +167,9 @@
             </Component>
             <Component class="javax.swing.JButton" name="jButtonSiguiente">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Siguiente"/>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="3" name="/resources/img/icons8-fin-30.png"/>
+                </Property>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonSiguienteActionPerformed"/>

@@ -12,6 +12,7 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import modelo.DiasNoDisponibles;
 import modelo.Properties;
+import utilidades.ImagenFondo;
 
 
 /**
@@ -46,7 +47,7 @@ public class ManageDiasNoDisponiblesForm extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel1 = new javax.swing.JPanel();
+        jPanel1 = new ImagenFondo();
         jLabel1 = new javax.swing.JLabel();
         jTextFieldNumeroReservasSimultaneas = new javax.swing.JTextField();
         jButtonAcutalizarReservasSimultaneas = new javax.swing.JButton();
@@ -57,8 +58,6 @@ public class ManageDiasNoDisponiblesForm extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Gestión de días no disponibles");
-
-        jPanel1.setBackground(new java.awt.Color(23, 255, 108));
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel1.setText("Número de reservas simúltaneas:");

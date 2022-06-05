@@ -244,7 +244,6 @@ public class Registro extends javax.swing.JFrame {
         });
 
         jLabelRutaImagen.setFont(new java.awt.Font("Sylfaen", 0, 11)); // NOI18N
-        jLabelRutaImagen.setText("Ruta de imagen");
 
         jPasswordField.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
 
@@ -522,7 +521,7 @@ public class Registro extends javax.swing.JFrame {
         if (filestate == JFileChooser.APPROVE_OPTION){
             File selectedImage = chooser.getSelectedFile();
             path = selectedImage.getAbsolutePath();
-            jLabelRutaImagen.setText(path);
+            jLabelRutaImagen.setText("Imagen seleccionada");
             
             image_path = path;
         }
@@ -531,7 +530,7 @@ public class Registro extends javax.swing.JFrame {
     private void jButtonQuitarImagenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonQuitarImagenActionPerformed
         // TODO add your handling code here:
         image_path = null;
-        jLabelRutaImagen.setText("Ruta de imagen");
+        jLabelRutaImagen.setText("");
     }//GEN-LAST:event_jButtonQuitarImagenActionPerformed
 
     private void jLabelIniciaSesionMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabelIniciaSesionMouseClicked

@@ -225,11 +225,9 @@
   </Layout>
   <SubComponents>
     <Container class="javax.swing.JPanel" name="jPanelContent">
-      <Properties>
-        <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-          <Color blue="6c" green="ff" red="17" type="rgb"/>
-        </Property>
-      </Properties>
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new ImagenFondo()"/>
+      </AuxValues>
 
       <Layout>
         <DimensionLayout dim="0">
@@ -265,7 +263,7 @@
         <Component class="javax.swing.JLabel" name="jLabel1">
           <Properties>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/resources/img/logo-color.png"/>
+              <Image iconType="3" name="/resources/img/logoSinFondo.png"/>
             </Property>
           </Properties>
         </Component>

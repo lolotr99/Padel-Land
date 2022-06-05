@@ -6,9 +6,13 @@
 package controlador;
 
 import java.awt.Color;
+import java.awt.Image;
+import java.io.IOException;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
@@ -117,7 +121,13 @@ public class DiasNoDisponiblesController {
             row = new Object[3];
             row[0] = dia.getId();
             row[1] = dia.getDia();
-            row[2] = new JButton("Eliminar");
+            Image imgEliminar = null;
+            try {
+                imgEliminar = ImageIO.read(DiasNoDisponiblesController.class.getClassLoader().getResource("resources/img/icono-borrar.png"));
+            } catch (IOException ex) {
+                Logger.getLogger(DiasNoDisponiblesController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            row[2] = new JButton(new ImageIcon(imgEliminar));          
             model.addRow(row);
         }
         

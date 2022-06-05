@@ -56,7 +56,7 @@ public class ReservaController {
         List<Reservas> listaReservasUsuario = null;
         iniciarOperacion();
         try{
-            listaReservasUsuario = sesion.createQuery("select r from Reservas r, Usuarios u, Pistas p, Horarios h WHERE u.id = r.usuarios.id AND p.id = r.pistas.id AND h.id = r.horarios.id AND u.id='"+idUsuario+"' ORDER BY r.dia ASC, h.horaComienzo ASC").list();
+            listaReservasUsuario = sesion.createQuery("select r from Reservas r, Usuarios u, Pistas p, Horarios h WHERE u.id = r.usuarios.id AND p.id = r.pistas.id AND h.id = r.horarios.id AND u.id='"+idUsuario+"' ORDER BY r.dia DESC, h.horaComienzo ASC").list();
         }catch(Exception ex){
             Logger.getLogger(ReservaController.class.getName()).log(Level.SEVERE,null,ex);
         }

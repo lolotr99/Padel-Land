@@ -19,6 +19,7 @@ import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import modelo.Pistas;
+import utilidades.ImagenFondo;
 
 /**
  *
@@ -96,12 +97,12 @@ public class VerPistasForm extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel1 = new javax.swing.JPanel();
+        jPanel1 = new ImagenFondo();
         jLabel1 = new javax.swing.JLabel();
-        jPanel2 = new javax.swing.JPanel();
+        jPanel2 = new ImagenFondo();
         jLabelImagenPista = new javax.swing.JLabel();
         jLabelNombrePista = new javax.swing.JLabel();
-        jPanel3 = new javax.swing.JPanel();
+        jPanel3 = new ImagenFondo();
         jButtonAnterior = new javax.swing.JButton();
         jButtonSiguiente = new javax.swing.JButton();
 
@@ -109,12 +110,8 @@ public class VerPistasForm extends javax.swing.JFrame {
         setTitle("Padel Land - Carrusel de pistas");
         setResizable(false);
 
-        jPanel1.setBackground(new java.awt.Color(18, 255, 108));
-
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel1.setText("PISTAS DE PADEL LAND");
-
-        jPanel2.setBackground(new java.awt.Color(25, 255, 108));
 
         jLabelNombrePista.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
 
@@ -133,22 +130,20 @@ public class VerPistasForm extends javax.swing.JFrame {
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addContainerGap(35, Short.MAX_VALUE)
+                .addContainerGap(31, Short.MAX_VALUE)
                 .addComponent(jLabelNombrePista)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabelImagenPista, javax.swing.GroupLayout.PREFERRED_SIZE, 274, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
-        jPanel3.setBackground(new java.awt.Color(25, 255, 108));
-
-        jButtonAnterior.setText("Anterior");
+        jButtonAnterior.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/img/icons8-saltar-a-inicio-30.png"))); // NOI18N
         jButtonAnterior.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonAnteriorActionPerformed(evt);
             }
         });
 
-        jButtonSiguiente.setText("Siguiente");
+        jButtonSiguiente.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/img/icons8-fin-30.png"))); // NOI18N
         jButtonSiguiente.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonSiguienteActionPerformed(evt);
@@ -170,7 +165,7 @@ public class VerPistasForm extends javax.swing.JFrame {
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(jButtonSiguiente, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 45, Short.MAX_VALUE)
+                    .addComponent(jButtonSiguiente, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jButtonAnterior, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(0, 0, Short.MAX_VALUE))
         );

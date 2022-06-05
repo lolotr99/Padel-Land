@@ -10,6 +10,7 @@ import modelo.Properties;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.SpinnerNumberModel;
+import utilidades.ImagenFondo;
 
 /**
  *
@@ -49,15 +50,13 @@ public class ModifyReservasSimultaneas extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel1 = new javax.swing.JPanel();
+        jPanel1 = new ImagenFondo();
         jLabel1 = new javax.swing.JLabel();
         jButtonActualizar = new javax.swing.JButton();
         jSpinnerLimiteReservas = new javax.swing.JSpinner();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Modificar LImite Reservas");
-
-        jPanel1.setBackground(new java.awt.Color(23, 255, 108));
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel1.setText("Límite de reservas:");

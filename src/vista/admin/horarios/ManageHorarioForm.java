@@ -10,6 +10,7 @@ import controlador.ReservaController;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import utilidades.ImagenFondo;
 /**
  *
  * @author Manolo
@@ -39,8 +40,8 @@ public class ManageHorarioForm extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel1 = new javax.swing.JPanel();
-        jPanel2 = new javax.swing.JPanel();
+        jPanel1 = new ImagenFondo();
+        jPanel2 = new ImagenFondo();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTableHorarios = new javax.swing.JTable();
         jLabel1 = new javax.swing.JLabel();
@@ -49,10 +50,6 @@ public class ManageHorarioForm extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Gestión de tramos horarios");
         setResizable(false);
-
-        jPanel1.setBackground(new java.awt.Color(23, 255, 108));
-
-        jPanel2.setBackground(new java.awt.Color(23, 255, 108));
 
         jTableHorarios.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {

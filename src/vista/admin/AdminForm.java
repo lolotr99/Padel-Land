@@ -9,6 +9,7 @@ import vista.admin.users.ManageUserForm;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import modelo.Usuarios;
+import utilidades.ImagenFondo;
 import vista.admin.diasnodisponibles.AddDiaNoDisponibleForm;
 import vista.admin.diasnodisponibles.ManageDiasNoDisponiblesForm;
 import vista.admin.horarios.AddHorarioForm;
@@ -56,7 +57,7 @@ public class AdminForm extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanelContent = new javax.swing.JPanel();
+        jPanelContent = new ImagenFondo();
         jLabel1 = new javax.swing.JLabel();
         jLabelBienvenida = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
@@ -82,9 +83,7 @@ public class AdminForm extends javax.swing.JFrame {
         setTitle("Panel de Administrador");
         setResizable(false);
 
-        jPanelContent.setBackground(new java.awt.Color(23, 255, 108));
-
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/img/logo-color.png"))); // NOI18N
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/img/logoSinFondo.png"))); // NOI18N
 
         jLabelBienvenida.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabelBienvenida.setText("<html><body>¡Bienvenido <####>! <br>Esta es la vista de Administrador de Padel Land</body></html>");

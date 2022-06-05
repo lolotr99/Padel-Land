@@ -28,6 +28,7 @@ import modelo.Pistas;
 import modelo.Properties;
 import modelo.Reservas;
 import modelo.Usuarios;
+import utilidades.ImagenFondo;
 import utilidades.Mailer;
 import utilidades.RenderUtil;
 import static vista.admin.reservas.ManageReservasForm.jTableReservas;
@@ -81,13 +82,13 @@ public class AddReservasForm extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel1 = new javax.swing.JPanel();
-        jPanel2 = new javax.swing.JPanel();
+        jPanel1 = new ImagenFondo();
+        jPanel2 = new ImagenFondo();
         jLabel1 = new javax.swing.JLabel();
         jDateChooserCita = new com.toedter.calendar.JDateChooser();
         jLabel4 = new javax.swing.JLabel();
         jComboBoxEmailUser = new javax.swing.JComboBox<>();
-        jPanel3 = new javax.swing.JPanel();
+        jPanel3 = new ImagenFondo();
         jLabel2 = new javax.swing.JLabel();
         jComboBoxHorario = new javax.swing.JComboBox<>();
         jLabel3 = new javax.swing.JLabel();
@@ -97,10 +98,6 @@ public class AddReservasForm extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Añadir Reserva");
         setResizable(false);
-
-        jPanel1.setBackground(new java.awt.Color(23, 255, 108));
-
-        jPanel2.setBackground(new java.awt.Color(23, 255, 108));
 
         jLabel1.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
         jLabel1.setText("Elige el día de la cita");
@@ -141,8 +138,6 @@ public class AddReservasForm extends javax.swing.JFrame {
                 .addComponent(jDateChooserCita, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
-
-        jPanel3.setBackground(new java.awt.Color(23, 255, 108));
 
         jLabel2.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
         jLabel2.setText("Elige la pista");

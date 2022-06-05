@@ -17,6 +17,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import modelo.Properties;
 import modelo.Usuarios;
+import utilidades.ImagenFondo;
 import vista.auth.Login;
 
 /**
@@ -32,8 +33,7 @@ public class VistaUsuarioBasicoForm extends javax.swing.JFrame {
     Usuarios user;
     ReservaController reservaController;
     PropertiesController propertieController;
-    ImagenFondo imagenFondo = new ImagenFondo();
-    
+        
     public VistaUsuarioBasicoForm() {
         initComponents();
     }
@@ -43,8 +43,6 @@ public class VistaUsuarioBasicoForm extends javax.swing.JFrame {
         reservaController = new ReservaController();
         propertieController = new PropertiesController();
         initComponents();
-        this.setContentPane(imagenFondo);
-        imagenFondo.paint(super.getGraphics());
     }
 
     /**
@@ -65,8 +63,7 @@ public class VistaUsuarioBasicoForm extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Vista de usuario");
-
-        jPanel1.setBackground(new java.awt.Color(23, 255, 108));
+        setResizable(false);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -217,19 +214,6 @@ public class VistaUsuarioBasicoForm extends javax.swing.JFrame {
                 new VistaUsuarioBasicoForm().setVisible(true);
             }
         });
-    }
-    
-    class ImagenFondo extends JPanel{
-        private Image imagen;
-        
-        public void paint(Graphics g){
-            imagen = new ImageIcon(VistaUsuarioBasicoForm.class.getClassLoader().getResource("resources/img/granulado1.png")).getImage();
-            g.drawImage(imagen, 0, 0, getWidth(),getHeight(), this);            
-            setOpaque(false);
-            super.paint(g);
-        }
-        
-        
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
