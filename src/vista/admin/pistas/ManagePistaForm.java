@@ -23,7 +23,6 @@ import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import modelo.Pistas;
-import modelo.Reservas;
 import utilidades.ImagenFondo;
 
 /**
@@ -75,7 +74,7 @@ public class ManagePistaForm extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("Gestion de Pistas");
+        setTitle("Padel Land - Gestion de Pistas");
         setResizable(false);
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 28)); // NOI18N
@@ -296,7 +295,7 @@ public class ManagePistaForm extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "No se ha seleccionado ninguna pista","WARNING", JOptionPane.WARNING_MESSAGE);
         }else{
             Pistas pista = pistaController.selectPista(Integer.valueOf(id));
-            if (JOptionPane.showConfirmDialog(null, "¿Seguro que quieres eliminar la pista con id "+id+"?", "WARNING",JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+            if (JOptionPane.showConfirmDialog(null, "¿Seguro que quieres eliminar la pista '"+pista.getNombrePista()+"' ?","WARNING",JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
                 if (reservaController.pistaTieneReservas(Long.valueOf(id))){
                     JOptionPane.showMessageDialog(null,"No se puede eliminar una pista que tiene reservas asociadas","¡NOO!",JOptionPane.ERROR_MESSAGE);
                 }else{
@@ -346,7 +345,7 @@ public class ManagePistaForm extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Pista modificada correctamente","INFO",JOptionPane.INFORMATION_MESSAGE);
             pistaController.fillPistasJTable(jTablePistas, "");
         } else{
-            JOptionPane.showMessageDialog(null,"No se ha seleccionado ninguna pista","Error al actualizar",JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null,"No se ha seleccionado ninguna pista","WARNING",JOptionPane.WARNING_MESSAGE);
         }
     }//GEN-LAST:event_jButtonActualizarActionPerformed
 
@@ -359,8 +358,8 @@ public class ManagePistaForm extends javax.swing.JFrame {
         chooser.setCurrentDirectory(new File(System.getProperty("user.home")));
         
         //Extensión del archivo
-        FileNameExtensionFilter extension = new FileNameExtensionFilter("*Images","jpg", "png", "jpeg");
-        chooser.addChoosableFileFilter(extension);
+        FileNameExtensionFilter extension =new FileNameExtensionFilter("JPG, PNG & GIF","jpg","png","gif");     
+        chooser.setFileFilter(extension);
         
         int filestate = chooser.showSaveDialog(null);
         

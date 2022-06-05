@@ -85,7 +85,7 @@ public class ManageUserForm extends javax.swing.JFrame {
         jLabel10 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("Gestion de Usuarios");
+        setTitle("Padel Land - Gestion de Usuarios");
         setResizable(false);
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 28)); // NOI18N
@@ -361,7 +361,7 @@ public class ManageUserForm extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "No se ha seleccionado ningún usuario","WARNING",JOptionPane.WARNING_MESSAGE);
         }else{
             Usuarios user = userController.selectUsuario(Integer.valueOf(id));
-            if (JOptionPane.showConfirmDialog(null, "¿Seguro que quieres eliminar el usuario con id "+id+"?", "WARNING",JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+            if (JOptionPane.showConfirmDialog(null, "¿Seguro que quieres eliminar el usuario con email '"+user.getEmail()+"' ?", "WARNING",JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
                 if (reservaController.usuarioTieneReservas(Long.valueOf(id))){
                     JOptionPane.showMessageDialog(null,"No se puede eliminar un usuario que tiene reservas asociadas","¡NOO!",JOptionPane.ERROR_MESSAGE);
                 }else{
@@ -401,6 +401,9 @@ public class ManageUserForm extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(null, "No se cumple el formato de email","Email inválido",JOptionPane.WARNING_MESSAGE);
                 return;
             }else{
+                if (checkEmail(email)){
+                    return;
+                }
                 user.setEmail(email);
             }
             
@@ -430,7 +433,7 @@ public class ManageUserForm extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Usuario modificado correctamente","INFO",JOptionPane.INFORMATION_MESSAGE);
             userController.fillUsersJTable(ManageUserForm.jTableUsuarios, "");
         } else{
-             JOptionPane.showMessageDialog(null, "No se ha seleccionado ningún usuario", "Error al actualizar", JOptionPane.ERROR_MESSAGE);
+             JOptionPane.showMessageDialog(null, "No se ha seleccionado ningún usuario", "WARNING", JOptionPane.WARNING_MESSAGE);
         }
     }//GEN-LAST:event_jButtonActualizarActionPerformed
 
@@ -443,8 +446,8 @@ public class ManageUserForm extends javax.swing.JFrame {
         chooser.setCurrentDirectory(new File(System.getProperty("user.home")));
         
         //Extensión del archivo
-        FileNameExtensionFilter extension = new FileNameExtensionFilter("*Images","jpg", "png", "jpeg");
-        chooser.addChoosableFileFilter(extension);
+        FileNameExtensionFilter extension =new FileNameExtensionFilter("JPG, PNG & GIF","jpg","png","gif");     
+        chooser.setFileFilter(extension);
         
         int filestate = chooser.showSaveDialog(null);
         
@@ -483,7 +486,8 @@ public class ManageUserForm extends javax.swing.JFrame {
         int fila = table.rowAtPoint(point);
         if (evt.getClickCount() == 2 && table.getSelectedRow() != -1) {
             try {
-                userController.verImagenUsuario((userController.selectUsuario(Long.valueOf(jTableUsuarios.getModel().getValueAt(fila,0).toString()))));
+                Usuarios user = userController.selectUsuario(Long.valueOf(jTableUsuarios.getModel().getValueAt(fila,0).toString()));
+                userController.verImagenUsuario(user);
             } catch (SQLException ex) {
                 Logger.getLogger(UsuarioController.class.getName()).log(Level.SEVERE, null, ex);
             } catch (IOException ex) {
@@ -509,6 +513,18 @@ public class ManageUserForm extends javax.swing.JFrame {
         img_path = null;
         jLabelRutaImagen.setText("");
         jComboBoxRol.setSelectedItem("basico");
+    }
+    
+    //Creamos una funcíon para comprobar si el usuario introducido ya existe en la BBDD
+    public boolean checkEmail(String email) {
+        boolean email_exists = false;
+        
+        if (userController.obtenerUsuarioPorEmail(email) != null){
+            email_exists = true;
+            JOptionPane.showMessageDialog(null, "Este usuario ya existe en la BBDD", "Email fallido",JOptionPane.ERROR_MESSAGE);
+        }
+        
+        return email_exists;
     }
     
     /**

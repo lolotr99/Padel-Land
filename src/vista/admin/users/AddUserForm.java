@@ -19,6 +19,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import modelo.Usuarios;
 import utilidades.CifradoUtil;
 import utilidades.ImagenFondo;
+import utilidades.Mailer;
 import validator.EmailValidator;
 
 /**
@@ -69,7 +70,7 @@ public class AddUserForm extends javax.swing.JFrame {
         jButtonCancelar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("Añadir Usuario");
+        setTitle("Padel Land - Añadir Usuario");
         setResizable(false);
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 28)); // NOI18N
@@ -274,6 +275,9 @@ public class AddUserForm extends javax.swing.JFrame {
                 long result = userController.insertUsuario(user);
                 if (result != 0){
                     JOptionPane.showMessageDialog(null, "¡Tu usuario ha sido creado correctamente!","INFO",JOptionPane.INFORMATION_MESSAGE);
+                    Mailer mailer = new Mailer();
+                    String mensaje = "¡Hola " + user.getNombreCompleto()+ "!\nNos complace darte la bienvenida a Padel Land, esperemos que te guste nuestro servicio y que disfrutes de nuestras maravillosas pistas\n¡A jugar!";
+                    mailer.enviarMail("¡Bienvenido a Padel Land!", user.getEmail(), mensaje);
                 }else{
                     JOptionPane.showMessageDialog(null, "Error en el registro, revisa tus datos","ERROR",JOptionPane.ERROR_MESSAGE);
                 }
@@ -299,8 +303,8 @@ public class AddUserForm extends javax.swing.JFrame {
         chooser.setCurrentDirectory(new File(System.getProperty("user.home")));
         
         //Extensión del archivo
-        FileNameExtensionFilter extension = new FileNameExtensionFilter("*Images","jpg", "png", "jpeg");
-        chooser.addChoosableFileFilter(extension);
+        FileNameExtensionFilter extension =new FileNameExtensionFilter("JPG, PNG & GIF","jpg","png","gif");     
+        chooser.setFileFilter(extension);
         
         int filestate = chooser.showSaveDialog(null);
         

@@ -65,11 +65,23 @@ public class ReservaController {
     }
     
     
+    public List<Reservas> getReservasByDia(String dia) {
+        List<Reservas> listaReservas = null;
+        iniciarOperacion();
+        try{
+            listaReservas = sesion.createQuery("SELECT r FROM Reservas r , Usuarios u WHERE r.usuarios.id = u.id AND r.dia >= '"+dia+"'").list();
+        }catch(Exception ex){
+            Logger.getLogger(ReservaController.class.getName()).log(Level.SEVERE,null,ex);
+        }
+        terminarOperacion();
+        return listaReservas;
+    }
+    
     public List<Reservas> getReservasDesdeHoy(String dia) {
         List<Reservas> listaReservas = null;
         iniciarOperacion();
         try{
-            listaReservas = sesion.createQuery("SELECT r FROM Reservas r , Horarios h WHERE r.horarios.id = h.id AND r.dia >= '"+dia+"' ORDER BY r.dia ASC, h.horaComienzo ASC").list();
+            listaReservas = sesion.createQuery("SELECT r FROM Reservas r , Horarios h WHERE r.horarios.id = h.id AND r.dia >= '"+dia+"' ORDER BY r.dia DESC, h.horaComienzo ASC").list();
         }catch(Exception ex){
             Logger.getLogger(ReservaController.class.getName()).log(Level.SEVERE,null,ex);
         }
@@ -81,7 +93,7 @@ public class ReservaController {
         List<Reservas> listaReservas = null;
         iniciarOperacion();
         try{
-            listaReservas = sesion.createQuery("SELECT r FROM Reservas r, Usuarios u, Horarios h WHERE r.usuarios.id = u.id AND r.horarios.id = h.id AND u.email = '"+email+"' AND r.dia BETWEEN '"+fechaInicio+"' AND '"+fechaFin+"' ORDER BY r.dia ASC, h.horaComienzo ASC").list();
+            listaReservas = sesion.createQuery("SELECT r FROM Reservas r, Usuarios u, Horarios h WHERE r.usuarios.id = u.id AND r.horarios.id = h.id AND u.email like '%"+email+"%' AND r.dia BETWEEN '"+fechaInicio+"' AND '"+fechaFin+"' ORDER BY r.dia ASC, h.horaComienzo ASC").list();
         }catch(Exception ex){            
             Logger.getLogger(ReservaController.class.getName()).log(Level.SEVERE,null,ex);
         }
@@ -93,7 +105,7 @@ public class ReservaController {
         List<Reservas> listaReservas = null;
         iniciarOperacion();
         try{
-            listaReservas = sesion.createQuery("SELECT r FROM Reservas r, Usuarios u, Horarios h WHERE r.usuarios.id = u.id AND r.horarios.id = h.id AND u.email = '"+email+"' AND r.dia >= '"+fechaInicio+"' ORDER BY r.dia ASC, h.horaComienzo ASC").list();
+            listaReservas = sesion.createQuery("SELECT r FROM Reservas r, Usuarios u, Horarios h WHERE r.usuarios.id = u.id AND r.horarios.id = h.id AND u.email like '%"+email+"%' AND r.dia >= '"+fechaInicio+"' ORDER BY r.dia ASC, h.horaComienzo ASC").list();
         }catch(Exception ex){            
             Logger.getLogger(ReservaController.class.getName()).log(Level.SEVERE,null,ex);
         }
@@ -104,7 +116,7 @@ public class ReservaController {
         List<Reservas> listaReservas = null;
         iniciarOperacion();
         try{
-            listaReservas = sesion.createQuery("SELECT r FROM Reservas r, Usuarios u, Horarios h WHERE r.usuarios.id = u.id AND r.horarios.id = h.id AND u.email = '"+email+"' AND r.dia <= '"+fechaFin+"' ORDER BY r.dia ASC, h.horaComienzo ASC").list();
+            listaReservas = sesion.createQuery("SELECT r FROM Reservas r, Usuarios u, Horarios h WHERE r.usuarios.id = u.id AND r.horarios.id = h.id AND u.email like '%"+email+"%' AND r.dia <= '"+fechaFin+"' ORDER BY r.dia ASC, h.horaComienzo ASC").list();
         }catch(Exception ex){            
             Logger.getLogger(ReservaController.class.getName()).log(Level.SEVERE,null,ex);
         }
@@ -116,7 +128,7 @@ public class ReservaController {
         List<Reservas> listaReservas = null;
         iniciarOperacion();
         try{
-            listaReservas = sesion.createQuery("SELECT r FROM Reservas r, Usuarios u, Horarios h WHERE r.usuarios.id = u.id AND r.horarios.id = h.id AND u.email = '"+email+"' ORDER BY r.dia ASC, h.horaComienzo ASC").list();
+            listaReservas = sesion.createQuery("SELECT r FROM Reservas r, Usuarios u, Horarios h WHERE r.usuarios.id = u.id AND r.horarios.id = h.id AND u.email like '%"+email+"%' ORDER BY r.dia ASC, h.horaComienzo ASC").list();
         }catch(Exception ex){            
             Logger.getLogger(ReservaController.class.getName()).log(Level.SEVERE,null,ex);
         }

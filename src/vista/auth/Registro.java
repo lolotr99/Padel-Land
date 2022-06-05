@@ -101,6 +101,7 @@ public class Registro extends javax.swing.JFrame {
         jLabelIniciaSesion = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Padel Land - Registro ");
         setUndecorated(true);
         setResizable(false);
 
@@ -411,9 +412,7 @@ public class Registro extends javax.swing.JFrame {
     }//GEN-LAST:event_jLabelMinimizarMouseExited
 
     private void jLabelCerrarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabelCerrarMouseClicked
-        if (JOptionPane.showConfirmDialog(null, "¿Seguro que quieres cerrar la aplicación? ", "Confirmación de cierre de aplicación",JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
-            System.exit(0);
-        }
+        System.exit(0);
     }//GEN-LAST:event_jLabelCerrarMouseClicked
 
     private void jLabelCerrarMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabelCerrarMouseEntered
@@ -512,8 +511,8 @@ public class Registro extends javax.swing.JFrame {
         chooser.setCurrentDirectory(new File(System.getProperty("user.home")));
         
         //Extensión del archivo
-        FileNameExtensionFilter extension = new FileNameExtensionFilter("*Images","jpg", "png", "jpeg");
-        chooser.addChoosableFileFilter(extension);
+        FileNameExtensionFilter extension =new FileNameExtensionFilter("JPG, PNG & GIF","jpg","png","gif");     
+        chooser.setFileFilter(extension);
         
         int filestate = chooser.showSaveDialog(null);
         

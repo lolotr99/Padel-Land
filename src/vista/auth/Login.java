@@ -89,7 +89,7 @@ public class Login extends javax.swing.JFrame {
         jLabelRegistraCuenta = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("Padel Land");
+        setTitle("Padel Land - Login");
         setUndecorated(true);
         setResizable(false);
 
@@ -414,7 +414,7 @@ public class Login extends javax.swing.JFrame {
                             af.setVisible(true);
                             af.pack();
                             af.setLocationRelativeTo(null);
-                            AdminForm.jLabelBienvenida.setText("<html><body>¡Bienvenido #"+usuario.getEmail()+"#!<br>Esta es la vista de Administrador de Padel Land</body></html>");
+                            AdminForm.jLabelBienvenida.setText("<html><body>¡Bienvenido "+usuario.getNombreCompleto()+"!<br>Esta es la vista de Administrador de Padel Land</body></html>");
                             this.dispose();
                         }
                     }else{
@@ -448,9 +448,7 @@ public class Login extends javax.swing.JFrame {
 
     private void jLabelCerrarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabelCerrarMouseClicked
         // TODO add your handling code here:
-        if (JOptionPane.showConfirmDialog(null, "¿Seguro que quieres cerrar la aplicación? ", "Confirmación de cierre de aplicación",JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
-            System.exit(0);
-        }
+        System.exit(0);
     }//GEN-LAST:event_jLabelCerrarMouseClicked
 
     private void jLabelRegistraCuentaMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabelRegistraCuentaMouseEntered

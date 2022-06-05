@@ -84,7 +84,8 @@ public class EditarPerfilForm extends javax.swing.JFrame {
         jButtonAnadir = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("PadelLand - Editar perfil");
+        setTitle("Padel Land - Editar perfil");
+        setResizable(false);
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 28)); // NOI18N
         jLabel1.setText("Editar perfil");
@@ -232,8 +233,8 @@ public class EditarPerfilForm extends javax.swing.JFrame {
         chooser.setCurrentDirectory(new File(System.getProperty("user.home")));
 
         //Extensión del archivo
-        FileNameExtensionFilter extension = new FileNameExtensionFilter("*Images","jpg", "png", "jpeg");
-        chooser.addChoosableFileFilter(extension);
+        FileNameExtensionFilter extension =new FileNameExtensionFilter("JPG, PNG & GIF","jpg","png","gif");     
+        chooser.setFileFilter(extension);
 
         int filestate = chooser.showSaveDialog(null);
 

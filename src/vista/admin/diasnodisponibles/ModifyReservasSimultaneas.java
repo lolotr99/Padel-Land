@@ -56,7 +56,8 @@ public class ModifyReservasSimultaneas extends javax.swing.JDialog {
         jSpinnerLimiteReservas = new javax.swing.JSpinner();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Modificar LImite Reservas");
+        setTitle("Padel Land - Modificar LImite Reservas");
+        setResizable(false);
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel1.setText("Límite de reservas:");

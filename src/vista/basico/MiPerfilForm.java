@@ -142,7 +142,7 @@ public class MiPerfilForm extends javax.swing.JFrame {
         }
         
         tablaReservas.setRowHeight(45);
-        tablaReservas.setGridColor(Color.yellow);
+        tablaReservas.setGridColor(Color.green);
         tablaReservas.setSelectionBackground(Color.cyan);
         
         jTableReservasUser.setModel(model);
@@ -170,7 +170,7 @@ public class MiPerfilForm extends javax.swing.JFrame {
         jLabelNTelefono = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("PADEL LAND - Vista de usuario");
+        setTitle("Padel Land - Mi Perfil");
         setResizable(false);
 
         jLabel2.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
@@ -190,6 +190,11 @@ public class MiPerfilForm extends javax.swing.JFrame {
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
+            }
+        });
+        jTableReservasUser.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                jTableReservasUserMousePressed(evt);
             }
         });
         jScrollPane1.setViewportView(jTableReservasUser);
@@ -212,6 +217,11 @@ public class MiPerfilForm extends javax.swing.JFrame {
 
         jButtonEditarPerfil.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/img/icono-actualizar.png"))); // NOI18N
         jButtonEditarPerfil.setText("Editar perfil");
+        jButtonEditarPerfil.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonEditarPerfilActionPerformed(evt);
+            }
+        });
 
         jLabelNTelefono.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/img/icons8-phone-50.png"))); // NOI18N
         jLabelNTelefono.setText("nº telefono");
@@ -296,6 +306,41 @@ public class MiPerfilForm extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jButtonEditarPerfilActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEditarPerfilActionPerformed
+        // TODO add your handling code here:
+        EditarPerfilForm form = new EditarPerfilForm(user);
+        form.pack();
+        form.setLocationRelativeTo(null);
+        form.setVisible(true);
+        form.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+    }//GEN-LAST:event_jButtonEditarPerfilActionPerformed
+
+    private void jTableReservasUserMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableReservasUserMousePressed
+        // TODO add your handling code here:
+        int column = jTableReservasUser.getColumnModel().getColumnIndexAtX(evt.getX());
+        int row = evt.getY()/jTableReservasUser.getRowHeight();
+        if (column == 4){
+            //Eliminar
+            Object value = jTableReservasUser.getValueAt(row, column);
+            if (value instanceof JButton) {
+                ((JButton) value).doClick();
+                String mensaje = "¿Seguro que quieres eliminar la reserva de las "+ jTableReservasUser.getModel().getValueAt(row,2)+" el día "
+                        + jTableReservasUser.getModel().getValueAt(row,3) + " en la pista " + jTableReservasUser.getModel().getValueAt(row, 1) + "?";
+                if (JOptionPane.showConfirmDialog(null, mensaje, "WARNING",JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+                    Reservas reserva = reservaController.selectReserva(Long.valueOf(jTableReservasUser.getModel().getValueAt(row,0).toString()));
+                    String email = user.getEmail();
+                    reservaController.deleteReserva(reserva);
+                    String message = "¡Hola "+user.getNombreCompleto()+"!\nDesde Padel Land confirmamos que se ha cancelado la reserva en la pista " +jTableReservasUser.getModel().getValueAt(row, 1)
+                            + " para el día "+ jTableReservasUser.getModel().getValueAt(row, 3) + " a las " + jTableReservasUser.getModel().getValueAt(row, 2);
+                    mensaje+="\n ¡Pase usted un buen día!";
+                    Mailer mailer = new Mailer();
+                    mailer.enviarMail("Confirmación de Anulación de reserva", email, message);                    
+                    fillTablaReservas(jTableReservasUser, user.getId());
+                }
+            }
+        }
+    }//GEN-LAST:event_jTableReservasUserMousePressed
 
     /**
      * @param args the command line arguments

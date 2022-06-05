@@ -162,7 +162,7 @@ public class PistaController {
         
         tablaPistas.setRowHeight(40);
         tablaPistas.setShowGrid(true);
-        tablaPistas.setGridColor(Color.yellow);
+        tablaPistas.setGridColor(Color.green);
         tablaPistas.setSelectionBackground(Color.cyan);
         
         tablaPistas.setModel(model);
@@ -185,6 +185,7 @@ public class PistaController {
         frame.setVisible(true);
         frame.setLocationRelativeTo(null);
         frame.setTitle("Visor de imagen de pista -> " + pista.getNombrePista());
+        frame.setResizable(false);
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     }
 

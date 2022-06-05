@@ -6,12 +6,21 @@
 package vista.admin.diasnodisponibles;
 
 import controlador.DiasNoDisponiblesController;
+import controlador.HorarioController;
+import controlador.PistaController;
 import controlador.ReservaController;
+import controlador.UsuarioController;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import javax.swing.JOptionPane;
 import modelo.DiasNoDisponibles;
+import modelo.Horarios;
+import modelo.Pistas;
+import modelo.Reservas;
+import modelo.Usuarios;
 import utilidades.ImagenFondo;
+import utilidades.Mailer;
 
 /**
  *
@@ -24,11 +33,17 @@ public class AddDiaNoDisponibleForm extends javax.swing.JFrame {
      */
     DiasNoDisponiblesController diasNoDisponiblesController;
     ReservaController reservaController;
+    UsuarioController usuarioController;
+    PistaController pistaController;
+    HorarioController horarioController;
     
     public AddDiaNoDisponibleForm() {
         initComponents();
         diasNoDisponiblesController = new DiasNoDisponiblesController();
         reservaController = new ReservaController();
+        usuarioController = new UsuarioController();
+        pistaController = new PistaController();
+        horarioController = new HorarioController();
     }
 
     /**
@@ -47,7 +62,8 @@ public class AddDiaNoDisponibleForm extends javax.swing.JFrame {
         jButtonAnadir = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("Añadir dia no disponible");
+        setTitle("Padel Land - Añadir dia no disponible");
+        setResizable(false);
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 28)); // NOI18N
         jLabel1.setText("Nuevo día no disponible");
@@ -126,26 +142,43 @@ public class AddDiaNoDisponibleForm extends javax.swing.JFrame {
         
         if (fecha.before(new Date())){
             JOptionPane.showMessageDialog(null, "No se puede añadir un día anterior al de hoy","Información",JOptionPane.ERROR_MESSAGE);
-        }else if(JOptionPane.showConfirmDialog(null, "¿Seguro que quieres insertar el día : "+fechaFormateada+"?", "WARNING",JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
-            if (reservaController.diaNoDisponibleEstaEnReservas(fechaFormateada)){
-                JOptionPane.showMessageDialog(null,"No se puede insertar este dia como no disponible porque ya tiene reservas asociadas","¡NOO!",JOptionPane.ERROR_MESSAGE);
-            }else{
-                //Se comprueba que ese tramo horario no exista ya
-                if (!checkDia(fechaFormateada)){
-                    DiasNoDisponibles dia = new DiasNoDisponibles(fecha);
-                    long result = diasNoDisponiblesController.insertarDia(dia);
-                    if (result != 0){
-                        JOptionPane.showMessageDialog(null, "¡Nuevo día no disponible ha sido creado correctamente!","INFO",JOptionPane.INFORMATION_MESSAGE);
+        }else {
+            //Se comprueba que ese tramo horario no exista ya
+            if (!checkDia(fechaFormateada)){
+                if (reservaController.diaNoDisponibleEstaEnReservas(fechaFormateada)){
+                    if(JOptionPane.showConfirmDialog(null, "Al insertar este día, se cancelarán las reservas que haya programadas. ¿Seguro que quieres insertar el día : "+fechaFormateada+"?", "WARNING",JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+                        //Anular todas las reservas de este día y notificar al usuario por correo
+                        List<Reservas> listaReservasDia = reservaController.getReservasByDia(fechaFormateada);
+                        for (Reservas reserva : listaReservasDia){
+                            Usuarios user = usuarioController.selectUsuario(reserva.getUsuarios().getId());
+                            Pistas pista = pistaController.selectPista(reserva.getPistas().getId());
+                            Horarios horario = horarioController.selectHorario(reserva.getHorarios().getId());
+                            String message = "¡Hola "+user.getNombreCompleto()+"!\nDesde Padel Land confirmamos que se ha cancelado la reserva en la pista " +pista.getNombrePista()
+                                    + " para el día "+ new SimpleDateFormat("dd-MM-yyyy").format(reserva.getDia())+ " a las " + new SimpleDateFormat("HH:mm").format(horario.getHoraComienzo());
+                            message+="\n ¡Pase usted un buen día!";
+                            reservaController.deleteReserva(reserva);
+                            Mailer mailer = new Mailer();
+                            mailer.enviarMail("Confirmación de Anulación de reserva", user.getEmail(), message);
+                        }   
                     }else{
-                        JOptionPane.showMessageDialog(null, "Ha ocurrido un error en el registro, revisa tus datos.","ERROR",JOptionPane.ERROR_MESSAGE);
+                        return;
                     }
                 }
+                //Insertar
+                DiasNoDisponibles dia = new DiasNoDisponibles(fecha);
+                long result = diasNoDisponiblesController.insertarDia(dia);
+                if (result != 0){
+                    JOptionPane.showMessageDialog(null, "¡Nuevo día no disponible ha sido creado correctamente!","INFO",JOptionPane.INFORMATION_MESSAGE);
+                }else{
+                    JOptionPane.showMessageDialog(null, "Ha ocurrido un error en el registro, revisa tus datos.","ERROR",JOptionPane.ERROR_MESSAGE);
+                }
             }
-        }
+                    if (ManageDiasNoDisponiblesForm.jTableDiasNoDisponibles != null){
+                        diasNoDisponiblesController.fillTableDiasNoDisponibles(ManageDiasNoDisponiblesForm.jTableDiasNoDisponibles);
+                    }
+            }
         
-        if (ManageDiasNoDisponiblesForm.jTableDiasNoDisponibles != null){
-            diasNoDisponiblesController.fillTableDiasNoDisponibles(ManageDiasNoDisponiblesForm.jTableDiasNoDisponibles);
-        }
+       
     }//GEN-LAST:event_jButtonAnadirActionPerformed
 
     //Creamos una funcíon para comprobar si el dia introducido ya existe en la BBDD

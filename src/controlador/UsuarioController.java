@@ -13,6 +13,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URL;
 import java.sql.Blob;
 import java.sql.SQLException;
 import java.util.List;
@@ -30,6 +31,7 @@ import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import utilidades.NewHibernateUtil;
 import utilidades.SelfClosingInputStreamUtil;
+import vista.basico.MiPerfilForm;
 
 
 /**
@@ -171,15 +173,21 @@ public class UsuarioController {
         
         tabla.setRowHeight(40);
         tabla.setShowGrid(true);
-        tabla.setGridColor(Color.yellow);
+        tabla.setGridColor(Color.green);
         tabla.setSelectionBackground(Color.cyan);
         
         tabla.setModel(model);
     }
     
     public void verImagenUsuario(Usuarios user) throws SQLException, IOException{
-        InputStream in = user.getImagenUsuario().getBinaryStream();  
-        BufferedImage bufferedImage = ImageIO.read(in);
+        BufferedImage bufferedImage = null;
+        if (user.getImagenUsuario() != null){
+            InputStream in = user.getImagenUsuario().getBinaryStream();  
+            bufferedImage = ImageIO.read(in);
+        }else{
+            URL imgStream = UsuarioController.class.getClassLoader().getResource("resources/img/defecto.png");
+            bufferedImage = ImageIO.read(imgStream);
+        }
         
         Image image = bufferedImage.getScaledInstance(bufferedImage.getWidth(), bufferedImage.getHeight(), Image.SCALE_DEFAULT);
 
@@ -194,6 +202,7 @@ public class UsuarioController {
         frame.setVisible(true);
         frame.setLocationRelativeTo(null);
         frame.setTitle("Visor de imagen de usuario -> " + user.getNombreCompleto());
+        frame.setResizable(false);
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     }
 

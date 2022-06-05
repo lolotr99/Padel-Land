@@ -8,6 +8,7 @@ package controlador;
 import java.awt.Color;
 import java.awt.Image;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -116,11 +117,12 @@ public class DiasNoDisponiblesController {
         };
         
         Object[] row;
+        SimpleDateFormat formatoDia = new SimpleDateFormat("dd-MM-yyyy");
         model.setRowCount(0);
         for(DiasNoDisponibles dia : listaDias){
             row = new Object[3];
             row[0] = dia.getId();
-            row[1] = dia.getDia();
+            row[1] = formatoDia.format(dia.getDia());
             Image imgEliminar = null;
             try {
                 imgEliminar = ImageIO.read(DiasNoDisponiblesController.class.getClassLoader().getResource("resources/img/icono-borrar.png"));
@@ -132,7 +134,7 @@ public class DiasNoDisponiblesController {
         }
         
         tablaDias.setRowHeight(45);
-        tablaDias.setGridColor(Color.yellow);
+        tablaDias.setGridColor(Color.green);
         tablaDias.setSelectionBackground(Color.cyan);
         
         tablaDias.setModel(model);

@@ -53,7 +53,8 @@ public class AddHorarioForm extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("Añadir Horario");
+        setTitle("Padel Land - Añadir Horario");
+        setResizable(false);
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 28)); // NOI18N
         jLabel1.setText("Nuevo Tramo Horario");

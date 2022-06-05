@@ -57,7 +57,8 @@ public class ManageDiasNoDisponiblesForm extends javax.swing.JFrame {
         jTableDiasNoDisponibles = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("Gestión de días no disponibles");
+        setTitle("Padel Land - Gestión de días no disponibles");
+        setResizable(false);
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel1.setText("Número de reservas simúltaneas:");

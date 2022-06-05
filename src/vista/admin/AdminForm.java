@@ -80,7 +80,7 @@ public class AdminForm extends javax.swing.JFrame {
         jMenuSalir = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("Panel de Administrador");
+        setTitle("Padel Land - Panel de Administrador");
         setResizable(false);
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/img/logoSinFondo.png"))); // NOI18N

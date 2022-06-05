@@ -5,17 +5,9 @@
  */
 package vista.basico;
 
-import controlador.PropertiesController;
 import controlador.ReservaController;
-import java.awt.Graphics;
-import java.awt.Image;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import modelo.Properties;
 import modelo.Usuarios;
 import utilidades.ImagenFondo;
 import vista.auth.Login;
@@ -32,7 +24,6 @@ public class VistaUsuarioBasicoForm extends javax.swing.JFrame {
     
     Usuarios user;
     ReservaController reservaController;
-    PropertiesController propertieController;
         
     public VistaUsuarioBasicoForm() {
         initComponents();
@@ -41,7 +32,6 @@ public class VistaUsuarioBasicoForm extends javax.swing.JFrame {
     public VistaUsuarioBasicoForm(Usuarios usuario) {
         this.user = usuario;
         reservaController = new ReservaController();
-        propertieController = new PropertiesController();
         initComponents();
     }
 
@@ -55,6 +45,7 @@ public class VistaUsuarioBasicoForm extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel1 = new ImagenFondo();
+        jLabel1 = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenuVerPistas = new javax.swing.JMenu();
         jMenuReservar = new javax.swing.JMenu();
@@ -62,18 +53,20 @@ public class VistaUsuarioBasicoForm extends javax.swing.JFrame {
         jMenuSalir = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("Vista de usuario");
+        setTitle("Padel Land - Vista de usuario");
         setResizable(false);
+
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/img/vistaUsuario.png"))); // NOI18N
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 700, Short.MAX_VALUE)
+            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 458, Short.MAX_VALUE)
+            .addComponent(jLabel1)
         );
 
         jMenuVerPistas.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/img/icono-pistas-menubar.png"))); // NOI18N
@@ -122,7 +115,7 @@ public class VistaUsuarioBasicoForm extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         pack();
@@ -159,26 +152,11 @@ public class VistaUsuarioBasicoForm extends javax.swing.JFrame {
 
     private void jMenuReservarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenuReservarMouseClicked
         // TODO add your handling code here:
-        
-        SimpleDateFormat formatoDia = new SimpleDateFormat("yyyy/MM/dd");
-        SimpleDateFormat formatoHora = new SimpleDateFormat("HH:mm"); 
-        
-        String dia = formatoDia.format(new Date());
-        String hora = formatoHora.format(new Date());
-       
-        Properties propertie = propertieController.selectPropertieFromName("LIMITE_RESERVAS_SIMULTANEAS");
-        int nReservasSimultaneasUsuario = reservaController.getNumeroReservasSimultaneasUsuario(user.getId(), dia, hora);
-        
-        if (Integer.valueOf(propertie.getValue()) <= nReservasSimultaneasUsuario) {
-            //No se permite la reserva porque ya ha llegado al límite simultaneo
-            JOptionPane.showMessageDialog(null,"Este usuario ya ha excedido el número de reservas simultáneas (3). ¡Vuelve cuando ya hayas jugado algún partido!","¡Noo!",JOptionPane.WARNING_MESSAGE);
-        }else{
-            ReservaForm form = new ReservaForm(user);
-            form.setVisible(true);
-            form.pack();
-            form.setLocationRelativeTo(null);
-            form.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        }
+        ReservaForm form = new ReservaForm(user);
+        form.setVisible(true);
+        form.pack();
+        form.setLocationRelativeTo(null);
+        form.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     }//GEN-LAST:event_jMenuReservarMouseClicked
 
     /**
@@ -217,6 +195,7 @@ public class VistaUsuarioBasicoForm extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenu jMenuMiPerfil;
     private javax.swing.JMenu jMenuReservar;
