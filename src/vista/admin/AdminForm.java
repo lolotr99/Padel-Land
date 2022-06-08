@@ -116,7 +116,7 @@ public class AdminForm extends javax.swing.JFrame {
         jMenuUsuarios.setText("Usuarios");
 
         jMenuItemAddUser.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/img/icono-crear.png"))); // NOI18N
-        jMenuItemAddUser.setText("Añadir");
+        jMenuItemAddUser.setText("Añadir usuario");
         jMenuItemAddUser.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItemAddUserActionPerformed(evt);
@@ -125,7 +125,7 @@ public class AdminForm extends javax.swing.JFrame {
         jMenuUsuarios.add(jMenuItemAddUser);
 
         jMenuItemManageUser.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/img/icono-gestionar.png"))); // NOI18N
-        jMenuItemManageUser.setText("Gestionar");
+        jMenuItemManageUser.setText("Gestionar usuarios");
         jMenuItemManageUser.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItemManageUserActionPerformed(evt);
@@ -139,7 +139,7 @@ public class AdminForm extends javax.swing.JFrame {
         jMenuPistas.setText("Pistas");
 
         jMenuItemAddPista.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/img/icono-crear.png"))); // NOI18N
-        jMenuItemAddPista.setText("Añadir");
+        jMenuItemAddPista.setText("Añadir pista");
         jMenuItemAddPista.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItemAddPistaActionPerformed(evt);
@@ -148,7 +148,7 @@ public class AdminForm extends javax.swing.JFrame {
         jMenuPistas.add(jMenuItemAddPista);
 
         jMenuItemManagePista.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/img/icono-gestionar.png"))); // NOI18N
-        jMenuItemManagePista.setText("Gestionar");
+        jMenuItemManagePista.setText("Gestionar pistas");
         jMenuItemManagePista.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItemManagePistaActionPerformed(evt);
@@ -162,7 +162,7 @@ public class AdminForm extends javax.swing.JFrame {
         jMenuHorarios.setText("Horarios");
 
         jMenuItemAddHorario.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/img/icono-crear.png"))); // NOI18N
-        jMenuItemAddHorario.setText("Añadir");
+        jMenuItemAddHorario.setText("Añadir tramo horario");
         jMenuItemAddHorario.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItemAddHorarioActionPerformed(evt);
@@ -185,7 +185,7 @@ public class AdminForm extends javax.swing.JFrame {
         jMenuReservas.setText("Reservas");
 
         jMenuItemAddReserva.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/img/icono-crear.png"))); // NOI18N
-        jMenuItemAddReserva.setText("Añadir");
+        jMenuItemAddReserva.setText("Añadir reservas");
         jMenuItemAddReserva.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItemAddReservaActionPerformed(evt);
@@ -194,7 +194,7 @@ public class AdminForm extends javax.swing.JFrame {
         jMenuReservas.add(jMenuItemAddReserva);
 
         jMenuItemManageReserva.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/img/icono-gestionar.png"))); // NOI18N
-        jMenuItemManageReserva.setText("Gestionar tramos horarios");
+        jMenuItemManageReserva.setText("Gestionar reservas");
         jMenuItemManageReserva.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItemManageReservaActionPerformed(evt);

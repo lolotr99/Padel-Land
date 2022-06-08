@@ -155,7 +155,7 @@ public class AddDiaNoDisponibleForm extends javax.swing.JFrame {
                             Horarios horario = horarioController.selectHorario(reserva.getHorarios().getId());
                             String message = "¡Hola "+user.getNombreCompleto()+"!\nDesde Padel Land confirmamos que se ha cancelado la reserva en la pista " +pista.getNombrePista()
                                     + " para el día "+ new SimpleDateFormat("dd-MM-yyyy").format(reserva.getDia())+ " a las " + new SimpleDateFormat("HH:mm").format(horario.getHoraComienzo());
-                            message+="\n ¡Pase usted un buen día!";
+                            message+=" debido a que cerramos el club este día.\n ¡Pase usted un buen día!";
                             reservaController.deleteReserva(reserva);
                             Mailer mailer = new Mailer();
                             mailer.enviarMail("Confirmación de Anulación de reserva", user.getEmail(), message);

@@ -56,27 +56,9 @@ public class ReservaForm extends javax.swing.JFrame {
         horarioController = new HorarioController();
         propertieController = new PropertiesController();
         pistaController = new PistaController();
-        
         this.user = user;
-        
         listaDiasNoDisponibles = diasNoDisponiblesController.getListaDias();
-        
         initComponents();
-        
-        SimpleDateFormat formatoDia = new SimpleDateFormat("yyyy/MM/dd");
-        SimpleDateFormat formatoHora = new SimpleDateFormat("HH:mm"); 
-        
-        String dia = formatoDia.format(new Date());
-        String hora = formatoHora.format(new Date());
-        
-        Properties propertie = propertieController.selectPropertieFromName("LIMITE_RESERVAS_SIMULTANEAS");
-        int nReservasSimultaneasUsuario = reservaController.getNumeroReservasSimultaneasUsuario(user.getId(), dia, hora);
-        if (Integer.valueOf(propertie.getValue()) <= nReservasSimultaneasUsuario) {
-            //No se permite la reserva porque ya ha llegado al límite simultaneo
-            JOptionPane.showMessageDialog(null,"Este usuario ya ha excedido el número de reservas simultáneas ("+propertie.getValue()+"). ¡Vuelve cuando ya hayas jugado algún partido!","¡Noo!",JOptionPane.WARNING_MESSAGE);
-            jButtonReservar.setEnabled(false);
-            jButtonReservar.setToolTipText("Este usuario ya ha excedido el número de reservas simultáneas ("+propertie.getValue()+"). ¡Vuelve cuando ya hayas jugado algún partido!");
-        }
         jDateChooserCita.setDate(new Date());
     }
     
@@ -263,29 +245,42 @@ public class ReservaForm extends javax.swing.JFrame {
 
     private void jButtonReservarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonReservarActionPerformed
         // TODO add your handling code here:
-        if (verifyCampos()){
-            Date dia = jDateChooserCita.getDate();
-            String horaComienzo =jComboBoxHorario.getSelectedItem().toString();
-           
-            Horarios horario = horarioController.getHorarioByHoraComienzo(horaComienzo);
-            Pistas pista = pistaController.getPistaByNombre(jComboBoxPistas.getSelectedItem().toString());
-            
-            Reservas reserva = new Reservas(horario, pista, user, dia);
-            long result = reservaController.insertarReserva(reserva);
-            if (result != 0){
-                JOptionPane.showMessageDialog(null,"Reserva añadida correctamente","INFO",JOptionPane.INFORMATION_MESSAGE);
-                dispose();
-                MiPerfilForm form = new MiPerfilForm(user);
-                form.pack();
-                form.setVisible(true);
-                form.setLocationRelativeTo(null);
-                form.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-                Mailer mailer = new Mailer();
-                String diaFormateado = new SimpleDateFormat("dd-MM-yyyy").format(dia);
-                String mensaje = "¡Hola "+user.getNombreCompleto()+"!\nDesde Padel Land te confirmamos la reserva para el día "+diaFormateado+" a las "+horario.getHoraComienzo()+ " en la pista "+pista.getNombrePista()+"\n¡A jugar!";
-                mailer.enviarMail("Confirmación de reserva", user.getEmail(), mensaje);
-            }else{
-                JOptionPane.showMessageDialog(null,"Lo sentimos, ha ocurrido un error","ERROR",JOptionPane.ERROR_MESSAGE);
+        SimpleDateFormat formatoDia = new SimpleDateFormat("yyyy/MM/dd");
+        SimpleDateFormat formatoHora = new SimpleDateFormat("HH:mm"); 
+        
+        String hoy = formatoDia.format(new Date());
+        String hora = formatoHora.format(new Date());
+        
+        Properties propertie = propertieController.selectPropertieFromName("LIMITE_RESERVAS_SIMULTANEAS");
+        int nReservasSimultaneasUsuario = reservaController.getNumeroReservasSimultaneasUsuario(user.getId(), hoy, hora);
+        if (Integer.valueOf(propertie.getValue()) <= nReservasSimultaneasUsuario) {
+            //No se permite la reserva porque ya ha llegado al límite simultaneo
+            JOptionPane.showMessageDialog(null,"Este usuario ya ha excedido el número de reservas simultáneas ("+propertie.getValue()+"). ¡Vuelve cuando ya hayas jugado algún partido!","¡Noo!",JOptionPane.WARNING_MESSAGE);
+        }else{
+            if (verifyCampos()){
+                Date dia = jDateChooserCita.getDate();
+                String horaComienzo =jComboBoxHorario.getSelectedItem().toString();
+
+                Horarios horario = horarioController.getHorarioByHoraComienzo(horaComienzo);
+                Pistas pista = pistaController.getPistaByNombre(jComboBoxPistas.getSelectedItem().toString());
+
+                Reservas reserva = new Reservas(horario, pista, user, dia);
+                long result = reservaController.insertarReserva(reserva);
+                if (result != 0){
+                    JOptionPane.showMessageDialog(null,"Reserva añadida correctamente","INFO",JOptionPane.INFORMATION_MESSAGE);
+                    dispose();
+                    MiPerfilForm form = new MiPerfilForm(user);
+                    form.pack();
+                    form.setVisible(true);
+                    form.setLocationRelativeTo(null);
+                    form.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                    Mailer mailer = new Mailer();
+                    String diaFormateado = new SimpleDateFormat("dd-MM-yyyy").format(dia);
+                    String mensaje = "¡Hola "+user.getNombreCompleto()+"!\nDesde Padel Land te confirmamos la reserva para el día "+diaFormateado+" a las "+horario.getHoraComienzo()+ " en la pista "+pista.getNombrePista()+"\n¡A jugar!";
+                    mailer.enviarMail("Confirmación de reserva", user.getEmail(), mensaje);
+                }else{
+                    JOptionPane.showMessageDialog(null,"Lo sentimos, ha ocurrido un error","ERROR",JOptionPane.ERROR_MESSAGE);
+                }
             }
         }
     }//GEN-LAST:event_jButtonReservarActionPerformed

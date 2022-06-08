@@ -9,7 +9,6 @@ import java.util.Date;
  */
 public class Reservas  implements java.io.Serializable {
 
-
      private Long id;
      private Horarios horarios;
      private Pistas pistas;

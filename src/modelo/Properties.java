@@ -8,7 +8,6 @@ package modelo;
  */
 public class Properties  implements java.io.Serializable {
 
-
      private long id;
      private String propertie;
      private String value;

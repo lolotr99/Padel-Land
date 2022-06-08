@@ -6,27 +6,21 @@
 package vista.basico;
 
 import controlador.UsuarioController;
-import java.awt.Image;
-import java.awt.image.BufferedImage;
-import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.sql.Blob;
-import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.imageio.ImageIO;
-import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import modelo.Usuarios;
 import utilidades.CifradoUtil;
 import utilidades.ImagenFondo;
+import validator.EmailValidator;
 import vista.admin.users.AddUserForm;
-import static vista.basico.MiPerfilForm.imgUsuario;
 
 /**
  *
@@ -257,29 +251,32 @@ public class EditarPerfilForm extends javax.swing.JFrame {
     private void jButtonAnadirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAnadirActionPerformed
         // TODO add your handling code here:
         if (verifyFields()){
-            user.setEmail(jTextFieldEmail.getText());
-            user.setNombreCompleto(jTextFieldNombreCompleto.getText());
-            if(jPasswordField.getPassword() != null && jPasswordField.getPassword().length != 0){
-                user.setPassword(CifradoUtil.getHash(String.valueOf(jPasswordField.getPassword())));
-            }
-            user.setTelefono(jTextFieldTelefono.getText());
-            if (img_path != null && !img_path.equals("")){
-                File file = new File(img_path);
-                Blob imageBlob = null;
-                try {
-                    FileInputStream fis = new FileInputStream(file);
-                    imageBlob = userController.obtenerBlob(fis, file);
-                } catch (FileNotFoundException ex) {
-                    Logger.getLogger(AddUserForm.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (IOException ex) {
-                    Logger.getLogger(AddUserForm.class.getName()).log(Level.SEVERE, null, ex);
+            String email = jTextFieldEmail.getText();
+            if (!checkEmail(email)){
+                user.setEmail(email);
+                user.setNombreCompleto(jTextFieldNombreCompleto.getText());
+                if(jPasswordField.getPassword() != null && jPasswordField.getPassword().length != 0){
+                    user.setPassword(CifradoUtil.getHash(String.valueOf(jPasswordField.getPassword())));
                 }
-                user.setImagenUsuario(imageBlob);
+                user.setTelefono(jTextFieldTelefono.getText());
+                if (img_path != null && !img_path.equals("")){
+                    File file = new File(img_path);
+                    Blob imageBlob = null;
+                    try {
+                        FileInputStream fis = new FileInputStream(file);
+                        imageBlob = userController.obtenerBlob(fis, file);
+                    } catch (FileNotFoundException ex) {
+                        Logger.getLogger(AddUserForm.class.getName()).log(Level.SEVERE, null, ex);
+                    } catch (IOException ex) {
+                        Logger.getLogger(AddUserForm.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    user.setImagenUsuario(imageBlob);
+                }
+
+                userController.updateUsuario(user);
+                JOptionPane.showMessageDialog(null, "¡Tu usuario ha sido actualizado correctamente!","INFO",JOptionPane.INFORMATION_MESSAGE);
+                actualizarCamposPerfil();
             }
-            
-            userController.updateUsuario(user);
-            JOptionPane.showMessageDialog(null, "¡Tu usuario ha sido actualizado correctamente!","INFO",JOptionPane.INFORMATION_MESSAGE);
-            actualizarCamposPerfil();
         }
     }//GEN-LAST:event_jButtonAnadirActionPerformed
 
@@ -287,19 +284,6 @@ public class EditarPerfilForm extends javax.swing.JFrame {
         MiPerfilForm.jLabelEmail.setText(user.getEmail());
         MiPerfilForm.jLabelNombreCompleto.setText(user.getNombreCompleto());
         MiPerfilForm.jLabelNTelefono.setText(user.getTelefono());
-        
-        if (user.getImagenUsuario() != null){
-            BufferedImage img = null;
-            Blob blob = user.getImagenUsuario();
-            byte[] data;
-            try {
-                data = blob.getBytes(1, (int)blob.length());
-                img = ImageIO.read(new ByteArrayInputStream(data));
-                imgUsuario.setIcon(new ImageIcon(img.getScaledInstance(180, 180, Image.SCALE_SMOOTH)));
-            } catch (IOException | SQLException | NullPointerException ex) {
-                Logger.getLogger(MiPerfilForm.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
     }
     
     //Se crea un método para verificar y validar los campos
@@ -307,14 +291,31 @@ public class EditarPerfilForm extends javax.swing.JFrame {
         String nombreCompleto = jTextFieldNombreCompleto.getText();
         String email = jTextFieldEmail.getText();
         String telefono = jTextFieldTelefono.getText();
-        
+        EmailValidator emailValidator = new EmailValidator();
         //Comprobar si hay campos vacíos
         if (nombreCompleto.trim().equals("") || email.trim().equals("") || telefono.trim().equals("")){
             JOptionPane.showMessageDialog(null, "Uno o varios campos están vacíos","Campos vacíos",JOptionPane.WARNING_MESSAGE);
             return false;
+        }else if(!emailValidator.validate(email.trim())){
+            JOptionPane.showMessageDialog(null, "No se cumple el formato de email","Email inválido",JOptionPane.WARNING_MESSAGE);
+            return false;
         }else {
             return true;
         }
+    }
+    
+    //Creamos una funcíon para comprobar si el usuario introducido ya existe en la BBDD
+    public boolean checkEmail(String email) {
+        boolean username_exists = false;
+        
+        if (userController.obtenerUsuarioPorEmail(email) != null){
+            username_exists = true;
+        }
+        
+        if (username_exists && !email.equals(user.getEmail())){
+            JOptionPane.showMessageDialog(null, "Este usuario ya existe en la BBDD", "Email fallido",JOptionPane.ERROR_MESSAGE);
+            return true;
+        }else return false;
     }
     
     /**

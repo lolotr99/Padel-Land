@@ -6,8 +6,10 @@
 package controlador;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Image;
+import java.awt.Toolkit;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileInputStream;
@@ -102,7 +104,7 @@ public class PistaController {
         List<Pistas> listaPistas = null;
         iniciarOperacion();
         try{
-            listaPistas = sesion.createQuery("from Pistas").list();
+            listaPistas = sesion.createQuery("from Pistas p ORDER BY p.nombrePista ASC").list();
         }catch (Exception ex){
            Logger.getLogger(PistaController.class.getName()).log(Level.SEVERE,null,ex);
         }
@@ -172,12 +174,22 @@ public class PistaController {
         InputStream in = pista.getImagenPista().getBinaryStream();  
         BufferedImage bufferedImage = ImageIO.read(in);
         
-        Image image = bufferedImage.getScaledInstance(bufferedImage.getWidth(), bufferedImage.getHeight(), Image.SCALE_DEFAULT);
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        int width = bufferedImage.getWidth();
+        if (bufferedImage.getWidth() > screenSize.getWidth()){
+            width = (int) screenSize.getWidth();
+        }
+        int height = bufferedImage.getHeight();
+        if (bufferedImage.getHeight() > screenSize.getHeight()){
+            height = (int)screenSize.getHeight()-25;
+        }
+        
+        Image image = bufferedImage.getScaledInstance(width, height, Image.SCALE_DEFAULT);
 
         ImageIcon icon = new ImageIcon(image);
         JFrame frame = new JFrame();
         frame.setLayout(new FlowLayout());
-        frame.setSize(bufferedImage.getWidth(), bufferedImage.getHeight()+25);
+        frame.setSize(image.getWidth(frame), image.getHeight(frame));
 
         JLabel jLabel = new JLabel();
         jLabel.setIcon(icon);

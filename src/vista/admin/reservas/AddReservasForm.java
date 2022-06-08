@@ -53,7 +53,6 @@ public class AddReservasForm extends javax.swing.JFrame {
     ArrayList<Pistas> pistasDisponiblesPorDiaYHora;
     ArrayList<Horarios> listaHorariosConPistasDisponibles;
     List<DiasNoDisponibles> listaDiasNoDisponibles;
-    List<Usuarios> listaUsuarios;
     
     public AddReservasForm() {
         reservaController = new ReservaController();
@@ -65,12 +64,6 @@ public class AddReservasForm extends javax.swing.JFrame {
         listaDiasNoDisponibles = diasNoDisponiblesController.getListaDias();
         initComponents();
         jDateChooserCita.setDate(new Date());
-        
-        //Rellenamos ComboBox con emails de usuarios
-        listaUsuarios = usuarioController.getListaUsuarios();
-        for (Usuarios user : listaUsuarios){
-            jComboBoxEmailUser.addItem(user.getEmail());
-        }
     }
 
     /**
@@ -84,7 +77,6 @@ public class AddReservasForm extends javax.swing.JFrame {
 
         jPanel1 = new ImagenFondo();
         jLabel4 = new javax.swing.JLabel();
-        jComboBoxEmailUser = new javax.swing.JComboBox<>();
         jLabel1 = new javax.swing.JLabel();
         jDateChooserCita = new com.toedter.calendar.JDateChooser();
         jLabel3 = new javax.swing.JLabel();
@@ -92,6 +84,7 @@ public class AddReservasForm extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jComboBoxPistas = new javax.swing.JComboBox<>();
         jButtonReservar = new javax.swing.JButton();
+        jTextFieldEmailUsuario = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Padel Land - Añadir Reserva");
@@ -138,28 +131,27 @@ public class AddReservasForm extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(80, 80, 80)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jComboBoxPistas, javax.swing.GroupLayout.PREFERRED_SIZE, 228, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jComboBoxEmailUser, javax.swing.GroupLayout.PREFERRED_SIZE, 229, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jComboBoxPistas, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jLabel4)
                             .addComponent(jLabel1)
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jDateChooserCita, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jDateChooserCita, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jLabel2)
-                            .addComponent(jComboBoxHorario, javax.swing.GroupLayout.PREFERRED_SIZE, 228, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(jComboBoxHorario, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jTextFieldEmailUsuario)))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(111, 111, 111)
                         .addComponent(jButtonReservar, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(80, Short.MAX_VALUE))
+                .addContainerGap(81, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(21, 21, 21)
                 .addComponent(jLabel4)
-                .addGap(18, 18, 18)
-                .addComponent(jComboBoxEmailUser, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jTextFieldEmailUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jLabel1)
                 .addGap(18, 18, 18)
@@ -172,9 +164,9 @@ public class AddReservasForm extends javax.swing.JFrame {
                 .addComponent(jLabel2)
                 .addGap(18, 18, 18)
                 .addComponent(jComboBoxPistas, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 28, Short.MAX_VALUE)
                 .addComponent(jButtonReservar, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(20, Short.MAX_VALUE))
+                .addGap(23, 23, 23))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -272,7 +264,7 @@ public class AddReservasForm extends javax.swing.JFrame {
 
             Horarios horario = horarioController.getHorarioByHoraComienzo(horaComienzo);
             Pistas pista = pistaController.getPistaByNombre(jComboBoxPistas.getSelectedItem().toString());
-            Usuarios user = usuarioController.obtenerUsuarioPorEmail(jComboBoxEmailUser.getSelectedItem().toString());
+            Usuarios user = usuarioController.obtenerUsuarioPorEmail(jTextFieldEmailUsuario.getText());
 
             Reservas reserva = new Reservas(horario, pista, user, dia);
             long result = reservaController.insertarReserva(reserva);
@@ -294,12 +286,16 @@ public class AddReservasForm extends javax.swing.JFrame {
     public boolean verifyCampos(){
         Date dia = jDateChooserCita.getDate();
         
-        boolean usuarioSelected = jComboBoxEmailUser.getItemCount() > 0;
+        boolean usuarioSelected = !jTextFieldEmailUsuario.getText().trim().equals("");
         String emailUsuario = "";
         if (usuarioSelected){
-            emailUsuario = jComboBoxEmailUser.getSelectedItem().toString();
+            emailUsuario = jTextFieldEmailUsuario.getText();
         }
         
+        if (!checkEmail(emailUsuario)){
+            JOptionPane.showMessageDialog(null,"Estás intentando asignar una reserva a un usuario que no existe.","ERROR",JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
         
         SimpleDateFormat formatoDia = new SimpleDateFormat("yyyy/MM/dd");
         SimpleDateFormat formatoHora = new SimpleDateFormat("HH:mm"); 
@@ -330,7 +326,18 @@ public class AddReservasForm extends javax.swing.JFrame {
         return dia != null && !horaComienzo.trim().equals("") && !horaComienzo.trim().equals("");
         
     }
+   
     
+    //Creamos una funcíon para comprobar si el usuario introducido ya existe en la BBDD
+    public boolean checkEmail(String email) {
+        boolean username_exists = false;
+        
+        if (usuarioController.obtenerUsuarioPorEmail(email) != null){
+            username_exists = true;
+        }
+        
+        return username_exists;
+    }
     
     public void fillTablaReservas(JTable tablaReservas) {
         tablaReservas.setDefaultRenderer(Object.class, new RenderUtil());
@@ -423,7 +430,6 @@ public class AddReservasForm extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonReservar;
-    private javax.swing.JComboBox<String> jComboBoxEmailUser;
     private javax.swing.JComboBox<String> jComboBoxHorario;
     private javax.swing.JComboBox<String> jComboBoxPistas;
     private com.toedter.calendar.JDateChooser jDateChooserCita;
@@ -432,5 +438,6 @@ public class AddReservasForm extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JTextField jTextFieldEmailUsuario;
     // End of variables declaration//GEN-END:variables
 }

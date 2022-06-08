@@ -6,7 +6,6 @@
 package vista.auth;
 
 import controlador.UsuarioController;
-import java.awt.Color;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -14,17 +13,15 @@ import java.io.IOException;
 import java.sql.Blob;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.BorderFactory;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-import javax.swing.border.Border;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import modelo.Usuarios;
 import utilidades.CifradoUtil;
+import utilidades.ImagenFondo;
 import utilidades.Mailer;
 import validator.EmailValidator;
-import vista.admin.AdminForm;
 import vista.basico.VistaUsuarioBasicoForm;
 /**
  *
@@ -42,29 +39,6 @@ public class Registro extends javax.swing.JFrame {
     public Registro() {
         initComponents();
         userController = new UsuarioController();
-        //Centrar la pantalla
-        this.setLocationRelativeTo(null);
-        
-        //Creamos un borde de color amarillo para el panel del título
-        Border jPanelTitleBorder = BorderFactory.createMatteBorder(0,1,1,1,Color.YELLOW);
-        jPanelTitle.setBorder(jPanelTitleBorder);
-        
-        //Se crea otro borde de color negro para los JLabel de cerrar y minimizar
-        Border jLabelBorder = BorderFactory.createMatteBorder(1,1,1,1,Color.BLACK);
-        jLabelCerrar.setBorder(jLabelBorder);
-        jLabelMinimizar.setBorder(jLabelBorder);
-        
-        //Se crea un borde para el label de iniciar sesion
-        Border label_login_account_border = BorderFactory.createMatteBorder(0,0,1,0,Color.lightGray);
-        jLabelIniciaSesion.setBorder(label_login_account_border);
-        
-        //Se crea un borde para los campos del formulario
-        Border field_border = BorderFactory.createMatteBorder(1,5,1,1,Color.white);
-        jTextFieldNombreCompleto.setBorder(field_border);
-        jTextFieldEmail.setBorder(field_border);
-        jPasswordField.setBorder(field_border);
-        jPasswordConfirmField.setBorder(field_border);
-        jTextFieldTelefono.setBorder(field_border);
     }
 
     /**
@@ -77,12 +51,7 @@ public class Registro extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        jPanel2 = new javax.swing.JPanel();
-        jLabelMinimizar = new javax.swing.JLabel();
-        jLabelCerrar = new javax.swing.JLabel();
-        jPanelTitle = new javax.swing.JPanel();
-        jLabel3 = new javax.swing.JLabel();
-        jPanel3 = new javax.swing.JPanel();
+        jPanel3 = new ImagenFondo();
         jButtonRegistro = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         jTextFieldNombreCompleto = new javax.swing.JTextField();
@@ -99,108 +68,15 @@ public class Registro extends javax.swing.JFrame {
         jPasswordConfirmField = new javax.swing.JPasswordField();
         jButtonQuitarImagen = new javax.swing.JButton();
         jLabelIniciaSesion = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Padel Land - Registro ");
-        setUndecorated(true);
         setResizable(false);
 
-        jPanel1.setBackground(new java.awt.Color(255, 255, 51));
-
-        jPanel2.setBackground(new java.awt.Color(153, 153, 153));
-
-        jLabelMinimizar.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-        jLabelMinimizar.setText(" - ");
-        jLabelMinimizar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jLabelMinimizar.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabelMinimizarMouseClicked(evt);
-            }
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                jLabelMinimizarMouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                jLabelMinimizarMouseExited(evt);
-            }
-        });
-
-        jLabelCerrar.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
-        jLabelCerrar.setText(" X ");
-        jLabelCerrar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jLabelCerrar.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabelCerrarMouseClicked(evt);
-            }
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                jLabelCerrarMouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                jLabelCerrarMouseExited(evt);
-            }
-        });
-
-        jPanelTitle.setBackground(new java.awt.Color(0, 84, 140));
-
-        jLabel3.setFont(new java.awt.Font("Arial", 0, 48)); // NOI18N
-        jLabel3.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel3.setText("Registro");
-
-        javax.swing.GroupLayout jPanelTitleLayout = new javax.swing.GroupLayout(jPanelTitle);
-        jPanelTitle.setLayout(jPanelTitleLayout);
-        jPanelTitleLayout.setHorizontalGroup(
-            jPanelTitleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelTitleLayout.createSequentialGroup()
-                .addContainerGap(23, Short.MAX_VALUE)
-                .addComponent(jLabel3)
-                .addGap(21, 21, 21))
-        );
-        jPanelTitleLayout.setVerticalGroup(
-            jPanelTitleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanelTitleLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel3)
-                .addContainerGap(23, Short.MAX_VALUE))
-        );
-
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jPanelTitle, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(108, 108, 108)
-                .addComponent(jLabelMinimizar)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabelCerrar)
-                .addContainerGap())
-        );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabelMinimizar)
-                            .addComponent(jLabelCerrar)))
-                    .addComponent(jPanelTitle, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-
-        jButtonRegistro.setBackground(new java.awt.Color(235, 47, 6));
         jButtonRegistro.setFont(new java.awt.Font("Microsoft Sans Serif", 0, 24)); // NOI18N
-        jButtonRegistro.setForeground(new java.awt.Color(255, 255, 255));
         jButtonRegistro.setText("Registro");
         jButtonRegistro.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jButtonRegistro.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                jButtonRegistroMouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                jButtonRegistroMouseExited(evt);
-            }
-        });
         jButtonRegistro.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonRegistroActionPerformed(evt);
@@ -259,84 +135,86 @@ public class Registro extends javax.swing.JFrame {
         });
 
         jLabelIniciaSesion.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jLabelIniciaSesion.setForeground(new java.awt.Color(0, 204, 51));
         jLabelIniciaSesion.setText("¿Ya tienes cuenta? ¡Inicia sesión!");
         jLabelIniciaSesion.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jLabelIniciaSesion.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jLabelIniciaSesionMouseClicked(evt);
             }
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                jLabelIniciaSesionMouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                jLabelIniciaSesionMouseExited(evt);
-            }
         });
+
+        jLabel3.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
+        jLabel3.setText("Registro");
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                .addGap(27, 27, 27)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addGap(38, 38, 38)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addComponent(jLabel6)
-                        .addGap(18, 18, 18)
-                        .addComponent(jPasswordConfirmField, javax.swing.GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel3Layout.createSequentialGroup()
-                                .addComponent(jLabel7)
-                                .addGap(18, 18, 18)
-                                .addComponent(jTextFieldTelefono, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel8)
+                                    .addComponent(jLabel7))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 36, Short.MAX_VALUE)
+                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jTextFieldTelefono, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                        .addGroup(jPanel3Layout.createSequentialGroup()
+                                            .addComponent(jButtonElegirImagen, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                            .addComponent(jButtonQuitarImagen, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addComponent(jLabelRutaImagen, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(jPasswordConfirmField, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jPasswordField, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jTextFieldEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addGroup(jPanel3Layout.createSequentialGroup()
-                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel1)
                                     .addComponent(jLabel2)
                                     .addComponent(jLabel4))
-                                .addGap(18, 18, 18)
-                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(jPasswordField, javax.swing.GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE)
-                                    .addComponent(jTextFieldEmail)
-                                    .addComponent(jTextFieldNombreCompleto)))
-                            .addComponent(jButtonQuitarImagen, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addGap(83, 83, 83))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jTextFieldNombreCompleto, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(83, 83, 83))))
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(43, 43, 43)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jButtonRegistro, javax.swing.GroupLayout.PREFERRED_SIZE, 397, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addComponent(jLabel8)
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabelRutaImagen, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButtonElegirImagen, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addGap(260, 260, 260)
+                .addComponent(jLabel3)
                 .addGap(0, 0, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabelIniciaSesion)
-                .addGap(180, 180, 180))
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                        .addComponent(jButtonRegistro, javax.swing.GroupLayout.PREFERRED_SIZE, 397, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(104, 104, 104))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                        .addComponent(jLabelIniciaSesion)
+                        .addGap(184, 184, 184))))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(54, 54, 54)
+                .addGap(34, 34, 34)
+                .addComponent(jLabel3)
+                .addGap(58, 58, 58)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(jTextFieldNombreCompleto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextFieldEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2))
+                    .addComponent(jLabel2)
+                    .addComponent(jTextFieldEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
                     .addComponent(jPasswordField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6)
                     .addComponent(jPasswordConfirmField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
@@ -350,32 +228,22 @@ public class Registro extends javax.swing.JFrame {
                     .addComponent(jButtonQuitarImagen))
                 .addGap(18, 18, 18)
                 .addComponent(jLabelRutaImagen)
-                .addGap(26, 26, 26)
+                .addGap(31, 31, 31)
                 .addComponent(jButtonRegistro, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jLabelIniciaSesion)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(23, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap())
+            .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+            .addComponent(jPanel3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -391,55 +259,6 @@ public class Registro extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void jLabelMinimizarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabelMinimizarMouseClicked
-        // TODO add your handling code here:
-        this.setState(JFrame.ICONIFIED);
-    }//GEN-LAST:event_jLabelMinimizarMouseClicked
-
-    private void jLabelMinimizarMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabelMinimizarMouseEntered
-        // TODO add your handling code here:
-        Border jLabelBorder = BorderFactory.createMatteBorder(1,1,1,1,Color.WHITE);
-        jLabelMinimizar.setBorder(jLabelBorder);
-        jLabelMinimizar.setForeground(Color.WHITE);
-    }//GEN-LAST:event_jLabelMinimizarMouseEntered
-
-    private void jLabelMinimizarMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabelMinimizarMouseExited
-        // TODO add your handling code here:
-        Border jLabelBorder = BorderFactory.createMatteBorder(1,1,1,1,Color.BLACK);
-        jLabelMinimizar.setBorder(jLabelBorder);
-        jLabelMinimizar.setForeground(Color.BLACK);
-    }//GEN-LAST:event_jLabelMinimizarMouseExited
-
-    private void jLabelCerrarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabelCerrarMouseClicked
-        System.exit(0);
-    }//GEN-LAST:event_jLabelCerrarMouseClicked
-
-    private void jLabelCerrarMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabelCerrarMouseEntered
-        // TODO add your handling code here:
-        Border jLabelBorder = BorderFactory.createMatteBorder(1,1,1,1,Color.WHITE);
-        jLabelCerrar.setBorder(jLabelBorder);
-        jLabelCerrar.setForeground(Color.WHITE);
-    }//GEN-LAST:event_jLabelCerrarMouseEntered
-
-    private void jLabelCerrarMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabelCerrarMouseExited
-        // TODO add your handling code here:
-        Border jLabelBorder = BorderFactory.createMatteBorder(1,1,1,1,Color.BLACK);
-        jLabelCerrar.setBorder(jLabelBorder);
-        jLabelCerrar.setForeground(Color.BLACK);
-    }//GEN-LAST:event_jLabelCerrarMouseExited
-
-    private void jButtonRegistroMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButtonRegistroMouseEntered
-        // TODO add your handling code here:
-        //Seteamos el background del jbutton
-        jButtonRegistro.setBackground(new Color(235,47,6));
-    }//GEN-LAST:event_jButtonRegistroMouseEntered
-
-    private void jButtonRegistroMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButtonRegistroMouseExited
-        // TODO add your handling code here:
-        //Seteamos el background del jbutton
-        jButtonRegistro.setBackground(new Color(0,84,104));
-    }//GEN-LAST:event_jButtonRegistroMouseExited
 
     private void jButtonRegistroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonRegistroActionPerformed
         // TODO add your handling code heres
@@ -469,21 +288,13 @@ public class Registro extends javax.swing.JFrame {
                 long result = userController.insertUsuario(user);
                 if (result != 0){
                     JOptionPane.showMessageDialog(null, "¡Usuario creado correctamente!","INFO", JOptionPane.INFORMATION_MESSAGE);
-                    if (user.getRol().equals("basico")){
-                        VistaUsuarioBasicoForm form = new VistaUsuarioBasicoForm(user);
-                        form.setVisible(true);
-                        form.pack();
-                        form.setLocationRelativeTo(null);
-                        //Cerramos el formulario actual
-                        this.dispose();
-                    }else if (user.getRol().equals("administrador")){
-                        AdminForm af = new AdminForm(user);
-                        af.setVisible(true);
-                        af.pack();
-                        af.setLocationRelativeTo(null);
-                        AdminForm.jLabelBienvenida.setText("<html><body>¡Bienvenido #"+user.getEmail()+"#!<br>Esta es la vista de Administrador de Padel Land</body></html>");
-                        this.dispose();
-                    }
+                    VistaUsuarioBasicoForm form = new VistaUsuarioBasicoForm(user);
+                    form.setVisible(true);
+                    form.pack();
+                    form.setLocationRelativeTo(null);
+                    //Cerramos el formulario actual
+                    this.dispose();
+                  
                     Mailer mailer = new Mailer();
                     String mensaje = "¡Hola " + user.getNombreCompleto()+ "!\nNos complace darte la bienvenida a Padel Land, esperemos que te guste nuestro servicio y que disfrutes de nuestras maravillosas pistas\n¡A jugar!";
                     mailer.enviarMail("¡Bienvenido a Padel Land!", user.getEmail(), mensaje);
@@ -540,19 +351,6 @@ public class Registro extends javax.swing.JFrame {
         login_form.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.dispose();
     }//GEN-LAST:event_jLabelIniciaSesionMouseClicked
-
-    private void jLabelIniciaSesionMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabelIniciaSesionMouseEntered
-        // TODO add your handling code here:
-        Border label_border = BorderFactory.createMatteBorder(0,0,1,0,new Color(0,204,0));
-        jLabelIniciaSesion.setBorder(label_border);
-    }//GEN-LAST:event_jLabelIniciaSesionMouseEntered
-
-    private void jLabelIniciaSesionMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabelIniciaSesionMouseExited
-        // TODO add your handling code here:
-        //Se crea un borde para el label de crear cuenta
-        Border label_create_account_border = BorderFactory.createMatteBorder(0,0,1,0,Color.lightGray);
-        jLabelIniciaSesion.setBorder(label_create_account_border);
-    }//GEN-LAST:event_jLabelIniciaSesionMouseExited
 
     //Se crea un método para verificar y validar los campos
     public boolean verifyFields() {
@@ -638,14 +436,10 @@ public class Registro extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
-    private javax.swing.JLabel jLabelCerrar;
     private javax.swing.JLabel jLabelIniciaSesion;
-    private javax.swing.JLabel jLabelMinimizar;
     private javax.swing.JLabel jLabelRutaImagen;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
-    private javax.swing.JPanel jPanelTitle;
     private javax.swing.JPasswordField jPasswordConfirmField;
     private javax.swing.JPasswordField jPasswordField;
     private javax.swing.JTextField jTextFieldEmail;

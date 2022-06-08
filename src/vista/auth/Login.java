@@ -5,19 +5,17 @@
  */
 package vista.auth;
 
-import vista.admin.AdminForm;
 import controlador.UsuarioController;
 import java.awt.Color;
 import java.awt.HeadlessException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.BorderFactory;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-import javax.swing.border.Border;
 import modelo.Usuarios;
 import utilidades.CifradoUtil;
-import utilidades.Mailer;
+import utilidades.ImagenFondo;
+import vista.admin.AdminForm;
 import vista.basico.VistaUsuarioBasicoForm;
 
 /**
@@ -33,36 +31,6 @@ public class Login extends javax.swing.JFrame {
     
     public Login() {
         initComponents();
-        
-        //Centramos la ventana
-        this.setLocationRelativeTo(null);
-        
-        //Creamos un borde de color amarillo para el panel del título
-        Border jPanelTitleBorder = BorderFactory.createMatteBorder(0,1,1,1,Color.YELLOW);
-        jPanelTitle.setBorder(jPanelTitleBorder);
-        
-        //Creamos un borde naranja para el panel global
-        Border glob_panel_border = BorderFactory.createMatteBorder(1,1,1,1,Color.orange);
-        jPanel1.setBorder(glob_panel_border);
-        
-        //Se crea otro borde de color negro para los JLabel de cerrar y minimizar
-        Border jLabelBorder = BorderFactory.createMatteBorder(1,1,1,1,Color.BLACK);
-        jLabelCerrar.setBorder(jLabelBorder);
-        jLabelMinimizar.setBorder(jLabelBorder);
-        
-        //Se crea un borde para el label de crear cuenta
-        Border label_create_account_border = BorderFactory.createMatteBorder(0,0,1,0,Color.lightGray);
-        jLabelRegistraCuenta.setBorder(label_create_account_border);
-        
-        //Se crea un border con el color del JPanel padre para los label de los iconos para borrar el movimiento
-        Border label_icons_border = BorderFactory.createMatteBorder(1,1,1,1,new Color(153,153,153));
-        jLabelEmail.setBorder(label_icons_border);
-        jLabelPassword.setBorder(label_icons_border);
-        
-        //Se crea un borde para los campos de email_field y el password_field
-        Border field_border = BorderFactory.createMatteBorder(1,5,1,1,Color.white);
-        jTextFieldEmail.setBorder(field_border);
-        jPasswordField.setBorder(field_border);
     }
 
     /**
@@ -74,237 +42,101 @@ public class Login extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel1 = new javax.swing.JPanel();
-        jPanel2 = new javax.swing.JPanel();
-        jLabelMinimizar = new javax.swing.JLabel();
-        jLabelCerrar = new javax.swing.JLabel();
-        jPanelTitle = new javax.swing.JPanel();
+        jPanel1 = new ImagenFondo();
+        jLabel1 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        jPanel3 = new javax.swing.JPanel();
-        jLabelPassword = new javax.swing.JLabel();
-        jLabelEmail = new javax.swing.JLabel();
         jTextFieldEmail = new javax.swing.JTextField();
+        jLabel5 = new javax.swing.JLabel();
         jPasswordField = new javax.swing.JPasswordField();
         jButtonLogin = new javax.swing.JButton();
-        jLabelRegistraCuenta = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
+        jLabelIrARegistro = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Padel Land - Login");
-        setUndecorated(true);
         setResizable(false);
 
-        jPanel1.setBackground(new java.awt.Color(255, 255, 0));
+        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
+        jLabel1.setText("Iniciar Sesión");
 
-        jPanel2.setBackground(new java.awt.Color(153, 153, 153));
+        jLabel3.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        jLabel3.setText("Email");
 
-        jLabelMinimizar.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-        jLabelMinimizar.setText(" - ");
-        jLabelMinimizar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jLabelMinimizar.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabelMinimizarMouseClicked(evt);
-            }
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                jLabelMinimizarMouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                jLabelMinimizarMouseExited(evt);
-            }
-        });
+        jLabel5.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        jLabel5.setText("Password");
 
-        jLabelCerrar.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
-        jLabelCerrar.setText(" X ");
-        jLabelCerrar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jLabelCerrar.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabelCerrarMouseClicked(evt);
-            }
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                jLabelCerrarMouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                jLabelCerrarMouseExited(evt);
-            }
-        });
-
-        jPanelTitle.setBackground(new java.awt.Color(23, 255, 108));
-
-        jLabel3.setFont(new java.awt.Font("Arial", 0, 48)); // NOI18N
-        jLabel3.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel3.setText("Login");
-
-        javax.swing.GroupLayout jPanelTitleLayout = new javax.swing.GroupLayout(jPanelTitle);
-        jPanelTitle.setLayout(jPanelTitleLayout);
-        jPanelTitleLayout.setHorizontalGroup(
-            jPanelTitleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelTitleLayout.createSequentialGroup()
-                .addContainerGap(24, Short.MAX_VALUE)
-                .addComponent(jLabel3)
-                .addGap(20, 20, 20))
-        );
-        jPanelTitleLayout.setVerticalGroup(
-            jPanelTitleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanelTitleLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel3)
-                .addContainerGap(23, Short.MAX_VALUE))
-        );
-
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jPanelTitle, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(116, 116, 116)
-                .addComponent(jLabelMinimizar)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabelCerrar)
-                .addContainerGap())
-        );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanelTitle, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabelMinimizar)
-                            .addComponent(jLabelCerrar))))
-                .addContainerGap(20, Short.MAX_VALUE))
-        );
-
-        jLabelPassword.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/img/password_field.png"))); // NOI18N
-        jLabelPassword.setOpaque(true);
-
-        jLabelEmail.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/img/username_field.png"))); // NOI18N
-        jLabelEmail.setOpaque(true);
-
-        jTextFieldEmail.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jTextFieldEmail.setForeground(new java.awt.Color(153, 153, 153));
-        jTextFieldEmail.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusGained(java.awt.event.FocusEvent evt) {
-                jTextFieldEmailFocusGained(evt);
-            }
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                jTextFieldEmailFocusLost(evt);
-            }
-        });
-
-        jPasswordField.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jPasswordField.setForeground(new java.awt.Color(153, 153, 153));
-        jPasswordField.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusGained(java.awt.event.FocusEvent evt) {
-                jPasswordFieldFocusGained(evt);
-            }
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                jPasswordFieldFocusLost(evt);
-            }
-        });
-
-        jButtonLogin.setBackground(new java.awt.Color(0, 84, 140));
-        jButtonLogin.setFont(new java.awt.Font("Microsoft Sans Serif", 0, 24)); // NOI18N
-        jButtonLogin.setForeground(new java.awt.Color(255, 255, 255));
-        jButtonLogin.setText("Login");
-        jButtonLogin.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jButtonLogin.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                jButtonLoginMouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                jButtonLoginMouseExited(evt);
-            }
-        });
+        jButtonLogin.setText("LOGIN");
         jButtonLogin.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonLoginActionPerformed(evt);
             }
         });
 
-        jLabelRegistraCuenta.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jLabelRegistraCuenta.setForeground(new java.awt.Color(255, 0, 0));
-        jLabelRegistraCuenta.setText("¿No tienes cuenta? ¡Regístrate!");
-        jLabelRegistraCuenta.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jLabelRegistraCuenta.addMouseListener(new java.awt.event.MouseAdapter() {
+        jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/img/username_field.png"))); // NOI18N
+
+        jLabel7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/img/password_field.png"))); // NOI18N
+
+        jLabelIrARegistro.setText("¿No tienes cuenta? ¡Regístrate aquí!");
+        jLabelIrARegistro.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabelRegistraCuentaMouseClicked(evt);
-            }
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                jLabelRegistraCuentaMouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                jLabelRegistraCuentaMouseExited(evt);
+                jLabelIrARegistroMouseClicked(evt);
             }
         });
-
-        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
-        jPanel3.setLayout(jPanel3Layout);
-        jPanel3Layout.setHorizontalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(0, 54, Short.MAX_VALUE)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabelPassword, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabelEmail, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jTextFieldEmail)
-                            .addComponent(jPasswordField, javax.swing.GroupLayout.DEFAULT_SIZE, 367, Short.MAX_VALUE))
-                        .addGap(51, 51, 51))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                        .addComponent(jButtonLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 412, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(39, 39, 39))))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabelRegistraCuenta)
-                .addGap(154, 154, 154))
-        );
-        jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(32, 32, 32)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jTextFieldEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabelEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPasswordField, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabelPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(26, 26, 26)
-                .addComponent(jButtonLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jLabelRegistraCuenta)
-                .addContainerGap(26, Short.MAX_VALUE))
-        );
-
-        //Seteamos el en el icono la imagen de username_field.png
-        jLabelPassword.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/img/password_field.png")));
-        //Seteamos el en el icono la imagen de username_field.png
-        jLabelEmail.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/img/username_field.png")));
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(58, 58, 58)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap())
+                    .addComponent(jButtonLogin, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel6)
+                            .addComponent(jLabel7))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel3)
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(jTextFieldEmail, javax.swing.GroupLayout.DEFAULT_SIZE, 376, Short.MAX_VALUE)
+                                .addComponent(jPasswordField))
+                            .addComponent(jLabel5))
+                        .addGap(18, 18, 18)))
+                .addGap(58, 58, 58))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(199, Short.MAX_VALUE)
+                .addComponent(jLabelIrARegistro)
+                .addGap(196, 196, 196))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(198, 198, 198)
+                .addComponent(jLabel1)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(31, 31, 31)
+                .addComponent(jLabel1)
+                .addGap(29, 29, 29)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel3)
+                        .addGap(18, 18, 18)
+                        .addComponent(jTextFieldEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel6))
+                .addGap(9, 9, 9)
+                .addComponent(jLabel5)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jPasswordField, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel7))
+                .addGap(38, 38, 38)
+                .addComponent(jButtonLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(31, 31, 31)
+                .addComponent(jLabelIrARegistro)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -321,77 +153,18 @@ public class Login extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jLabelMinimizarMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabelMinimizarMouseEntered
+    private void jLabelIrARegistroMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabelIrARegistroMouseClicked
         // TODO add your handling code here:
-        Border jLabelBorder = BorderFactory.createMatteBorder(1,1,1,1,Color.WHITE);
-        jLabelMinimizar.setBorder(jLabelBorder);
-        jLabelMinimizar.setForeground(Color.WHITE);
-    }//GEN-LAST:event_jLabelMinimizarMouseEntered
-
-    private void jLabelMinimizarMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabelMinimizarMouseExited
-        // TODO add your handling code here:
-        Border jLabelBorder = BorderFactory.createMatteBorder(1,1,1,1,Color.BLACK);
-        jLabelMinimizar.setBorder(jLabelBorder);
-        jLabelMinimizar.setForeground(Color.BLACK);
-    }//GEN-LAST:event_jLabelMinimizarMouseExited
-
-    private void jLabelCerrarMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabelCerrarMouseEntered
-        // TODO add your handling code here:
-        Border jLabelBorder = BorderFactory.createMatteBorder(1,1,1,1,Color.WHITE);
-        jLabelCerrar.setBorder(jLabelBorder);
-        jLabelCerrar.setForeground(Color.WHITE);
-    }//GEN-LAST:event_jLabelCerrarMouseEntered
-
-    private void jLabelCerrarMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabelCerrarMouseExited
-        // TODO add your handling code here:
-        Border jLabelBorder = BorderFactory.createMatteBorder(1,1,1,1,Color.BLACK);
-        jLabelCerrar.setBorder(jLabelBorder);
-        jLabelCerrar.setForeground(Color.BLACK);
-    }//GEN-LAST:event_jLabelCerrarMouseExited
-
-    private void jTextFieldEmailFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTextFieldEmailFocusGained
-        // TODO add your handling code here:
-        
-        //Si el jtextfield de email coge el foco le damos color de fondo a negro
-        jTextFieldEmail.setForeground(Color.BLACK);
-        
-        //Ponemos un borde verde para el jlabel del icono de email
-        Border jLabelIcon = BorderFactory.createMatteBorder(1,1,1,1,Color.orange);
-        jLabelEmail.setBorder(jLabelIcon);
-    }//GEN-LAST:event_jTextFieldEmailFocusGained
-
-    private void jTextFieldEmailFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTextFieldEmailFocusLost
-        // TODO add your handling code here:        
-        
-        jTextFieldEmail.setForeground(new Color(153,153,153));
-        
-        //Se crea un border con el color del JPanel padre para los label de los iconos para borrar el movimiento
-        Border label_icons_border = BorderFactory.createMatteBorder(1,1,1,1,new Color(153,153,153));
-        jLabelEmail.setBorder(label_icons_border);
-    }//GEN-LAST:event_jTextFieldEmailFocusLost
-
-    private void jPasswordFieldFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jPasswordFieldFocusGained
-        // TODO add your handling code here:
-        jPasswordField.setForeground(Color.BLACK);
-        
-        //Ponemos un borde verde para el jlabel del icono de password
-        Border jLabelIcon = BorderFactory.createMatteBorder(1,1,1,1,Color.orange);
-        jLabelPassword.setBorder(jLabelIcon);
-    }//GEN-LAST:event_jPasswordFieldFocusGained
-
-    private void jPasswordFieldFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jPasswordFieldFocusLost
-        // TODO add your handling code here:
-
-        jPasswordField.setForeground(new Color(153,153,153));
-        
-        //Se crea un border con el color del JPanel padre para los label de los iconos para borrar el movimiento
-        Border label_icons_border = BorderFactory.createMatteBorder(1,1,1,1,new Color(153,153,153));
-        jLabelPassword.setBorder(label_icons_border);
-    }//GEN-LAST:event_jPasswordFieldFocusLost
+        Registro register_form = new Registro();
+        register_form.setVisible(true);
+        register_form.pack();
+        register_form.setLocationRelativeTo(null);
+        register_form.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.dispose();
+    }//GEN-LAST:event_jLabelIrARegistroMouseClicked
 
     private void jButtonLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonLoginActionPerformed
         // TODO add your handling code here:
-        
         if (verifyFields()){
             //Obtenemos los datos del formulario
             String email = jTextFieldEmail.getText();
@@ -418,10 +191,10 @@ public class Login extends javax.swing.JFrame {
                             this.dispose();
                         }
                     }else{
-                        JOptionPane.showMessageDialog(null,"Contraseña no es válida para este usuario","Error de inicio de sesión",JOptionPane.ERROR_MESSAGE);
+                        JOptionPane.showMessageDialog(null,"Email o contraseña incorrectos","Error de inicio de sesión",JOptionPane.ERROR_MESSAGE);
                     }
                 }else{
-                    JOptionPane.showMessageDialog(null,"Usuario no existe","Error de inicio de sesión",JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(null,"Email o contraseña incorrectos","Error de inicio de sesión",JOptionPane.ERROR_MESSAGE);
                 }
             }catch(HeadlessException ex){
                 Logger.getLogger(Login.class.getName()).log(Level.SEVERE,null,ex);
@@ -429,52 +202,7 @@ public class Login extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jButtonLoginActionPerformed
 
-    private void jButtonLoginMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButtonLoginMouseEntered
-        // TODO add your handling code here:
-        //Seteamos el background del jbutton
-        jButtonLogin.setBackground(new Color(0,101,183));
-    }//GEN-LAST:event_jButtonLoginMouseEntered
-
-    private void jButtonLoginMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButtonLoginMouseExited
-        // TODO add your handling code here:
-        //Seteamos el background del jbutton
-        jButtonLogin.setBackground(new Color(0,84,104));
-    }//GEN-LAST:event_jButtonLoginMouseExited
-
-    private void jLabelMinimizarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabelMinimizarMouseClicked
-        // TODO add your handling code here:
-        this.setState(JFrame.ICONIFIED);
-    }//GEN-LAST:event_jLabelMinimizarMouseClicked
-
-    private void jLabelCerrarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabelCerrarMouseClicked
-        // TODO add your handling code here:
-        System.exit(0);
-    }//GEN-LAST:event_jLabelCerrarMouseClicked
-
-    private void jLabelRegistraCuentaMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabelRegistraCuentaMouseEntered
-        // TODO add your handling code here:
-        Border label_border = BorderFactory.createMatteBorder(0,0,1,0,Color.red);
-        jLabelRegistraCuenta.setBorder(label_border);
-    }//GEN-LAST:event_jLabelRegistraCuentaMouseEntered
-
-    private void jLabelRegistraCuentaMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabelRegistraCuentaMouseExited
-        // TODO add your handling code here:
-         //Se crea un borde para el label de crear cuenta
-        Border label_create_account_border = BorderFactory.createMatteBorder(0,0,1,0,Color.lightGray);
-        jLabelRegistraCuenta.setBorder(label_create_account_border);
-    }//GEN-LAST:event_jLabelRegistraCuentaMouseExited
-
-    private void jLabelRegistraCuentaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabelRegistraCuentaMouseClicked
-        // TODO add your handling code here:
-        Registro register_form = new Registro();
-        register_form.setVisible(true);
-        register_form.pack();
-        register_form.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.dispose();
-    }//GEN-LAST:event_jLabelRegistraCuentaMouseClicked
-
-    
-    //Se crea un método para verificar y validar los campos
+        //Se crea un método para verificar y validar los campos
     public boolean verifyFields() {
         String email = jTextFieldEmail.getText();
         String password = String.valueOf(jPasswordField.getPassword());
@@ -489,6 +217,7 @@ public class Login extends javax.swing.JFrame {
             return true;
         }
     }
+    
     /**
      * @param args the command line arguments
      */
@@ -527,16 +256,13 @@ public class Login extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonLogin;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabelCerrar;
-    private javax.swing.JLabel jLabelEmail;
-    private javax.swing.JLabel jLabelMinimizar;
-    private javax.swing.JLabel jLabelPassword;
-    private javax.swing.JLabel jLabelRegistraCuenta;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabelIrARegistro;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel3;
-    private javax.swing.JPanel jPanelTitle;
     private javax.swing.JPasswordField jPasswordField;
     private javax.swing.JTextField jTextFieldEmail;
     // End of variables declaration//GEN-END:variables
