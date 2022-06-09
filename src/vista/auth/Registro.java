@@ -305,10 +305,11 @@ public class Registro extends javax.swing.JFrame {
                 }
                 long result = userController.insertUsuario(user);
                 if (result != 0){
-                    JOptionPane.showMessageDialog(null, "¡Usuario creado correctamente!","INFO", JOptionPane.INFORMATION_MESSAGE);
                     Mailer mailer = new Mailer();
                     String mensaje = "¡Hola " + user.getNombreCompleto()+ "!\nNos complace darte la bienvenida a Padel Land, esperemos que te guste nuestro servicio y que disfrutes de nuestras maravillosas pistas\n¡A jugar!";
                     mailer.enviarMail(Constantes.EMAIL_ADMIN,user.getEmail(),"¡Bienvenido a Padel Land!",mensaje);
+                    
+                    JOptionPane.showMessageDialog(null, "¡Usuario creado correctamente!","INFO", JOptionPane.INFORMATION_MESSAGE);
                     
                     if (form != null){
                         VistaUsuarioBasicoForm vistaUser = new VistaUsuarioBasicoForm(user);

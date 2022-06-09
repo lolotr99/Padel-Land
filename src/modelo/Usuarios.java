@@ -11,7 +11,6 @@ import java.util.Set;
  */
 public class Usuarios  implements java.io.Serializable {
 
-
      private Long id;
      private String nombreCompleto;
      private String email;
@@ -100,6 +99,10 @@ public class Usuarios  implements java.io.Serializable {
     }
 
 
+    @Override
+    public String toString() {
+        return "Usuarios{" + "id=" + id + ", nombreCompleto=" + nombreCompleto + ", email=" + email + ", password=" + password + ", telefono=" + telefono + ", imagenUsuario=" + imagenUsuario + ", rol=" + rol + ", reservases=" + reservases + '}';
+    }
 
 
 }

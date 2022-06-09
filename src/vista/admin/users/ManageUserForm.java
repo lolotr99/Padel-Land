@@ -368,6 +368,7 @@ public class ManageUserForm extends javax.swing.JFrame {
                     userController.deleteUsuario(user);
                     userController.fillUsersJTable(jTableUsuarios, jTextFieldValorBusqueda.getText());
                     limpiarCampos();
+                    JOptionPane.showMessageDialog(null,"Usuario eliminado correctamente","INFO",JOptionPane.INFORMATION_MESSAGE);
                 }
             }
         }

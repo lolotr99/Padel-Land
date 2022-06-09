@@ -58,6 +58,11 @@ public class Pistas  implements java.io.Serializable {
         this.reservases = reservases;
     }
 
+    @Override
+    public String toString() {
+        return "Pistas{" + "id=" + id + ", nombrePista=" + nombrePista + ", imagenPista=" + imagenPista + ", reservases=" + reservases + '}';
+    }
+
 
 
 

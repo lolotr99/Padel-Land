@@ -34,8 +34,10 @@ public class DiasNoDisponibles  implements java.io.Serializable {
         this.dia = dia;
     }
 
-
-
+    @Override
+    public String toString() {
+        return "DiasNoDisponibles{" + "id=" + id + ", dia=" + dia + '}';
+    }
 
 }
 

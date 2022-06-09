@@ -232,10 +232,11 @@ public class ManageReservasForm extends javax.swing.JFrame {
                     reservaController.deleteReserva(reserva);
                     String message = "¡Hola "+jTableReservas.getModel().getValueAt(row, 1)+"!\nDesde Padel Land confirmamos que se ha cancelado la reserva en la pista " +jTableReservas.getModel().getValueAt(row, 2)
                             + " para el día "+ jTableReservas.getModel().getValueAt(row, 4) + " a las " + jTableReservas.getModel().getValueAt(row, 3);
-                    mensaje+="\n ¡Pase usted un buen día!";
+                    message+="\n ¡Pase usted un buen día!";
                     Mailer mailer = new Mailer();
                     mailer.enviarMail(Constantes.EMAIL_ADMIN, email, "Confirmación de Anulación de reserva", message);                    
                     fillTablaReservasFiltro(jTableReservas, "", "", "");
+                    JOptionPane.showMessageDialog(null,"Reserva anulada correctamente","INFO",JOptionPane.INFORMATION_MESSAGE);
                 }
             }
         }

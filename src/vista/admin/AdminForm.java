@@ -7,7 +7,6 @@ package vista.admin;
 
 import vista.admin.users.ManageUserForm;
 import javax.swing.JFrame;
-import javax.swing.JOptionPane;
 import modelo.Usuarios;
 import utilidades.ImagenFondo;
 import vista.admin.diasnodisponibles.AddDiaNoDisponibleForm;

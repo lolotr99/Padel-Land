@@ -275,10 +275,11 @@ public class AddUserForm extends javax.swing.JFrame {
                 }
                 long result = userController.insertUsuario(user);
                 if (result != 0){
-                    JOptionPane.showMessageDialog(null, "¡Tu usuario ha sido creado correctamente!","INFO",JOptionPane.INFORMATION_MESSAGE);
                     Mailer mailer = new Mailer();
                     String mensaje = "¡Hola " + user.getNombreCompleto()+ "!\nNos complace darte la bienvenida a Padel Land, esperemos que te guste nuestro servicio y que disfrutes de nuestras maravillosas pistas\n¡A jugar!";
                     mailer.enviarMail(Constantes.EMAIL_ADMIN, user.getEmail(), "¡Bienvenido a Padel Land!", mensaje);
+                    JOptionPane.showMessageDialog(null, "¡Tu usuario ha sido creado correctamente!","INFO",JOptionPane.INFORMATION_MESSAGE);
+
                 }else{
                     JOptionPane.showMessageDialog(null, "Error en el registro, revisa tus datos","ERROR",JOptionPane.ERROR_MESSAGE);
                 }

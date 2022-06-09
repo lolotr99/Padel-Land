@@ -302,6 +302,7 @@ public class ManagePistaForm extends javax.swing.JFrame {
                     pistaController.deletePista(pista);
                     pistaController.fillPistasJTable(jTablePistas, jTextFieldValorBusqueda.getText());
                     limpiarCampos();
+                    JOptionPane.showMessageDialog(null,"Pista eliminada correctamente","INFO",JOptionPane.INFORMATION_MESSAGE);
                 }
             }
         }

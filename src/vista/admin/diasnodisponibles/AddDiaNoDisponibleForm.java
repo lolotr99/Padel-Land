@@ -174,10 +174,11 @@ public class AddDiaNoDisponibleForm extends javax.swing.JFrame {
                     JOptionPane.showMessageDialog(null, "Ha ocurrido un error en el registro, revisa tus datos.","ERROR",JOptionPane.ERROR_MESSAGE);
                 }
             }
-                    if (ManageDiasNoDisponiblesForm.jTableDiasNoDisponibles != null){
-                        diasNoDisponiblesController.fillTableDiasNoDisponibles(ManageDiasNoDisponiblesForm.jTableDiasNoDisponibles);
-                    }
+                    
+            if (ManageDiasNoDisponiblesForm.jTableDiasNoDisponibles != null){
+                diasNoDisponiblesController.fillTableDiasNoDisponibles(ManageDiasNoDisponiblesForm.jTableDiasNoDisponibles);
             }
+        }
         
        
     }//GEN-LAST:event_jButtonAnadirActionPerformed

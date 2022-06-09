@@ -170,6 +170,9 @@ public class ManageDiasNoDisponiblesForm extends javax.swing.JFrame {
         // TODO add your handling code here:
         ModifyReservasSimultaneas dialog = new ModifyReservasSimultaneas(this, rootPaneCheckingEnabled, propertie);
         dialog.setVisible(true);
+        dialog.pack();
+        dialog.setLocationRelativeTo(null);
+        dialog.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     }//GEN-LAST:event_jButtonAcutalizarReservasSimultaneasActionPerformed
 
     private void jButtonAddDiaNoDisponibleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAddDiaNoDisponibleActionPerformed
@@ -194,6 +197,7 @@ public class ManageDiasNoDisponiblesForm extends javax.swing.JFrame {
                     DiasNoDisponibles diaNoDisponible = diasNoDisponiblesController.selectDia(Long.valueOf(jTableDiasNoDisponibles.getModel().getValueAt(row,0).toString()));
                     diasNoDisponiblesController.deleteDiaNoDisponible(diaNoDisponible);
                     diasNoDisponiblesController.fillTableDiasNoDisponibles(jTableDiasNoDisponibles);
+                    JOptionPane.showMessageDialog(null,"Día habilitado nuevamente como disponible","INFO",JOptionPane.INFORMATION_MESSAGE);
                 }
             }
         }

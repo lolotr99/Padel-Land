@@ -61,6 +61,11 @@ public class Reservas  implements java.io.Serializable {
         this.dia = dia;
     }
 
+    @Override
+    public String toString() {
+        return "Reservas{" + "id=" + id + ", horarios=" + horarios + ", pistas=" + pistas + ", usuarios=" + usuarios + ", dia=" + dia + '}';
+    }
+
 
 
 

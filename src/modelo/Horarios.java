@@ -58,8 +58,10 @@ public class Horarios  implements java.io.Serializable {
         this.reservases = reservases;
     }
 
-
-
+    @Override
+    public String toString() {
+        return "Horarios{" + "id=" + id + ", turno=" + turno + ", horaComienzo=" + horaComienzo + ", reservases=" + reservases + '}';
+    }
 
 }
 

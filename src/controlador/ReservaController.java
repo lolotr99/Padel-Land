@@ -52,6 +52,18 @@ public class ReservaController {
         return reserva;
     }
     
+    public Reservas getReserva(long idPista, long idHorario, String dia){
+        Reservas reserva = null;
+        iniciarOperacion();
+        try{
+            reserva = (Reservas) sesion.createQuery("FROM Reservas r WHERE r.horarios.id = "+idHorario+" AND r.pistas.id = "+idPista+" AND r.dia = '"+dia+"'").uniqueResult();
+        }catch(Exception ex){
+            Logger.getLogger(ReservaController.class.getName()).log(Level.SEVERE,null,ex);
+        }
+        terminarOperacion();
+        return reserva;
+    }
+    
     public List<Reservas> getReservasUsuario(long idUsuario) {
         List<Reservas> listaReservasUsuario = null;
         iniciarOperacion();
@@ -245,7 +257,7 @@ public class ReservaController {
     public ArrayList<Pistas> getPistasDisponiblesSegunDiayHora(String dia, String hora) {
         iniciarOperacion();
         ArrayList<Pistas> listaPistasDisponibles = null;
-        String queryHQL = "SELECT p FROM Pistas p WHERE NOT EXISTS (SELECT r FROM Reservas r WHERE p.id = r.pistas.id AND r.dia = '"+dia+"' AND EXISTS (SELECT h FROM Horarios h WHERE h.id = r.horarios.id and h.horaComienzo = '"+hora+"'))";
+        String queryHQL = "SELECT p FROM Pistas p WHERE NOT EXISTS (SELECT r FROM Reservas r WHERE p.id = r.pistas.id AND r.dia = '"+dia+"' AND EXISTS (SELECT h FROM Horarios h WHERE h.id = r.horarios.id and h.horaComienzo = '"+hora+"')) ORDER BY p.nombrePista ASC";
         try{
             listaPistasDisponibles=(ArrayList<Pistas>)sesion.createQuery(queryHQL).list();
         }catch(Exception ex){
@@ -258,7 +270,7 @@ public class ReservaController {
     public ArrayList<Horarios> getHorariosQueTenganPistasDisponibles(String dia) {
         iniciarOperacion();
         ArrayList<Horarios> listaHorariosConPistasDisponibles = null;
-        String queryHQL = "SELECT h FROM Horarios h WHERE EXISTS (SELECT p FROM Pistas p WHERE NOT EXISTS (SELECT r FROM Reservas r WHERE r.pistas.id = p.id AND r.horarios.id = h.id AND r.dia = '"+dia+"'))";
+        String queryHQL = "SELECT h FROM Horarios h WHERE EXISTS (SELECT p FROM Pistas p WHERE NOT EXISTS (SELECT r FROM Reservas r WHERE r.pistas.id = p.id AND r.horarios.id = h.id AND r.dia = '"+dia+"')) ORDER BY h.horaComienzo ASC";
         try{
             listaHorariosConPistasDisponibles = (ArrayList<Horarios>) sesion.createQuery(queryHQL).list();
         }catch(Exception ex) {
@@ -272,7 +284,7 @@ public class ReservaController {
     public ArrayList<Horarios> getHorariosQueTenganPistasDisponiblesHoy(String dia, String hora) {
         iniciarOperacion();
         ArrayList<Horarios> listaHorariosConPistasDisponibles = null;
-        String queryHQL = "SELECT h FROM Horarios h WHERE EXISTS (SELECT p FROM Pistas p WHERE NOT EXISTS (SELECT r FROM Reservas r WHERE r.pistas.id = p.id AND r.horarios.id = h.id AND r.dia = '"+dia+"')) AND h.horaComienzo > '"+hora+"'";
+        String queryHQL = "SELECT h FROM Horarios h WHERE EXISTS (SELECT p FROM Pistas p WHERE NOT EXISTS (SELECT r FROM Reservas r WHERE r.pistas.id = p.id AND r.horarios.id = h.id AND r.dia = '"+dia+"')) AND h.horaComienzo > '"+hora+"' ORDER BY h.horaComienzo ASC";
         try{
             listaHorariosConPistasDisponibles = (ArrayList<Horarios>) sesion.createQuery(queryHQL).list();
         }catch(Exception ex) {

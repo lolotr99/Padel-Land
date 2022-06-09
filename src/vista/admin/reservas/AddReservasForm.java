@@ -212,23 +212,27 @@ public class AddReservasForm extends javax.swing.JFrame {
                 listaHorariosConPistasDisponibles = reservaController.getHorariosQueTenganPistasDisponiblesHoy(dia,horaActual);
                 jComboBoxHorario.removeAllItems();
                 jComboBoxPistas.removeAllItems();
-                for (Horarios horario : listaHorariosConPistasDisponibles) {
-                    jComboBoxHorario.addItem(formatoHora.format(horario.getHoraComienzo()));
+                if (listaHorariosConPistasDisponibles.size()> 0){
+                    for (Horarios horario : listaHorariosConPistasDisponibles) {
+                        jComboBoxHorario.addItem(formatoHora.format(horario.getHoraComienzo()));
+                    }
+                }else{
+                    jComboBoxHorario.addItem("No hay horas disponibles");
                 }
             }else if(jDateChooserCita.getDate().before(new Date())){
-                jComboBoxHorario.removeAllItems();
-                jComboBoxPistas.removeAllItems();
                 JOptionPane.showMessageDialog(null,"El día seleccionado no puede ser anterior a la fecha actual","WARNING",JOptionPane.WARNING_MESSAGE);
             }else if (isDiaSeleccionadoNoDisponible){
-                jComboBoxHorario.removeAllItems();
-                jComboBoxPistas.removeAllItems();
                 JOptionPane.showMessageDialog(null,"Padel Land cierra en el día seleccionado","WARNING",JOptionPane.WARNING_MESSAGE);
             }else{
                 listaHorariosConPistasDisponibles = reservaController.getHorariosQueTenganPistasDisponibles(dia);
                 jComboBoxHorario.removeAllItems();
                 jComboBoxPistas.removeAllItems();
-                for (Horarios horario : listaHorariosConPistasDisponibles) {
-                    jComboBoxHorario.addItem(formatoHora.format(horario.getHoraComienzo()));
+                if (listaHorariosConPistasDisponibles.size()> 0){
+                    for (Horarios horario : listaHorariosConPistasDisponibles) {
+                        jComboBoxHorario.addItem(formatoHora.format(horario.getHoraComienzo()));
+                    }
+                }else{
+                    jComboBoxHorario.addItem("No hay horas disponibles");
                 }
             }
         }
@@ -237,24 +241,31 @@ public class AddReservasForm extends javax.swing.JFrame {
     private void jComboBoxHorarioItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jComboBoxHorarioItemStateChanged
         // TODO add your handling code here:
         if (evt.getStateChange() == ItemEvent.SELECTED){
-            SimpleDateFormat formatoDia = new SimpleDateFormat("yyyy/MM/dd");
-            SimpleDateFormat formatoHora = new SimpleDateFormat("HH:mm");
-            String dia = "";
-            String hora = "";
-            if (jDateChooserCita.getDate() != null)
-            dia = formatoDia.format(jDateChooserCita.getDate());
-            else
-            dia = formatoDia.format(new Date());
+            if (!jComboBoxHorario.getSelectedItem().toString().equals("No hay horas disponibles")){
+                SimpleDateFormat formatoDia = new SimpleDateFormat("yyyy/MM/dd");
+                SimpleDateFormat formatoHora = new SimpleDateFormat("HH:mm");
+                String dia = "";
+                String hora = "";
+                if (jDateChooserCita.getDate() != null){
+                    dia = formatoDia.format(jDateChooserCita.getDate());
+                }else{
+                    dia = formatoDia.format(new Date());
+                }
 
-            if (jComboBoxHorario.getSelectedItem() != null)
-            hora =  jComboBoxHorario.getSelectedItem().toString();
-            else
-            hora = formatoHora.format(new Date());
-            pistasDisponiblesPorDiaYHora = reservaController.getPistasDisponiblesSegunDiayHora(dia, hora);
-            jComboBoxPistas.removeAllItems();
-            for (Pistas pista : pistasDisponiblesPorDiaYHora) {
-                jComboBoxPistas.addItem(pista.getNombrePista());
+                if (jComboBoxHorario.getSelectedItem() != null){
+                    hora =  jComboBoxHorario.getSelectedItem().toString();
+                }else{
+                    hora = formatoHora.format(new Date());
+                }
+                pistasDisponiblesPorDiaYHora = reservaController.getPistasDisponiblesSegunDiayHora(dia, hora);
+                jComboBoxPistas.removeAllItems();
+                for (Pistas pista : pistasDisponiblesPorDiaYHora) {
+                    jComboBoxPistas.addItem(pista.getNombrePista());
+                }
+            }else{
+                jComboBoxPistas.addItem("No hay pistas disponibles");
             }
+            
         }
     }//GEN-LAST:event_jComboBoxHorarioItemStateChanged
 
@@ -269,19 +280,26 @@ public class AddReservasForm extends javax.swing.JFrame {
             Usuarios user = usuarioController.obtenerUsuarioPorEmail(jTextFieldEmailUsuario.getText());
 
             Reservas reserva = new Reservas(horario, pista, user, dia);
-            long result = reservaController.insertarReserva(reserva);
-            if (result != 0){
-                JOptionPane.showMessageDialog(null,"Reserva añadida correctamente","INFO",JOptionPane.INFORMATION_MESSAGE);
-                Mailer mailer = new Mailer();
-                String diaFormateado = new SimpleDateFormat("dd-MM-yyyy").format(dia);
-                String mensaje = "¡Hola "+user.getNombreCompleto()+"!\nDesde Padel Land te confirmamos la reserva para el día "+diaFormateado+" a las "+horario.getHoraComienzo()+ " en la pista "+pista.getNombrePista()+"\n¡A jugar!";
-                mailer.enviarMail(Constantes.EMAIL_ADMIN, user.getEmail(), "Asignación de reserva", mensaje);
-                if (ManageReservasForm.jTableReservas != null){
-                    fillTablaReservas(ManageReservasForm.jTableReservas);
+            //Comprobar antes de insertar que esta reserva no existe
+            if (!reservaExists(reserva)){
+                long result = reservaController.insertarReserva(reserva);
+                if (result != 0){
+                    Mailer mailer = new Mailer();
+                    String diaFormateado = new SimpleDateFormat("dd-MM-yyyy").format(dia);
+                    String mensaje = "¡Hola "+user.getNombreCompleto()+"!\nDesde Padel Land te confirmamos la reserva para el día "+diaFormateado+" a las "+horario.getHoraComienzo()+ " en la pista "+pista.getNombrePista()+"\n¡A jugar!";
+                    mailer.enviarMail(Constantes.EMAIL_ADMIN, user.getEmail(), "Asignación de reserva", mensaje);
+                    if (ManageReservasForm.jTableReservas != null){
+                        fillTablaReservas(ManageReservasForm.jTableReservas);
+                    }
+                    JOptionPane.showMessageDialog(null,"Reserva añadida correctamente","INFO",JOptionPane.INFORMATION_MESSAGE);
+
+                }else{
+                    JOptionPane.showMessageDialog(null,"Lo sentimos, ha ocurrido un error","ERROR",JOptionPane.ERROR_MESSAGE);
                 }
             }else{
-                JOptionPane.showMessageDialog(null,"Lo sentimos, ha ocurrido un error","ERROR",JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null,"Esta pista ya está alquilada en esa hora para el día seleccionado","ERROR",JOptionPane.ERROR_MESSAGE);
             }
+            
         }
     }//GEN-LAST:event_jButtonReservarActionPerformed
 
@@ -315,23 +333,28 @@ public class AddReservasForm extends javax.swing.JFrame {
         
         if (Integer.valueOf(propertie.getValue()) <= nReservasSimultaneasUsuario) {
             //No se permite la reserva porque ya ha llegado al límite simultaneo
+            JOptionPane.showMessageDialog(null,"Este usuario ya ha excedido el número de reservas simultáneas ("+propertie.getValue()+"). ¡Vuelve cuando ya hayas jugado algún partido!","¡Noo!",JOptionPane.WARNING_MESSAGE);
             return false;
         }
         
-        boolean horarioSelected = jComboBoxHorario.getItemCount() > 0;
+        boolean horarioSelected = jComboBoxHorario.getItemCount() > 0 && !jComboBoxHorario.getSelectedItem().toString().equals("No hay horas disponibles");        
         String horaComienzo = "";
         if (horarioSelected){
             horaComienzo = jComboBoxHorario.getSelectedItem().toString();
         }
         
-        boolean pistaSelected = jComboBoxPistas.getItemCount() > 0;
+        boolean pistaSelected = jComboBoxPistas.getItemCount() > 0 && !jComboBoxPistas.getSelectedItem().toString().equals("No hay pistas disponibles");  
         String nombrePista = "";
         if (pistaSelected){
             nombrePista = jComboBoxPistas.getSelectedItem().toString();
         }
         
-        return dia != null && !horaComienzo.trim().equals("") && !horaComienzo.trim().equals("");
-        
+        if (dia != null && !horaComienzo.trim().equals("") && !nombrePista.trim().equals(""))
+            return true;
+        else{            
+            JOptionPane.showMessageDialog(null, "No hay pistas disponibles este día","Campos vacíos",JOptionPane.WARNING_MESSAGE);
+            return false;
+        }        
     }
    
     
@@ -344,6 +367,21 @@ public class AddReservasForm extends javax.swing.JFrame {
         }
         
         return username_exists;
+    }
+    
+    public boolean reservaExists(Reservas reserva) {
+        boolean reserva_exists = false;
+        
+        long idPista = reserva.getPistas().getId();
+        long idHorario = reserva.getHorarios().getId();
+        String dia = new SimpleDateFormat("yyyy-MM-dd").format(reserva.getDia());
+        
+        
+        if (reservaController.getReserva(idPista, idHorario, dia) != null){
+            reserva_exists = true;
+        }
+        
+        return reserva_exists;
     }
     
     public void fillTablaReservas(JTable tablaReservas) {

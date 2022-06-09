@@ -155,6 +155,7 @@ public class ManageHorarioForm extends javax.swing.JFrame {
                     }else{
                         horarioController.deleteHorario(horarioController.selectHorario(Long.valueOf(jTableHorarios.getModel().getValueAt(row,0).toString())));
                         horarioController.fillHorariosTable(jTableHorarios);
+                        JOptionPane.showMessageDialog(null,"Horario eliminado correctamente", "INFO",JOptionPane.INFORMATION_MESSAGE);
                     }
                 }
             }
