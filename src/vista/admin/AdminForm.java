@@ -19,8 +19,6 @@ import vista.admin.pistas.AddPistaForm;
 import vista.admin.pistas.ManagePistaForm;
 import vista.admin.reservas.AddReservasForm;
 import vista.admin.reservas.ManageReservasForm;
-import vista.auth.Login;
-import vista.basico.MiPerfilForm;
 
 
 /**
@@ -46,6 +44,7 @@ public class AdminForm extends javax.swing.JFrame {
     public AdminForm(Usuarios user) {
         this.user = user;
         initComponents();
+        this.setTitle("Padel Land - Panel de Administrador | Logged ["+user.getEmail()+"]");
     }
 
     /**
@@ -76,8 +75,6 @@ public class AdminForm extends javax.swing.JFrame {
         jMenuDiasNoDisponibles = new javax.swing.JMenu();
         jMenuItemAddDias = new javax.swing.JMenuItem();
         jMenuItemGestionDias = new javax.swing.JMenuItem();
-        jMenuMiPerfil = new javax.swing.JMenu();
-        jMenuSalir = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Padel Land - Panel de Administrador");
@@ -86,7 +83,6 @@ public class AdminForm extends javax.swing.JFrame {
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/img/logoSinFondo.png"))); // NOI18N
 
         jLabelBienvenida.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-        jLabelBienvenida.setText("<html><body>¡Bienvenido <####>! <br>Esta es la vista de Administrador de Padel Land</body></html>");
 
         javax.swing.GroupLayout jPanelContentLayout = new javax.swing.GroupLayout(jPanelContent);
         jPanelContent.setLayout(jPanelContentLayout);
@@ -109,7 +105,7 @@ public class AdminForm extends javax.swing.JFrame {
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(112, 112, 112)
                 .addComponent(jLabelBienvenida)
-                .addContainerGap(193, Short.MAX_VALUE))
+                .addContainerGap(215, Short.MAX_VALUE))
         );
 
         jMenuUsuarios.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/img/icono-users-menubar.png"))); // NOI18N
@@ -227,24 +223,6 @@ public class AdminForm extends javax.swing.JFrame {
 
         jMenuBar1.add(jMenuDiasNoDisponibles);
 
-        jMenuMiPerfil.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/img/icons8-configuración-del-administrador-40.png"))); // NOI18N
-        jMenuMiPerfil.setText("Ver Perfil");
-        jMenuMiPerfil.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jMenuMiPerfilMouseClicked(evt);
-            }
-        });
-        jMenuBar1.add(jMenuMiPerfil);
-
-        jMenuSalir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/img/icono-salir.png"))); // NOI18N
-        jMenuSalir.setText("Cerrar");
-        jMenuSalir.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jMenuSalirMouseClicked(evt);
-            }
-        });
-        jMenuBar1.add(jMenuSalir);
-
         setJMenuBar(jMenuBar1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -333,17 +311,6 @@ public class AdminForm extends javax.swing.JFrame {
         form.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     }//GEN-LAST:event_jMenuItemAddDiasActionPerformed
 
-    private void jMenuSalirMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenuSalirMouseClicked
-        // TODO add your handling code here:
-        if (JOptionPane.showConfirmDialog(null, "¿Seguro que quieres salir? ", "Confirmación de cierre de ventana",JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
-            Login form = new Login();
-            form.setVisible(true);
-            form.setLocationRelativeTo(null);
-            form.pack();
-            this.dispose();
-        }
-    }//GEN-LAST:event_jMenuSalirMouseClicked
-
     private void jMenuItemAddReservaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemAddReservaActionPerformed
         // TODO add your handling code here:
         AddReservasForm arf = new AddReservasForm();
@@ -361,15 +328,6 @@ public class AdminForm extends javax.swing.JFrame {
         mrf.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         mrf.pack();
     }//GEN-LAST:event_jMenuItemManageReservaActionPerformed
-
-    private void jMenuMiPerfilMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenuMiPerfilMouseClicked
-        // TODO add your handling code here:
-        MiPerfilForm form = new MiPerfilForm(user);
-        form.setVisible(true);
-        form.pack();
-        form.setLocationRelativeTo(null);
-        form.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-    }//GEN-LAST:event_jMenuMiPerfilMouseClicked
 
     /**
      * @param args the command line arguments
@@ -422,10 +380,8 @@ public class AdminForm extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItemManagePista;
     private javax.swing.JMenuItem jMenuItemManageReserva;
     private javax.swing.JMenuItem jMenuItemManageUser;
-    private javax.swing.JMenu jMenuMiPerfil;
     private javax.swing.JMenu jMenuPistas;
     private javax.swing.JMenu jMenuReservas;
-    private javax.swing.JMenu jMenuSalir;
     private javax.swing.JMenu jMenuUsuarios;
     private javax.swing.JPanel jPanelContent;
     // End of variables declaration//GEN-END:variables

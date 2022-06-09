@@ -5,11 +5,11 @@
  */
 package vista.basico;
 
-import controlador.ReservaController;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import modelo.Usuarios;
 import utilidades.ImagenFondo;
+import vista.admin.AdminForm;
 import vista.auth.Login;
 
 /**
@@ -23,16 +23,24 @@ public class VistaUsuarioBasicoForm extends javax.swing.JFrame {
      */
     
     Usuarios user;
-    ReservaController reservaController;
-        
+    
     public VistaUsuarioBasicoForm() {
         initComponents();
+        jMenuMiPerfil.setVisible(false);
+        jMenuSalir.setVisible(false);
+        jMenuControlador.setVisible(false);
     }
     
     public VistaUsuarioBasicoForm(Usuarios usuario) {
         this.user = usuario;
-        reservaController = new ReservaController();
         initComponents();
+        jMenuLoginRegistro.setVisible(false);
+        if ("administrador".equals(user.getRol())){
+            jMenuControlador.setVisible(true);
+        }else{
+            jMenuControlador.setVisible(false);
+        }
+        this.setTitle("Padel Land - Vista de usuario | Logged ["+user.getEmail()+"]");
     }
 
     /**
@@ -49,11 +57,14 @@ public class VistaUsuarioBasicoForm extends javax.swing.JFrame {
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenuVerPistas = new javax.swing.JMenu();
         jMenuReservar = new javax.swing.JMenu();
+        jMenuContacto = new javax.swing.JMenu();
         jMenuMiPerfil = new javax.swing.JMenu();
+        jMenuControlador = new javax.swing.JMenu();
         jMenuSalir = new javax.swing.JMenu();
+        jMenuLoginRegistro = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("Padel Land - Vista de usuario");
+        setTitle("Padel Land - Vista de usuario | Desconectado");
         setResizable(false);
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/img/vistaUsuario.png"))); // NOI18N
@@ -87,6 +98,15 @@ public class VistaUsuarioBasicoForm extends javax.swing.JFrame {
         });
         jMenuBar1.add(jMenuReservar);
 
+        jMenuContacto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/img/icons8-correo-electrónico-100.png"))); // NOI18N
+        jMenuContacto.setText("Contacto");
+        jMenuContacto.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jMenuContactoMouseClicked(evt);
+            }
+        });
+        jMenuBar1.add(jMenuContacto);
+
         jMenuMiPerfil.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/img/icons8-configuración-del-administrador-40.png"))); // NOI18N
         jMenuMiPerfil.setText("Ver Perfil");
         jMenuMiPerfil.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -96,14 +116,32 @@ public class VistaUsuarioBasicoForm extends javax.swing.JFrame {
         });
         jMenuBar1.add(jMenuMiPerfil);
 
+        jMenuControlador.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/img/icons8-moderador-masculino-48.png"))); // NOI18N
+        jMenuControlador.setText("Control");
+        jMenuControlador.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jMenuControladorMouseClicked(evt);
+            }
+        });
+        jMenuBar1.add(jMenuControlador);
+
         jMenuSalir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/img/icono-salir.png"))); // NOI18N
-        jMenuSalir.setText("Cerrar");
+        jMenuSalir.setText("Desconectar");
         jMenuSalir.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jMenuSalirMouseClicked(evt);
             }
         });
         jMenuBar1.add(jMenuSalir);
+
+        jMenuLoginRegistro.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/img/icons8-accede-redondeado-derecho-100.png"))); // NOI18N
+        jMenuLoginRegistro.setText("Login/Registro");
+        jMenuLoginRegistro.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jMenuLoginRegistroMouseClicked(evt);
+            }
+        });
+        jMenuBar1.add(jMenuLoginRegistro);
 
         setJMenuBar(jMenuBar1);
 
@@ -124,11 +162,13 @@ public class VistaUsuarioBasicoForm extends javax.swing.JFrame {
     private void jMenuSalirMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenuSalirMouseClicked
         // TODO add your handling code here:
         if (JOptionPane.showConfirmDialog(null, "¿Seguro que quieres salir? ", "Confirmación de cierre de ventana",JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
-            Login form = new Login();
-            form.setVisible(true);
-            form.setLocationRelativeTo(null);
-            form.pack();
-            this.dispose();
+            user = null;
+            jMenuMiPerfil.setVisible(false);
+            jMenuSalir.setVisible(false);
+            jMenuControlador.setVisible(false);
+            jMenuLoginRegistro.setVisible(true);
+            this.setTitle("Padel Land - Vista de usuario | Desconectado");
+
         }
     }//GEN-LAST:event_jMenuSalirMouseClicked
 
@@ -158,6 +198,34 @@ public class VistaUsuarioBasicoForm extends javax.swing.JFrame {
         form.setLocationRelativeTo(null);
         form.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     }//GEN-LAST:event_jMenuReservarMouseClicked
+
+    private void jMenuContactoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenuContactoMouseClicked
+        // TODO add your handling code here:
+        Contacto form = new Contacto(user);
+        form.pack();
+        form.setLocationRelativeTo(null);
+        form.setVisible(true);
+        form.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+    }//GEN-LAST:event_jMenuContactoMouseClicked
+
+    private void jMenuLoginRegistroMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenuLoginRegistroMouseClicked
+        // TODO add your handling code here:
+        Login form = new Login(this);
+        form.pack();
+        form.setLocationRelativeTo(null);
+        form.setVisible(true);
+        form.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+    }//GEN-LAST:event_jMenuLoginRegistroMouseClicked
+
+    private void jMenuControladorMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenuControladorMouseClicked
+        // TODO add your handling code here:
+        AdminForm vistaAdmin = new AdminForm(user);
+        vistaAdmin.pack();
+        vistaAdmin.setLocationRelativeTo(null);
+        vistaAdmin.setVisible(true);
+        AdminForm.jLabelBienvenida.setText("<html><body>¡Bienvenido "+user.getNombreCompleto()+"!<br>Esta es la vista de Administrador de Padel Land</body></html>");
+        vistaAdmin.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+    }//GEN-LAST:event_jMenuControladorMouseClicked
 
     /**
      * @param args the command line arguments
@@ -197,6 +265,9 @@ public class VistaUsuarioBasicoForm extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
     private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenu jMenuContacto;
+    private javax.swing.JMenu jMenuControlador;
+    private javax.swing.JMenu jMenuLoginRegistro;
     private javax.swing.JMenu jMenuMiPerfil;
     private javax.swing.JMenu jMenuReservar;
     private javax.swing.JMenu jMenuSalir;

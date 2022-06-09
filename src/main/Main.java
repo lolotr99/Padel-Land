@@ -6,7 +6,7 @@
 package main;
 
 import javax.swing.JFrame;
-import vista.auth.Login;
+import vista.basico.VistaUsuarioBasicoForm;
 
 /**
  *
@@ -14,10 +14,10 @@ import vista.auth.Login;
  */
 public class Main {
      public static void main(String args[]){
-         Login ventana = new Login();
-         ventana.setVisible(true);
-         ventana.setLocationRelativeTo(null);
-         ventana.pack();
-         ventana.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        VistaUsuarioBasicoForm ventana = new VistaUsuarioBasicoForm();
+        ventana.setVisible(true);
+        ventana.setLocationRelativeTo(null);
+        ventana.pack();
+        ventana.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 }

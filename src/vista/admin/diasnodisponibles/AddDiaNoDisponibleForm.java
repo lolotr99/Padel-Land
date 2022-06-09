@@ -19,6 +19,7 @@ import modelo.Horarios;
 import modelo.Pistas;
 import modelo.Reservas;
 import modelo.Usuarios;
+import utilidades.Constantes;
 import utilidades.ImagenFondo;
 import utilidades.Mailer;
 
@@ -158,7 +159,7 @@ public class AddDiaNoDisponibleForm extends javax.swing.JFrame {
                             message+=" debido a que cerramos el club este día.\n ¡Pase usted un buen día!";
                             reservaController.deleteReserva(reserva);
                             Mailer mailer = new Mailer();
-                            mailer.enviarMail("Confirmación de Anulación de reserva", user.getEmail(), message);
+                            mailer.enviarMail(Constantes.EMAIL_ADMIN, user.getEmail(), "Confirmación de Anulación de reserva",message);
                         }   
                     }else{
                         return;

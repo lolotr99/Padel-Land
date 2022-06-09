@@ -28,9 +28,11 @@ import modelo.Pistas;
 import modelo.Properties;
 import modelo.Reservas;
 import modelo.Usuarios;
+import utilidades.Constantes;
 import utilidades.ImagenFondo;
 import utilidades.Mailer;
 import utilidades.RenderUtil;
+import validator.EmailValidator;
 import static vista.admin.reservas.ManageReservasForm.jTableReservas;
 
 /**
@@ -273,7 +275,7 @@ public class AddReservasForm extends javax.swing.JFrame {
                 Mailer mailer = new Mailer();
                 String diaFormateado = new SimpleDateFormat("dd-MM-yyyy").format(dia);
                 String mensaje = "¡Hola "+user.getNombreCompleto()+"!\nDesde Padel Land te confirmamos la reserva para el día "+diaFormateado+" a las "+horario.getHoraComienzo()+ " en la pista "+pista.getNombrePista()+"\n¡A jugar!";
-                mailer.enviarMail("Asignación de reserva", user.getEmail(), mensaje);
+                mailer.enviarMail(Constantes.EMAIL_ADMIN, user.getEmail(), "Asignación de reserva", mensaje);
                 if (ManageReservasForm.jTableReservas != null){
                     fillTablaReservas(ManageReservasForm.jTableReservas);
                 }
@@ -285,12 +287,17 @@ public class AddReservasForm extends javax.swing.JFrame {
 
     public boolean verifyCampos(){
         Date dia = jDateChooserCita.getDate();
-        
+        EmailValidator emailValidator = new EmailValidator();
         boolean usuarioSelected = !jTextFieldEmailUsuario.getText().trim().equals("");
         String emailUsuario = "";
         if (usuarioSelected){
             emailUsuario = jTextFieldEmailUsuario.getText();
         }
+        
+        if(!emailValidator.validate(emailUsuario.trim())){
+            JOptionPane.showMessageDialog(null, "No se cumple el formato de email","Email inválido",JOptionPane.WARNING_MESSAGE);
+            return false;
+        } 
         
         if (!checkEmail(emailUsuario)){
             JOptionPane.showMessageDialog(null,"Estás intentando asignar una reserva a un usuario que no existe.","ERROR",JOptionPane.ERROR_MESSAGE);

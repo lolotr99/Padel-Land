@@ -18,6 +18,7 @@ import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import modelo.Usuarios;
 import utilidades.CifradoUtil;
+import utilidades.Constantes;
 import utilidades.ImagenFondo;
 import utilidades.Mailer;
 import validator.EmailValidator;
@@ -277,7 +278,7 @@ public class AddUserForm extends javax.swing.JFrame {
                     JOptionPane.showMessageDialog(null, "¡Tu usuario ha sido creado correctamente!","INFO",JOptionPane.INFORMATION_MESSAGE);
                     Mailer mailer = new Mailer();
                     String mensaje = "¡Hola " + user.getNombreCompleto()+ "!\nNos complace darte la bienvenida a Padel Land, esperemos que te guste nuestro servicio y que disfrutes de nuestras maravillosas pistas\n¡A jugar!";
-                    mailer.enviarMail("¡Bienvenido a Padel Land!", user.getEmail(), mensaje);
+                    mailer.enviarMail(Constantes.EMAIL_ADMIN, user.getEmail(), "¡Bienvenido a Padel Land!", mensaje);
                 }else{
                     JOptionPane.showMessageDialog(null, "Error en el registro, revisa tus datos","ERROR",JOptionPane.ERROR_MESSAGE);
                 }

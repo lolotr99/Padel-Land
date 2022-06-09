@@ -6,11 +6,14 @@
 package vista.auth;
 
 import controlador.UsuarioController;
+import java.awt.Font;
+import java.awt.font.TextAttribute;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.sql.Blob;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFileChooser;
@@ -19,6 +22,7 @@ import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import modelo.Usuarios;
 import utilidades.CifradoUtil;
+import utilidades.Constantes;
 import utilidades.ImagenFondo;
 import utilidades.Mailer;
 import validator.EmailValidator;
@@ -35,9 +39,16 @@ public class Registro extends javax.swing.JFrame {
     UsuarioController userController;
     //Variable para almacenar la ruta de la imagen
     String image_path = null;
+    JFrame form;
     
     public Registro() {
         initComponents();
+        userController = new UsuarioController();
+    }
+    
+    public Registro(JFrame form){
+        initComponents();
+        this.form = form;
         userController = new UsuarioController();
     }
 
@@ -135,11 +146,18 @@ public class Registro extends javax.swing.JFrame {
         });
 
         jLabelIniciaSesion.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabelIniciaSesion.setForeground(new java.awt.Color(0, 51, 255));
         jLabelIniciaSesion.setText("¿Ya tienes cuenta? ¡Inicia sesión!");
         jLabelIniciaSesion.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jLabelIniciaSesion.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jLabelIniciaSesionMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                jLabelIniciaSesionMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                jLabelIniciaSesionMouseExited(evt);
             }
         });
 
@@ -288,16 +306,19 @@ public class Registro extends javax.swing.JFrame {
                 long result = userController.insertUsuario(user);
                 if (result != 0){
                     JOptionPane.showMessageDialog(null, "¡Usuario creado correctamente!","INFO", JOptionPane.INFORMATION_MESSAGE);
-                    VistaUsuarioBasicoForm form = new VistaUsuarioBasicoForm(user);
-                    form.setVisible(true);
-                    form.pack();
-                    form.setLocationRelativeTo(null);
-                    //Cerramos el formulario actual
-                    this.dispose();
-                  
                     Mailer mailer = new Mailer();
                     String mensaje = "¡Hola " + user.getNombreCompleto()+ "!\nNos complace darte la bienvenida a Padel Land, esperemos que te guste nuestro servicio y que disfrutes de nuestras maravillosas pistas\n¡A jugar!";
-                    mailer.enviarMail("¡Bienvenido a Padel Land!", user.getEmail(), mensaje);
+                    mailer.enviarMail(Constantes.EMAIL_ADMIN,user.getEmail(),"¡Bienvenido a Padel Land!",mensaje);
+                    
+                    if (form != null){
+                        VistaUsuarioBasicoForm vistaUser = new VistaUsuarioBasicoForm(user);
+                        vistaUser.pack();
+                        vistaUser.setVisible(true);
+                        vistaUser.setLocationRelativeTo(null);
+                        vistaUser.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                        this.dispose();
+                        form.dispose();
+                    }
                 }else{
                     JOptionPane.showMessageDialog(null, "Error en el registro, revisa tus datos","ERROR",JOptionPane.ERROR_MESSAGE);
                 }
@@ -345,12 +366,29 @@ public class Registro extends javax.swing.JFrame {
 
     private void jLabelIniciaSesionMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabelIniciaSesionMouseClicked
         // TODO add your handling code here:
-        Login login_form = new Login();
+        Login login_form = new Login(form);
         login_form.setVisible(true);
         login_form.pack();
-        login_form.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        login_form.setLocationRelativeTo(null);
+        login_form.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         this.dispose();
     }//GEN-LAST:event_jLabelIniciaSesionMouseClicked
+
+    private void jLabelIniciaSesionMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabelIniciaSesionMouseEntered
+        // TODO add your handling code here:
+        Font font = jLabelIniciaSesion.getFont();
+        Map attributes = font.getAttributes();
+        attributes.put(TextAttribute.UNDERLINE, TextAttribute.UNDERLINE_ON);
+        jLabelIniciaSesion.setFont(font.deriveFont(attributes));
+    }//GEN-LAST:event_jLabelIniciaSesionMouseEntered
+
+    private void jLabelIniciaSesionMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabelIniciaSesionMouseExited
+        // TODO add your handling code here:
+        Font font = jLabelIniciaSesion.getFont();
+        Map attributes = font.getAttributes();
+        attributes.put(TextAttribute.UNDERLINE, -1);
+        jLabelIniciaSesion.setFont(font.deriveFont(attributes));
+    }//GEN-LAST:event_jLabelIniciaSesionMouseExited
 
     //Se crea un método para verificar y validar los campos
     public boolean verifyFields() {

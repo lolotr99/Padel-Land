@@ -31,6 +31,7 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import modelo.Reservas;
 import modelo.Usuarios;
+import utilidades.Constantes;
 import utilidades.ImagenFondo;
 import utilidades.Mailer;
 import utilidades.RenderUtil;
@@ -335,7 +336,7 @@ public class MiPerfilForm extends javax.swing.JFrame {
                             + " para el día "+ jTableReservasUser.getModel().getValueAt(row, 3) + " a las " + jTableReservasUser.getModel().getValueAt(row, 2);
                     mensaje+="\n ¡Pase usted un buen día!";
                     Mailer mailer = new Mailer();
-                    mailer.enviarMail("Confirmación de Anulación de reserva", email, message);                    
+                    mailer.enviarMail(Constantes.EMAIL_ADMIN, email, "Confirmación de Anulación de reserva", message);                    
                     fillTablaReservas(jTableReservasUser, user.getId());
                 }
             }

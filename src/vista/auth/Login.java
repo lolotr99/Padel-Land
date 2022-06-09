@@ -6,8 +6,10 @@
 package vista.auth;
 
 import controlador.UsuarioController;
-import java.awt.Color;
+import java.awt.Font;
 import java.awt.HeadlessException;
+import java.awt.font.TextAttribute;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFrame;
@@ -15,7 +17,6 @@ import javax.swing.JOptionPane;
 import modelo.Usuarios;
 import utilidades.CifradoUtil;
 import utilidades.ImagenFondo;
-import vista.admin.AdminForm;
 import vista.basico.VistaUsuarioBasicoForm;
 
 /**
@@ -28,9 +29,15 @@ public class Login extends javax.swing.JFrame {
      * Creates new form login
      */
     UsuarioController userController;
+    JFrame form;
     
-    public Login() {
+    public Login(){
         initComponents();
+    }
+    
+    public Login(JFrame form) {
+        initComponents();
+        this.form = form;
     }
 
     /**
@@ -77,10 +84,18 @@ public class Login extends javax.swing.JFrame {
 
         jLabel7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/img/password_field.png"))); // NOI18N
 
+        jLabelIrARegistro.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabelIrARegistro.setForeground(new java.awt.Color(0, 51, 255));
         jLabelIrARegistro.setText("¿No tienes cuenta? ¡Regístrate aquí!");
         jLabelIrARegistro.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jLabelIrARegistroMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                jLabelIrARegistroMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                jLabelIrARegistroMouseExited(evt);
             }
         });
 
@@ -105,14 +120,14 @@ public class Login extends javax.swing.JFrame {
                             .addComponent(jLabel5))
                         .addGap(18, 18, 18)))
                 .addGap(58, 58, 58))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(199, Short.MAX_VALUE)
-                .addComponent(jLabelIrARegistro)
-                .addGap(196, 196, 196))
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(198, 198, 198)
                 .addComponent(jLabel1)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(252, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabelIrARegistro)
+                .addGap(197, 197, 197))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -134,9 +149,9 @@ public class Login extends javax.swing.JFrame {
                     .addComponent(jLabel7))
                 .addGap(38, 38, 38)
                 .addComponent(jButtonLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(31, 31, 31)
+                .addGap(18, 18, 18)
                 .addComponent(jLabelIrARegistro)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(24, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -155,11 +170,11 @@ public class Login extends javax.swing.JFrame {
 
     private void jLabelIrARegistroMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabelIrARegistroMouseClicked
         // TODO add your handling code here:
-        Registro register_form = new Registro();
+        Registro register_form = new Registro(form);
         register_form.setVisible(true);
         register_form.pack();
         register_form.setLocationRelativeTo(null);
-        register_form.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        register_form.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         this.dispose();
     }//GEN-LAST:event_jLabelIrARegistroMouseClicked
 
@@ -175,21 +190,16 @@ public class Login extends javax.swing.JFrame {
                 Usuarios usuario = userController.obtenerUsuarioPorEmail(email);
                 if (usuario != null){
                     if (CifradoUtil.checkPassword(password, usuario.getPassword())){
-                        if (usuario.getRol().equals("basico")){
-                            VistaUsuarioBasicoForm form = new VistaUsuarioBasicoForm(usuario);
-                            form.setVisible(true);
-                            form.pack();
-                            form.setLocationRelativeTo(null);
-                            //Cerramos el formulario actual
+                        if (form != null){
+                            VistaUsuarioBasicoForm vistaUser = new VistaUsuarioBasicoForm(usuario);
+                            vistaUser.pack();
+                            vistaUser.setVisible(true);
+                            vistaUser.setLocationRelativeTo(null);
+                            vistaUser.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                             this.dispose();
-                        }else if (usuario.getRol().equals("administrador")){
-                            AdminForm af = new AdminForm(usuario);
-                            af.setVisible(true);
-                            af.pack();
-                            af.setLocationRelativeTo(null);
-                            AdminForm.jLabelBienvenida.setText("<html><body>¡Bienvenido "+usuario.getNombreCompleto()+"!<br>Esta es la vista de Administrador de Padel Land</body></html>");
-                            this.dispose();
+                            form.dispose();
                         }
+                            
                     }else{
                         JOptionPane.showMessageDialog(null,"Email o contraseña incorrectos","Error de inicio de sesión",JOptionPane.ERROR_MESSAGE);
                     }
@@ -201,6 +211,22 @@ public class Login extends javax.swing.JFrame {
             }
         }
     }//GEN-LAST:event_jButtonLoginActionPerformed
+
+    private void jLabelIrARegistroMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabelIrARegistroMouseEntered
+        // TODO add your handling code here:
+        Font font = jLabelIrARegistro.getFont();
+        Map attributes = font.getAttributes();
+        attributes.put(TextAttribute.UNDERLINE, TextAttribute.UNDERLINE_ON);
+        jLabelIrARegistro.setFont(font.deriveFont(attributes));
+    }//GEN-LAST:event_jLabelIrARegistroMouseEntered
+
+    private void jLabelIrARegistroMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabelIrARegistroMouseExited
+        // TODO add your handling code here:
+        Font font = jLabelIrARegistro.getFont();
+        Map attributes = font.getAttributes();
+        attributes.put(TextAttribute.UNDERLINE, -1);
+        jLabelIrARegistro.setFont(font.deriveFont(attributes));
+    }//GEN-LAST:event_jLabelIrARegistroMouseExited
 
         //Se crea un método para verificar y validar los campos
     public boolean verifyFields() {

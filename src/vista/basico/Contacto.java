@@ -7,6 +7,7 @@ package vista.basico;
 
 import javax.swing.JOptionPane;
 import modelo.Usuarios;
+import utilidades.Constantes;
 import utilidades.ImagenFondo;
 import utilidades.Mailer;
 
@@ -22,6 +23,11 @@ public class Contacto extends javax.swing.JFrame {
     Usuarios user;
     public Contacto() {
         initComponents();
+    }
+    
+    public Contacto(Usuarios user){
+        initComponents();
+        this.user = user;
     }
 
     /**
@@ -44,6 +50,7 @@ public class Contacto extends javax.swing.JFrame {
         jButtonEnviarMensaje = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Padel Land - Soporte de contacto");
         setResizable(false);
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
@@ -126,18 +133,28 @@ public class Contacto extends javax.swing.JFrame {
 
     private void jButtonEnviarMensajeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEnviarMensajeActionPerformed
         // TODO add your handling code here:
-        String asunto = jTextFieldAsunto.getText();
-        String mensaje = jTextAreaMensaje.getText();
-        if (asunto.trim().equals("") || mensaje.trim().equals("")){
-            JOptionPane.showMessageDialog(null, "¡Formulario incompleto!","WARNING",JOptionPane.WARNING_MESSAGE);
-        }else{
-            if (user != null){
-                Mailer mailer = new Mailer();
-                mailer.enviarMail(asunto, user.getEmail(), mensaje);
-                JOptionPane.showMessageDialog(null, "Mensaje enviado correctamente. Pronto nos pondremos en contacto contigo.","INFO",JOptionPane.INFORMATION_MESSAGE);
+        if (user != null){
+            String asunto = jTextFieldAsunto.getText();
+            String mensaje = jTextAreaMensaje.getText();
+            if (asunto.trim().equals("") || mensaje.trim().equals("")){
+                JOptionPane.showMessageDialog(null, "¡Formulario incompleto!","WARNING",JOptionPane.WARNING_MESSAGE);
             }else{
-                JOptionPane.showMessageDialog(null, "No estás logueado, no puedes enviar correo.","ERROR",JOptionPane.ERROR_MESSAGE);
+                if (user != null){
+                    Mailer mailer = new Mailer();
+                    mailer.enviarMail(user.getEmail(), Constantes.EMAIL_ADMIN, asunto, mensaje);
+                    JOptionPane.showMessageDialog(null, "Mensaje enviado correctamente. Pronto nos pondremos en contacto contigo.","INFO",JOptionPane.INFORMATION_MESSAGE);
+                    
+                    String asuntoDeVuelta = "Solicitud de soporte recibida";
+                    String mensajeDeVuelta ="¡Hola "+user.getNombreCompleto()+"!\nHemos recibido tu solicitud y en breves uno de nuestros empleados se pondrá en contacto contigo.\n"
+                            + "Usaremos este mismo correo o el número de teléfono "+user.getTelefono() + " que nos proporcionaste.\n¡Un saludo!";
+                    Mailer mailerDevuelta = new Mailer();
+                    mailerDevuelta.enviarMail(Constantes.EMAIL_ADMIN, user.getEmail(), asuntoDeVuelta, mensajeDeVuelta);
+                }else{
+                    JOptionPane.showMessageDialog(null, "No estás logueado, no puedes enviar correo.","ERROR",JOptionPane.ERROR_MESSAGE);
+                }
             }
+        }else{
+            JOptionPane.showMessageDialog(null,"No se puede enviar un email si el usuario no está logueado","INFO",JOptionPane.INFORMATION_MESSAGE);
         }
     }//GEN-LAST:event_jButtonEnviarMensajeActionPerformed
 
