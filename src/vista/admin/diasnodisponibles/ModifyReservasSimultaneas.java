@@ -37,6 +37,7 @@ public class ModifyReservasSimultaneas extends javax.swing.JDialog {
         propertiesController = new PropertiesController();
         propertie = p;
         jSpinnerLimiteReservas.setValue(Integer.valueOf(propertie.getValue()));
+        setLocationRelativeTo(null);
     }
 
     /**

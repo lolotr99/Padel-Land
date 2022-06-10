@@ -6,8 +6,6 @@
 package utilidades;
 
 import java.util.Properties;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.PasswordAuthentication;
@@ -15,8 +13,6 @@ import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
-import javax.swing.JOptionPane;
-
 /**
  *
  * @author Manolo
@@ -32,12 +28,11 @@ public class Mailer {
         props.put("mail.smtp.host", "smtp.gmail.com");
         props.put("mail.smtp.port", "587");
 
-        /*Session session = Session.getInstance(props, new javax.mail.Authenticator() {
+        Session session = Session.getInstance(props, new javax.mail.Authenticator() {
           protected PasswordAuthentication getPasswordAuthentication() {
                 return new PasswordAuthentication(Constantes.EMAIL_SMTP, Constantes.PASSWORD_SMTP);
           }
-        }); */
-        Session session = Session.getInstance(props);
+        });
         // Define message
         MimeMessage message = new MimeMessage(session);
         message.setFrom(new InternetAddress(emailFrom));

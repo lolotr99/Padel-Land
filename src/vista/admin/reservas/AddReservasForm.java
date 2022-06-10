@@ -416,7 +416,7 @@ public class AddReservasForm extends javax.swing.JFrame {
     
     public void fillTablaReservas(JTable tablaReservas) {
         tablaReservas.setDefaultRenderer(Object.class, new RenderUtil());
-        DefaultTableModel model = new DefaultTableModel(null,new Object[]{"Id","Cliente", "Pista", "Horario","Dia","",""}){
+        DefaultTableModel model = new DefaultTableModel(null,new Object[]{"Id","Cliente", "Pista", "Horario","Dia",""}){
             @Override
             public boolean isCellEditable(int row, int column){
                 return false;
@@ -436,25 +436,23 @@ public class AddReservasForm extends javax.swing.JFrame {
             String dia = formatoDia.format(reserva.getDia());
             String hora = formatoHora.format(horarioController.selectHorario(reserva.getHorarios().getId()).getHoraComienzo());
             if (reserva.getDia().after(new Date())){
-                row = new Object[7];
+                row = new Object[6];
                 row[0] = reserva.getId();
                 row[1] = usuarioController.selectUsuario(reserva.getUsuarios().getId()).getEmail();
                 row[2] = pistaController.selectPista(reserva.getPistas().getId()).getNombrePista();
                 row[3] = hora;
                 row[4] = dia;
-                row[5] = new JButton("Modificar");
-                row[6] = new JButton("Eliminar");
+                row[5] = new JButton("Eliminar");
                 model.addRow(row);
             }else {
                 if (dia.equals(formatoDia.format(new Date())) && LocalTime.now().isBefore(LocalTime.parse(hora))){
-                    row = new Object[7];
+                    row = new Object[6];
                     row[0] = reserva.getId();
                     row[1] = usuarioController.selectUsuario(reserva.getUsuarios().getId()).getNombreCompleto();
                     row[2] = pistaController.selectPista(reserva.getPistas().getId()).getNombrePista();
                     row[3] = hora;
                     row[4] = dia;
-                    row[5] = new JButton("Modificar");
-                    row[6] = new JButton("Eliminar");
+                    row[5] = new JButton("Eliminar");
                     model.addRow(row);
                 }
             }

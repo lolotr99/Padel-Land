@@ -409,12 +409,13 @@ public class ManageUserForm extends javax.swing.JFrame {
             
             if (!emailValidator.validate(email.trim())){
                 JOptionPane.showMessageDialog(null, "No se cumple el formato de email","Email inválido",JOptionPane.WARNING_MESSAGE);
-                return;
             }else{
-                if (checkEmail(email)){
+                if (!checkEmail(email, user.getEmail())){
+                    user.setEmail(email);
+                }else{
+                    JOptionPane.showMessageDialog(null,"No se puede actualizar a un email que ya existe","ERROR",JOptionPane.ERROR_MESSAGE);
                     return;
                 }
-                user.setEmail(email);
             }
             
             if (!password.equals(""))
@@ -526,15 +527,16 @@ public class ManageUserForm extends javax.swing.JFrame {
     }
     
     //Creamos una funcíon para comprobar si el usuario introducido ya existe en la BBDD
-    public boolean checkEmail(String email) {
+    public boolean checkEmail(String email, String userEmail) {
         boolean email_exists = false;
         
         if (userController.obtenerUsuarioPorEmail(email) != null){
             email_exists = true;
-            JOptionPane.showMessageDialog(null, "Este usuario ya existe en la BBDD", "Email fallido",JOptionPane.ERROR_MESSAGE);
         }
         
-        return email_exists;
+        if (email_exists && !email.equals(userEmail))
+            return true;
+        return false;
     }
     
     /**
