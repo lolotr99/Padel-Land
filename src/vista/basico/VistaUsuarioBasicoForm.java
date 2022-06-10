@@ -5,10 +5,17 @@
  */
 package vista.basico;
 
+import java.io.File;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.help.HelpBroker;
+import javax.help.HelpSet;
+import javax.help.HelpSetException;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import modelo.Usuarios;
-import utilidades.ImagenFondo;
 import vista.admin.AdminForm;
 import vista.auth.Login;
 
@@ -29,8 +36,9 @@ public class VistaUsuarioBasicoForm extends javax.swing.JFrame {
         jMenuMiPerfil.setVisible(false);
         jMenuSalir.setVisible(false);
         jMenuControlador.setVisible(false);
+        ponLaAyuda();
     }
-    
+   
     public VistaUsuarioBasicoForm(Usuarios usuario) {
         initComponents();
         this.user = usuario;
@@ -41,6 +49,7 @@ public class VistaUsuarioBasicoForm extends javax.swing.JFrame {
             jMenuControlador.setVisible(false);
         }
         this.setTitle("Padel Land - Vista de usuario | Logged ["+user.getEmail()+"]");
+        ponLaAyuda();
     }
 
     /**
@@ -52,7 +61,7 @@ public class VistaUsuarioBasicoForm extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel1 = new ImagenFondo();
+        jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenuVerPistas = new javax.swing.JMenu();
@@ -63,7 +72,7 @@ public class VistaUsuarioBasicoForm extends javax.swing.JFrame {
         jMenuSalir = new javax.swing.JMenu();
         jMenuLoginRegistro = new javax.swing.JMenu();
         jMenuInfo = new javax.swing.JMenu();
-        jMenuItem1 = new javax.swing.JMenuItem();
+        jMenuItemVerAyuda = new javax.swing.JMenuItem();
         jMenuItem2 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -149,8 +158,8 @@ public class VistaUsuarioBasicoForm extends javax.swing.JFrame {
         jMenuInfo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/img/icons8-información-40.png"))); // NOI18N
         jMenuInfo.setText("Información");
 
-        jMenuItem1.setText("Ayuda");
-        jMenuInfo.add(jMenuItem1);
+        jMenuItemVerAyuda.setText("Ayuda");
+        jMenuInfo.add(jMenuItemVerAyuda);
 
         jMenuItem2.setText("Acerca de ...");
         jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
@@ -254,6 +263,26 @@ public class VistaUsuarioBasicoForm extends javax.swing.JFrame {
         dialog.setLocationRelativeTo(null);
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
+    public void ponLaAyuda(){
+        try{
+            //Carga el fichero de ayuda
+            File fichero = new File("src/help"+File.separator+"help_set.hs");
+            URL hsURL = fichero.toURI().toURL();
+
+            //Carga el HelpSet y el HelpBroker
+            HelpSet helpset = new HelpSet(null,hsURL);
+            HelpBroker hb = helpset.createHelpBroker();
+            
+            //Ponemos la ayuda
+            getRootPane().requestFocus();
+            hb.enableHelpKey(getRootPane(), "principal", helpset);
+            hb.enableHelpOnButton(jMenuItemVerAyuda, "principal", helpset);
+        }catch(IllegalArgumentException | MalformedURLException | HelpSetException ex){
+            Logger.getLogger(VistaUsuarioBasicoForm.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null,ex,"ERROR",JOptionPane.ERROR_MESSAGE);
+        }
+    }
+    
     /**
      * @param args the command line arguments
      */
@@ -295,8 +324,8 @@ public class VistaUsuarioBasicoForm extends javax.swing.JFrame {
     private javax.swing.JMenu jMenuContacto;
     private javax.swing.JMenu jMenuControlador;
     private javax.swing.JMenu jMenuInfo;
-    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
+    private javax.swing.JMenuItem jMenuItemVerAyuda;
     private javax.swing.JMenu jMenuLoginRegistro;
     private javax.swing.JMenu jMenuMiPerfil;
     private javax.swing.JMenu jMenuReservar;

@@ -5,8 +5,14 @@
  */
 package vista.basico;
 
+import java.io.File;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.help.HelpBroker;
+import javax.help.HelpSet;
+import javax.help.HelpSetException;
 import javax.mail.MessagingException;
 import javax.swing.JOptionPane;
 import modelo.Usuarios;
@@ -26,13 +32,32 @@ public class Contacto extends javax.swing.JFrame {
     Usuarios user;
     public Contacto() {
         initComponents();
+        ponLaAyuda();
     }
     
     public Contacto(Usuarios user){
         initComponents();
         this.user = user;
+        ponLaAyuda();
     }
 
+    public void ponLaAyuda(){
+        try{
+            //Carga el fichero de ayuda
+            File fichero = new File("src/help"+File.separator+"help_set.hs");
+            URL hsURL = fichero.toURI().toURL();
+
+            //Carga el HelpSet y el HelpBroker
+            HelpSet helpset = new HelpSet(null,hsURL);
+            HelpBroker hb = helpset.createHelpBroker();
+            
+            //Ponemos la ayuda
+            hb.enableHelpKey(getRootPane(), "contacto", helpset);
+        }catch(IllegalArgumentException | MalformedURLException | HelpSetException ex){
+            Logger.getLogger(Contacto.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null,ex,"ERROR",JOptionPane.ERROR_MESSAGE);
+        }
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always

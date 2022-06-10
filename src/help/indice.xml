@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='ISO-8859-1'  ?>
+<!DOCTYPE index
+  PUBLIC "-//Sun Microsystems Inc.//DTD JavaHelp Index Version 1.0//EN"
+         "http://java.sun.com/products/javahelp/index_1_0.dtd">
+<index version="1.0">
+        <indexitem text="Padel Land" target="principal"/>
+        <indexitem text="Pistas" target="pistas"/>
+        <indexitem text="Reservas" target="reserva"/>
+        <indexitem text="Contacto" target="contacto"/>
+        <indexitem text="Login" target="login"/>
+        <indexitem text="Registro" target="registro"/>
+</index>

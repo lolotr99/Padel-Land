@@ -9,9 +9,15 @@ import controlador.UsuarioController;
 import java.awt.Font;
 import java.awt.HeadlessException;
 import java.awt.font.TextAttribute;
+import java.io.File;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.help.HelpBroker;
+import javax.help.HelpSet;
+import javax.help.HelpSetException;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import modelo.Usuarios;
@@ -33,13 +39,33 @@ public class Login extends javax.swing.JFrame {
     
     public Login(){
         initComponents();
+        ponLaAyuda();
     }
     
     public Login(JFrame form) {
         initComponents();
         this.form = form;
+        ponLaAyuda();
     }
 
+    public void ponLaAyuda(){
+        try{
+            //Carga el fichero de ayuda
+            File fichero = new File("src/help"+File.separator+"help_set.hs");
+            URL hsURL = fichero.toURI().toURL();
+
+            //Carga el HelpSet y el HelpBroker
+            HelpSet helpset = new HelpSet(null,hsURL);
+            HelpBroker hb = helpset.createHelpBroker();
+            
+            //Ponemos la ayuda
+            hb.enableHelpKey(getRootPane(), "login", helpset);
+        }catch(IllegalArgumentException | MalformedURLException | HelpSetException ex){
+            Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null,ex,"ERROR",JOptionPane.ERROR_MESSAGE);
+        }
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always

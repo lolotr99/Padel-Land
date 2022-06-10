@@ -12,12 +12,18 @@ import controlador.PropertiesController;
 import controlador.ReservaController;
 import java.awt.HeadlessException;
 import java.awt.event.ItemEvent;
+import java.io.File;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.help.HelpBroker;
+import javax.help.HelpSet;
+import javax.help.HelpSetException;
 import javax.mail.MessagingException;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -30,7 +36,6 @@ import modelo.Usuarios;
 import utilidades.Constantes;
 import utilidades.ImagenFondo;
 import utilidades.Mailer;
-import vista.admin.reservas.ManageReservasForm;
 
 /**
  *
@@ -61,6 +66,7 @@ public class ReservaForm extends javax.swing.JFrame {
         pistaController = new PistaController();
         listaDiasNoDisponibles = diasNoDisponiblesController.getListaDias();
         jDateChooserCita.setDate(new Date());
+        ponLaAyuda();
     }
     
     public ReservaForm(Usuarios user) {
@@ -73,6 +79,25 @@ public class ReservaForm extends javax.swing.JFrame {
         this.user = user;
         listaDiasNoDisponibles = diasNoDisponiblesController.getListaDias();
         jDateChooserCita.setDate(new Date());
+        ponLaAyuda();
+    }
+    
+    public void ponLaAyuda(){
+        try{
+            //Carga el fichero de ayuda
+            File fichero = new File("src/help"+File.separator+"help_set.hs");
+            URL hsURL = fichero.toURI().toURL();
+
+            //Carga el HelpSet y el HelpBroker
+            HelpSet helpset = new HelpSet(null,hsURL);
+            HelpBroker hb = helpset.createHelpBroker();
+            
+            //Ponemos la ayuda
+            hb.enableHelpKey(getRootPane(), "reservas", helpset);
+        }catch(IllegalArgumentException | MalformedURLException | HelpSetException ex){
+            Logger.getLogger(ReservaForm.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null,ex,"ERROR",JOptionPane.ERROR_MESSAGE);
+        }
     }
     
     /**

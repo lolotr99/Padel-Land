@@ -89,7 +89,7 @@
             <Property name="text" type="java.lang.String" value="Informaci&#xf3;n"/>
           </Properties>
           <SubComponents>
-            <MenuItem class="javax.swing.JMenuItem" name="jMenuItem1">
+            <MenuItem class="javax.swing.JMenuItem" name="jMenuItemVerAyuda">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Ayuda"/>
               </Properties>
@@ -143,9 +143,6 @@
   </Layout>
   <SubComponents>
     <Container class="javax.swing.JPanel" name="jPanel1">
-      <AuxValues>
-        <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new ImagenFondo()"/>
-      </AuxValues>
 
       <Layout>
         <DimensionLayout dim="0">

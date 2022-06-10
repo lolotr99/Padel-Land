@@ -9,13 +9,19 @@ import controlador.PistaController;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
+import java.io.File;
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.sql.Blob;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.help.HelpBroker;
+import javax.help.HelpSet;
+import javax.help.HelpSetException;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
@@ -44,6 +50,25 @@ public class VerPistasForm extends javax.swing.JFrame {
         ImageIcon imagen = imagenes.get(index);
         jLabelImagenPista.setIcon(imagen);
         jLabelNombrePista.setText("NOMBRE PISTA -> " + pistas.get(index).getNombrePista());
+        ponLaAyuda();
+    }
+   
+    public void ponLaAyuda(){
+        try{
+            //Carga el fichero de ayuda
+            File fichero = new File("src/help"+File.separator+"help_set.hs");
+            URL hsURL = fichero.toURI().toURL();
+
+            //Carga el HelpSet y el HelpBroker
+            HelpSet helpset = new HelpSet(null,hsURL);
+            HelpBroker hb = helpset.createHelpBroker();
+            
+            //Ponemos la ayuda
+            hb.enableHelpKey(getRootPane(), "pistas", helpset);
+        }catch(IllegalArgumentException | MalformedURLException | HelpSetException ex){
+            Logger.getLogger(VerPistasForm.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null,ex,"ERROR",JOptionPane.ERROR_MESSAGE);
+        }
     }
     
     private void cargarAlbum(){
