@@ -7,6 +7,9 @@ package vista.admin.diasnodisponibles;
 
 import controlador.DiasNoDisponiblesController;
 import controlador.PropertiesController;
+import java.awt.HeadlessException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -186,20 +189,28 @@ public class ManageDiasNoDisponiblesForm extends javax.swing.JFrame {
 
     private void jTableDiasNoDisponiblesMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableDiasNoDisponiblesMousePressed
         // TODO add your handling code here:
-        int column = jTableDiasNoDisponibles.getColumnModel().getColumnIndexAtX(evt.getX());
-        int row = evt.getY()/jTableDiasNoDisponibles.getRowHeight();
-        if (column == 2) {
-            Object value = jTableDiasNoDisponibles.getValueAt(row, column);
-            if (value instanceof JButton) {
-                ((JButton) value).doClick();
-                diasNoDisponiblesController.fillTableDiasNoDisponibles(jTableDiasNoDisponibles);
-                if (JOptionPane.showConfirmDialog(null, "¿Seguro que quieres eliminar el día "+ jTableDiasNoDisponibles.getModel().getValueAt(row,1).toString()+"?", "WARNING",JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
-                    DiasNoDisponibles diaNoDisponible = diasNoDisponiblesController.selectDia(Long.valueOf(jTableDiasNoDisponibles.getModel().getValueAt(row,0).toString()));
-                    diasNoDisponiblesController.deleteDiaNoDisponible(diaNoDisponible);
+        try{
+            int column = jTableDiasNoDisponibles.getColumnModel().getColumnIndexAtX(evt.getX());
+            int row = evt.getY()/jTableDiasNoDisponibles.getRowHeight();
+            if (column == 2) {
+                Object value = jTableDiasNoDisponibles.getValueAt(row, column);
+                if (value instanceof JButton) {
+                    ((JButton) value).doClick();
                     diasNoDisponiblesController.fillTableDiasNoDisponibles(jTableDiasNoDisponibles);
-                    JOptionPane.showMessageDialog(null,"Día habilitado nuevamente como disponible","INFO",JOptionPane.INFORMATION_MESSAGE);
+                    if (JOptionPane.showConfirmDialog(null, "¿Seguro que quieres eliminar el día "+ jTableDiasNoDisponibles.getModel().getValueAt(row,1).toString()+"?", "WARNING",JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+                        DiasNoDisponibles diaNoDisponible = diasNoDisponiblesController.selectDia(Long.valueOf(jTableDiasNoDisponibles.getModel().getValueAt(row,0).toString()));
+                        diasNoDisponiblesController.deleteDiaNoDisponible(diaNoDisponible);
+                        diasNoDisponiblesController.fillTableDiasNoDisponibles(jTableDiasNoDisponibles);
+                        JOptionPane.showMessageDialog(null,"Día habilitado nuevamente como disponible","INFO",JOptionPane.INFORMATION_MESSAGE);
+                    }
                 }
             }
+        }catch(HeadlessException | NumberFormatException ex){
+            Logger.getLogger(ManageDiasNoDisponiblesForm.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null,ex,"ERROR",JOptionPane.ERROR_MESSAGE);
+        }catch(Exception ex){
+            Logger.getLogger(ManageDiasNoDisponiblesForm.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null,ex,"ERROR",JOptionPane.ERROR_MESSAGE);    
         }
     }//GEN-LAST:event_jTableDiasNoDisponiblesMousePressed
 

@@ -6,6 +6,7 @@
 package vista.admin.users;
 
 import controlador.UsuarioController;
+import java.awt.HeadlessException;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -251,46 +252,57 @@ public class AddUserForm extends javax.swing.JFrame {
 
     private void jButtonAnadirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAnadirActionPerformed
         // TODO add your handling code here:
-        String email = jTextFieldEmail.getText();
-        if (verifyFields()){
-            if (!checkEmail(email)){
-                Usuarios user;
-                String nombreCompleto = jTextFieldNombreCompleto.getText();
-                String password = CifradoUtil.getHash(String.valueOf(jPasswordField.getPassword()));
-                String telefono = jTextFieldTelefono.getText();
-                String rol = jComboBoxRol.getSelectedItem().toString();
-                if (image_path != null && !image_path.equals("")){
-                    File file = new File(image_path);
-                    Blob imageBlob = null;
-                    try {
-                        FileInputStream fis = new FileInputStream(file);
-                        imageBlob = userController.obtenerBlob(fis, file);
-                    } catch (FileNotFoundException ex) {
-                        Logger.getLogger(AddUserForm.class.getName()).log(Level.SEVERE, null, ex);
-                    } catch (IOException ex) {
-                        Logger.getLogger(AddUserForm.class.getName()).log(Level.SEVERE, null, ex);
+        try{
+            String email = jTextFieldEmail.getText();
+            if (verifyFields()){
+                if (!checkEmail(email)){
+                    Usuarios user;
+                    String nombreCompleto = jTextFieldNombreCompleto.getText();
+                    String password = CifradoUtil.getHash(String.valueOf(jPasswordField.getPassword()));
+                    String telefono = jTextFieldTelefono.getText();
+                    String rol = jComboBoxRol.getSelectedItem().toString();
+                    if (image_path != null && !image_path.equals("")){
+                        File file = new File(image_path);
+                        Blob imageBlob = null;
+                        try {
+                            FileInputStream fis = new FileInputStream(file);
+                            imageBlob = userController.obtenerBlob(fis, file);
+                        } catch (FileNotFoundException ex) {
+                            Logger.getLogger(AddUserForm.class.getName()).log(Level.SEVERE, null, ex);
+                            JOptionPane.showMessageDialog(null,ex,"ERROR",JOptionPane.ERROR_MESSAGE);
+                        } catch (IOException ex) {
+                            Logger.getLogger(AddUserForm.class.getName()).log(Level.SEVERE, null, ex);
+                            JOptionPane.showMessageDialog(null,ex,"ERROR",JOptionPane.ERROR_MESSAGE);
+                        }
+                        user = new Usuarios(nombreCompleto, email, password, telefono, imageBlob, rol, null);
+                    }else{
+                        user = new Usuarios(nombreCompleto, email, password, telefono, rol);
                     }
-                    user = new Usuarios(nombreCompleto, email, password, telefono, imageBlob, rol, null);
-                }else{
-                    user = new Usuarios(nombreCompleto, email, password, telefono, rol);
-                }
-                long result = userController.insertUsuario(user);
-                if (result != 0){
-                    Mailer mailer = new Mailer();
-                    String mensaje = "¡Hola " + user.getNombreCompleto()+ "!\nNos complace darte la bienvenida a Padel Land, esperemos que te guste nuestro servicio y que disfrutes de nuestras maravillosas pistas\n¡A jugar!";
-                    try {
-                        mailer.enviarMail(Constantes.EMAIL_ADMIN, user.getEmail(), "¡Bienvenido a Padel Land!", mensaje);
-                    } catch (MessagingException ex) {
-                        Logger.getLogger(AddUserForm.class.getName()).log(Level.SEVERE, null, ex);
-                        JOptionPane.showMessageDialog(null,ex,"ERROR",JOptionPane.ERROR_MESSAGE);
-                    }
-                    JOptionPane.showMessageDialog(null, "¡Tu usuario ha sido creado correctamente!","INFO",JOptionPane.INFORMATION_MESSAGE);
+                    long result = userController.insertUsuario(user);
+                    if (result != 0){
+                        Mailer mailer = new Mailer();
+                        String mensaje = "¡Hola " + user.getNombreCompleto()+ "!\nNos complace darte la bienvenida a Padel Land, esperemos que te guste nuestro servicio y que disfrutes de nuestras maravillosas pistas\n¡A jugar!";
+                        try {
+                            mailer.enviarMail(Constantes.EMAIL_ADMIN, user.getEmail(), "¡Bienvenido a Padel Land!", mensaje);
+                        } catch (MessagingException ex) {
+                            Logger.getLogger(AddUserForm.class.getName()).log(Level.SEVERE, null, ex);
+                            JOptionPane.showMessageDialog(null,ex,"ERROR",JOptionPane.ERROR_MESSAGE);
+                        }
+                        JOptionPane.showMessageDialog(null, "¡Tu usuario ha sido creado correctamente!","INFO",JOptionPane.INFORMATION_MESSAGE);
 
-                }else{
-                    JOptionPane.showMessageDialog(null, "Error en el registro, revisa tus datos","ERROR",JOptionPane.ERROR_MESSAGE);
+                    }else{
+                        JOptionPane.showMessageDialog(null, "Error en el registro, revisa tus datos","ERROR",JOptionPane.ERROR_MESSAGE);
+                    }
                 }
             }
+        }catch(HeadlessException ex){
+            Logger.getLogger(AddUserForm.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null,ex,"ERROR",JOptionPane.ERROR_MESSAGE);
+        }catch(Exception ex){
+            Logger.getLogger(AddUserForm.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null,ex,"ERROR",JOptionPane.ERROR_MESSAGE);
         }
+
         if (ManageUserForm.jTableUsuarios != null) {
             userController.fillUsersJTable(ManageUserForm.jTableUsuarios, "");
         }

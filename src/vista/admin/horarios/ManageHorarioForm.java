@@ -7,10 +7,14 @@ package vista.admin.horarios;
 
 import controlador.HorarioController;
 import controlador.ReservaController;
+import java.awt.HeadlessException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import utilidades.ImagenFondo;
+import vista.admin.users.AddUserForm;
 /**
  *
  * @author Manolo
@@ -143,22 +147,30 @@ public class ManageHorarioForm extends javax.swing.JFrame {
 
     private void jTableHorariosMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableHorariosMousePressed
         // TODO add your handling code here:
-        int column = jTableHorarios.getColumnModel().getColumnIndexAtX(evt.getX());
-        int row = evt.getY()/jTableHorarios.getRowHeight();
-        if (column == 3) {
-            Object value = jTableHorarios.getValueAt(row, column);
-            if (value instanceof JButton) {
-                ((JButton) value).doClick();
-                if (JOptionPane.showConfirmDialog(null, "¿Seguro que quieres eliminar el tramo horario de las "+ jTableHorarios.getModel().getValueAt(row,2)+"?", "WARNING",JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
-                    if (reservaController.horarioTieneReservas(Long.valueOf(jTableHorarios.getModel().getValueAt(row,0).toString()))){
-                        JOptionPane.showMessageDialog(null,"No se puede eliminar un horario que tiene reservas asociadas","¡NOO!",JOptionPane.ERROR_MESSAGE);
-                    }else{
-                        horarioController.deleteHorario(horarioController.selectHorario(Long.valueOf(jTableHorarios.getModel().getValueAt(row,0).toString())));
-                        horarioController.fillHorariosTable(jTableHorarios);
-                        JOptionPane.showMessageDialog(null,"Horario eliminado correctamente", "INFO",JOptionPane.INFORMATION_MESSAGE);
+        try{
+            int column = jTableHorarios.getColumnModel().getColumnIndexAtX(evt.getX());
+            int row = evt.getY()/jTableHorarios.getRowHeight();
+            if (column == 3) {
+                Object value = jTableHorarios.getValueAt(row, column);
+                if (value instanceof JButton) {
+                    ((JButton) value).doClick();
+                    if (JOptionPane.showConfirmDialog(null, "¿Seguro que quieres eliminar el tramo horario de las "+ jTableHorarios.getModel().getValueAt(row,2)+"?", "WARNING",JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+                        if (reservaController.horarioTieneReservas(Long.valueOf(jTableHorarios.getModel().getValueAt(row,0).toString()))){
+                            JOptionPane.showMessageDialog(null,"No se puede eliminar un horario que tiene reservas asociadas","¡NOO!",JOptionPane.ERROR_MESSAGE);
+                        }else{
+                            horarioController.deleteHorario(horarioController.selectHorario(Long.valueOf(jTableHorarios.getModel().getValueAt(row,0).toString())));
+                            horarioController.fillHorariosTable(jTableHorarios);
+                            JOptionPane.showMessageDialog(null,"Horario eliminado correctamente", "INFO",JOptionPane.INFORMATION_MESSAGE);
+                        }
                     }
                 }
             }
+        }catch(HeadlessException | NumberFormatException ex){
+            Logger.getLogger(ManageHorarioForm.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null, ex,"ERROR",JOptionPane.ERROR_MESSAGE);
+        }catch(Exception ex){
+            Logger.getLogger(ManageHorarioForm.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null, ex,"ERROR",JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_jTableHorariosMousePressed
 

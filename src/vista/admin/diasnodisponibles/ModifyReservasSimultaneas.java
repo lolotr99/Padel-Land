@@ -6,8 +6,10 @@
 package vista.admin.diasnodisponibles;
 
 import controlador.PropertiesController;
+import java.awt.HeadlessException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import modelo.Properties;
-import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.SpinnerNumberModel;
 import utilidades.ImagenFondo;
@@ -117,15 +119,23 @@ public class ModifyReservasSimultaneas extends javax.swing.JDialog {
 
     private void jButtonActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonActualizarActionPerformed
         // TODO add your handling code here:
-        int limite = (int) jSpinnerLimiteReservas.getValue();
-        if (limite != 0) {
-            propertie.setValue(String.valueOf(limite));
-            propertiesController.updatePropertie(propertie);
-            ManageDiasNoDisponiblesForm.jTextFieldNumeroReservasSimultaneas.setText(String.valueOf(propertie.getValue()));
-            JOptionPane.showMessageDialog(null, "¡Se ha actualizado correctamente!","Actualizar límite reservas simultáneas",JOptionPane.INFORMATION_MESSAGE);
-            this.dispose();
-        }else{
-            JOptionPane.showMessageDialog(null,"El límite debe ser superior a 0","Error al actualizar",JOptionPane.ERROR_MESSAGE);
+        try{
+            int limite = (int) jSpinnerLimiteReservas.getValue();
+            if (limite != 0) {
+                propertie.setValue(String.valueOf(limite));
+                propertiesController.updatePropertie(propertie);
+                ManageDiasNoDisponiblesForm.jTextFieldNumeroReservasSimultaneas.setText(String.valueOf(propertie.getValue()));
+                JOptionPane.showMessageDialog(null, "¡Se ha actualizado correctamente!","Actualizar límite reservas simultáneas",JOptionPane.INFORMATION_MESSAGE);
+                this.dispose();
+            }else{
+                JOptionPane.showMessageDialog(null,"El límite debe ser superior a 0","Error al actualizar",JOptionPane.ERROR_MESSAGE);
+            }
+        }catch(HeadlessException ex){
+            Logger.getLogger(ModifyReservasSimultaneas.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null,ex,"ERROR",JOptionPane.ERROR_MESSAGE);
+        }catch(Exception ex){
+            Logger.getLogger(ModifyReservasSimultaneas.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null,ex,"ERROR",JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_jButtonActualizarActionPerformed
 

@@ -8,6 +8,7 @@ package vista.admin.users;
 import com.sun.glass.events.KeyEvent;
 import controlador.ReservaController;
 import controlador.UsuarioController;
+import java.awt.HeadlessException;
 import java.awt.Point;
 import java.io.File;
 import java.io.FileInputStream;
@@ -356,21 +357,29 @@ public class ManageUserForm extends javax.swing.JFrame {
 
     private void jButtonEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEliminarActionPerformed
         // TODO add your handling code here:
-        String id = jTextFieldId.getText();
-        if (id.equals("")){
-            JOptionPane.showMessageDialog(null, "No se ha seleccionado ningún usuario","WARNING",JOptionPane.WARNING_MESSAGE);
-        }else{
-            Usuarios user = userController.selectUsuario(Integer.valueOf(id));
-            if (JOptionPane.showConfirmDialog(null, "¿Seguro que quieres eliminar el usuario con email '"+user.getEmail()+"' ?", "WARNING",JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
-                if (reservaController.usuarioTieneReservas(Long.valueOf(id))){
-                    JOptionPane.showMessageDialog(null,"No se puede eliminar un usuario que tiene reservas asociadas","¡NOO!",JOptionPane.ERROR_MESSAGE);
-                }else{
-                    userController.deleteUsuario(user);
-                    userController.fillUsersJTable(jTableUsuarios, jTextFieldValorBusqueda.getText());
-                    limpiarCampos();
-                    JOptionPane.showMessageDialog(null,"Usuario eliminado correctamente","INFO",JOptionPane.INFORMATION_MESSAGE);
+        try{
+            String id = jTextFieldId.getText();
+            if (id.equals("")){
+                JOptionPane.showMessageDialog(null, "No se ha seleccionado ningún usuario","WARNING",JOptionPane.WARNING_MESSAGE);
+            }else{
+                Usuarios user = userController.selectUsuario(Integer.valueOf(id));
+                if (JOptionPane.showConfirmDialog(null, "¿Seguro que quieres eliminar el usuario con email '"+user.getEmail()+"' ?", "WARNING",JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+                    if (reservaController.usuarioTieneReservas(Long.valueOf(id))){
+                        JOptionPane.showMessageDialog(null,"No se puede eliminar un usuario que tiene reservas asociadas","¡NOO!",JOptionPane.ERROR_MESSAGE);
+                    }else{
+                        userController.deleteUsuario(user);
+                        userController.fillUsersJTable(jTableUsuarios, jTextFieldValorBusqueda.getText());
+                        limpiarCampos();
+                        JOptionPane.showMessageDialog(null,"Usuario eliminado correctamente","INFO",JOptionPane.INFORMATION_MESSAGE);
+                    }
                 }
             }
+        }catch(HeadlessException | NumberFormatException ex){
+            Logger.getLogger(ManageUserForm.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null,ex,"ERROR",JOptionPane.ERROR_MESSAGE);
+        }catch(Exception ex){
+            Logger.getLogger(ManageUserForm.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null,ex,"ERROR",JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_jButtonEliminarActionPerformed
 

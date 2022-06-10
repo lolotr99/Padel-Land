@@ -142,28 +142,24 @@ public class Contacto extends javax.swing.JFrame {
             if (asunto.trim().equals("") || mensaje.trim().equals("")){
                 JOptionPane.showMessageDialog(null, "¡Formulario incompleto!","WARNING",JOptionPane.WARNING_MESSAGE);
             }else{
-                if (user != null){
-                    Mailer mailer = new Mailer();
-                    try {
-                        mailer.enviarMail(user.getEmail(), Constantes.EMAIL_ADMIN, asunto, mensaje);
-                    } catch (MessagingException ex) {
-                        Logger.getLogger(Contacto.class.getName()).log(Level.SEVERE, null, ex);
-                        JOptionPane.showMessageDialog(null,ex,"ERROR",JOptionPane.ERROR_MESSAGE);
-                    }
-                    JOptionPane.showMessageDialog(null, "Mensaje enviado correctamente. Pronto nos pondremos en contacto contigo.","INFO",JOptionPane.INFORMATION_MESSAGE);
-                    
-                    String asuntoDeVuelta = "Solicitud de soporte recibida";
-                    String mensajeDeVuelta ="¡Hola "+user.getNombreCompleto()+"!\nHemos recibido tu solicitud y en breves uno de nuestros empleados se pondrá en contacto contigo.\n"
-                            + "Usaremos este mismo correo o el número de teléfono "+user.getTelefono() + " que nos proporcionaste.\n¡Un saludo!";
-                    Mailer mailerDevuelta = new Mailer();
-                    try {
-                        mailerDevuelta.enviarMail(Constantes.EMAIL_ADMIN, user.getEmail(), asuntoDeVuelta, mensajeDeVuelta);
-                    } catch (MessagingException ex) {
-                        Logger.getLogger(Contacto.class.getName()).log(Level.SEVERE, null, ex);
-                        JOptionPane.showMessageDialog(null,ex,"ERROR",JOptionPane.ERROR_MESSAGE);
-                    }
-                }else{
-                    JOptionPane.showMessageDialog(null, "No estás logueado, no puedes enviar correo.","ERROR",JOptionPane.ERROR_MESSAGE);
+                Mailer mailer = new Mailer();
+                try {
+                    mailer.enviarMail(user.getEmail(), Constantes.EMAIL_ADMIN, asunto, mensaje);
+                } catch (MessagingException ex) {
+                    Logger.getLogger(Contacto.class.getName()).log(Level.SEVERE, null, ex);
+                    JOptionPane.showMessageDialog(null,ex,"ERROR",JOptionPane.ERROR_MESSAGE);
+                }
+                JOptionPane.showMessageDialog(null, "Mensaje enviado correctamente. Pronto nos pondremos en contacto contigo.","INFO",JOptionPane.INFORMATION_MESSAGE);
+
+                String asuntoDeVuelta = "Solicitud de soporte recibida";
+                String mensajeDeVuelta ="¡Hola "+user.getNombreCompleto()+"!\nHemos recibido tu solicitud y en breves uno de nuestros empleados se pondrá en contacto contigo.\n"
+                        + "Usaremos este mismo correo o el número de teléfono "+user.getTelefono() + " que nos proporcionaste.\n¡Un saludo!";
+                Mailer mailerDevuelta = new Mailer();
+                try {
+                    mailerDevuelta.enviarMail(Constantes.EMAIL_ADMIN, user.getEmail(), asuntoDeVuelta, mensajeDeVuelta);
+                } catch (MessagingException ex) {
+                    Logger.getLogger(Contacto.class.getName()).log(Level.SEVERE, null, ex);
+                    JOptionPane.showMessageDialog(null,ex,"ERROR",JOptionPane.ERROR_MESSAGE);
                 }
             }
         }else{

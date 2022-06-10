@@ -77,6 +77,7 @@ public class MiPerfilForm extends javax.swing.JFrame {
                 imgUsuario.setIcon(new ImageIcon(img.getScaledInstance(180, 180, Image.SCALE_SMOOTH)));
             } catch (IOException | SQLException | NullPointerException ex) {
                 Logger.getLogger(MiPerfilForm.class.getName()).log(Level.SEVERE, null, ex);
+                JOptionPane.showMessageDialog(null, ex,"ERROR",JOptionPane.ERROR_MESSAGE);
             }
         } else{
             URL imgStream = MiPerfilForm.class.getClassLoader().getResource("resources/img/defecto.png");
@@ -85,6 +86,7 @@ public class MiPerfilForm extends javax.swing.JFrame {
                 defecto = ImageIO.read(imgStream);
             } catch (IOException ex) {
                 Logger.getLogger(MiPerfilForm.class.getName()).log(Level.SEVERE, null, ex);
+                JOptionPane.showMessageDialog(null, ex,"ERROR",JOptionPane.ERROR_MESSAGE);
             }
             imgUsuario.setIcon(new ImageIcon(defecto));
         }
@@ -127,6 +129,7 @@ public class MiPerfilForm extends javax.swing.JFrame {
                     imgEliminar = ImageIO.read(MiPerfilForm.class.getClassLoader().getResource("resources/img/icono-borrar.png"));
                 } catch (IOException ex) {
                     Logger.getLogger(MiPerfilForm.class.getName()).log(Level.SEVERE, null, ex);
+                    JOptionPane.showMessageDialog(null, ex,"ERROR",JOptionPane.ERROR_MESSAGE);
                 }
                 row[4] = new JButton("Anular", new ImageIcon(imgEliminar));
             }else{
@@ -136,6 +139,7 @@ public class MiPerfilForm extends javax.swing.JFrame {
                         imgEliminar = ImageIO.read(MiPerfilForm.class.getClassLoader().getResource("resources/img/icono-borrar.png"));
                     } catch (IOException ex) {
                         Logger.getLogger(MiPerfilForm.class.getName()).log(Level.SEVERE, null, ex);
+                        JOptionPane.showMessageDialog(null, ex,"ERROR",JOptionPane.ERROR_MESSAGE);
                     }
                     row[4] = new JButton("Anular", new ImageIcon(imgEliminar));
                 }

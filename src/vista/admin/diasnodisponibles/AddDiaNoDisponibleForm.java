@@ -10,6 +10,7 @@ import controlador.HorarioController;
 import controlador.PistaController;
 import controlador.ReservaController;
 import controlador.UsuarioController;
+import java.awt.HeadlessException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -140,53 +141,63 @@ public class AddDiaNoDisponibleForm extends javax.swing.JFrame {
 
     private void jButtonAnadirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAnadirActionPerformed
         // TODO add your handling code here
-        Date fecha = jCalendar.getDate();
-        SimpleDateFormat formato = new SimpleDateFormat("yyyy/MM/dd");
-        String fechaFormateada = formato.format(fecha);
+        try{
+            Date fecha = jCalendar.getDate();
+            SimpleDateFormat formato = new SimpleDateFormat("yyyy/MM/dd");
+            String fechaFormateada = formato.format(fecha);
         
-        if (fecha.before(new Date())){
-            JOptionPane.showMessageDialog(null, "No se puede añadir un día anterior al de hoy","Información",JOptionPane.ERROR_MESSAGE);
-        }else {
-            //Se comprueba que ese tramo horario no exista ya
-            if (!checkDia(fechaFormateada)){
-                if (reservaController.diaNoDisponibleEstaEnReservas(fechaFormateada)){
-                    if(JOptionPane.showConfirmDialog(null, "Al insertar este día, se cancelarán las reservas que haya programadas. ¿Seguro que quieres insertar el día : "+fechaFormateada+"?", "WARNING",JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
-                        //Anular todas las reservas de este día y notificar al usuario por correo
-                        List<Reservas> listaReservasDia = reservaController.getReservasByDia(fechaFormateada);
-                        for (Reservas reserva : listaReservasDia){
-                            Usuarios user = usuarioController.selectUsuario(reserva.getUsuarios().getId());
-                            Pistas pista = pistaController.selectPista(reserva.getPistas().getId());
-                            Horarios horario = horarioController.selectHorario(reserva.getHorarios().getId());
-                            String message = "¡Hola "+user.getNombreCompleto()+"!\nDesde Padel Land confirmamos que se ha cancelado la reserva en la pista " +pista.getNombrePista()
-                                    + " para el día "+ new SimpleDateFormat("dd-MM-yyyy").format(reserva.getDia())+ " a las " + new SimpleDateFormat("HH:mm").format(horario.getHoraComienzo());
-                            message+=" debido a que cerramos el club este día.\n ¡Pase usted un buen día!";
-                            reservaController.deleteReserva(reserva);
-                            Mailer mailer = new Mailer();
-                            try {
-                                mailer.enviarMail(Constantes.EMAIL_ADMIN, user.getEmail(), "Confirmación de Anulación de reserva",message);
-                            } catch (MessagingException ex) {
-                                Logger.getLogger(AddDiaNoDisponibleForm.class.getName()).log(Level.SEVERE, null, ex);
-                                JOptionPane.showMessageDialog(null,ex,"ERROR",JOptionPane.ERROR_MESSAGE);
-                            }
-                        }   
+            if (fecha.before(new Date())){
+                JOptionPane.showMessageDialog(null, "No se puede añadir un día anterior al de hoy","Información",JOptionPane.ERROR_MESSAGE);
+            }else {
+                //Se comprueba que ese tramo horario no exista ya
+                if (!checkDia(fechaFormateada)){
+                    if (reservaController.diaNoDisponibleEstaEnReservas(fechaFormateada)){
+                        if(JOptionPane.showConfirmDialog(null, "Al insertar este día, se cancelarán las reservas que haya programadas. ¿Seguro que quieres insertar el día : "+fechaFormateada+"?", "WARNING",JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+                            //Anular todas las reservas de este día y notificar al usuario por correo
+                            List<Reservas> listaReservasDia = reservaController.getReservasByDia(fechaFormateada);
+                            for (Reservas reserva : listaReservasDia){
+                                Usuarios user = usuarioController.selectUsuario(reserva.getUsuarios().getId());
+                                Pistas pista = pistaController.selectPista(reserva.getPistas().getId());
+                                Horarios horario = horarioController.selectHorario(reserva.getHorarios().getId());
+                                String message = "¡Hola "+user.getNombreCompleto()+"!\nDesde Padel Land confirmamos que se ha cancelado la reserva en la pista " +pista.getNombrePista()
+                                        + " para el día "+ new SimpleDateFormat("dd-MM-yyyy").format(reserva.getDia())+ " a las " + new SimpleDateFormat("HH:mm").format(horario.getHoraComienzo());
+                                message+=" debido a que cerramos el club este día.\n ¡Pase usted un buen día!";
+                                reservaController.deleteReserva(reserva);
+                                Mailer mailer = new Mailer();
+                                try {
+                                    mailer.enviarMail(Constantes.EMAIL_ADMIN, user.getEmail(), "Confirmación de Anulación de reserva",message);
+                                } catch (MessagingException ex) {
+                                    Logger.getLogger(AddDiaNoDisponibleForm.class.getName()).log(Level.SEVERE, null, ex);
+                                    JOptionPane.showMessageDialog(null,ex,"ERROR",JOptionPane.ERROR_MESSAGE);
+                                }
+                            }   
+                        }else{
+                            return;
+                        }
+                    }
+                    //Insertar
+                    DiasNoDisponibles dia = new DiasNoDisponibles(fecha);
+                    long result = diasNoDisponiblesController.insertarDia(dia);
+                    if (result != 0){
+                        JOptionPane.showMessageDialog(null, "¡Nuevo día no disponible ha sido creado correctamente!","INFO",JOptionPane.INFORMATION_MESSAGE);
                     }else{
-                        return;
+                        JOptionPane.showMessageDialog(null, "Ha ocurrido un error en el registro, revisa tus datos.","ERROR",JOptionPane.ERROR_MESSAGE);
                     }
                 }
-                //Insertar
-                DiasNoDisponibles dia = new DiasNoDisponibles(fecha);
-                long result = diasNoDisponiblesController.insertarDia(dia);
-                if (result != 0){
-                    JOptionPane.showMessageDialog(null, "¡Nuevo día no disponible ha sido creado correctamente!","INFO",JOptionPane.INFORMATION_MESSAGE);
-                }else{
-                    JOptionPane.showMessageDialog(null, "Ha ocurrido un error en el registro, revisa tus datos.","ERROR",JOptionPane.ERROR_MESSAGE);
+
+                if (ManageDiasNoDisponiblesForm.jTableDiasNoDisponibles != null){
+                    diasNoDisponiblesController.fillTableDiasNoDisponibles(ManageDiasNoDisponiblesForm.jTableDiasNoDisponibles);
                 }
             }
-                    
-            if (ManageDiasNoDisponiblesForm.jTableDiasNoDisponibles != null){
-                diasNoDisponiblesController.fillTableDiasNoDisponibles(ManageDiasNoDisponiblesForm.jTableDiasNoDisponibles);
-            }
+        }catch(HeadlessException ex){
+            Logger.getLogger(AddDiaNoDisponibleForm.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null,ex,"ERROR",JOptionPane.ERROR_MESSAGE);
+        }catch(Exception ex){
+            Logger.getLogger(AddDiaNoDisponibleForm.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null,ex,"ERROR",JOptionPane.ERROR_MESSAGE);
         }
+        
+
         
        
     }//GEN-LAST:event_jButtonAnadirActionPerformed

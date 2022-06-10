@@ -6,6 +6,7 @@
 package vista.admin.horarios;
 
 import controlador.HorarioController;
+import java.awt.HeadlessException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -138,37 +139,43 @@ public class AddHorarioForm extends javax.swing.JFrame {
 
     private void jButtonAnadirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAnadirActionPerformed
         // TODO add your handling code here
-        Object value = jSpinner1.getValue();
-        if (value instanceof Date){
-            Date horaComienzo = (Date)value;
-            SimpleDateFormat format = new SimpleDateFormat("HH:mm");
-            String time = format.format(horaComienzo);
-            if (JOptionPane.showConfirmDialog(null, "¿Seguro que quieres insertar el tramo horario: "+time+"?", "WARNING",JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
-                //Se comprueba que ese tramo horario no exista ya
-                if (!checkHorario(horaComienzo)){
-                    try {
-                        Date horaCambioTurno = format.parse("14:00");
-                        String turno = "";
-                        if (horaComienzo.before(horaCambioTurno) || horaComienzo.equals(horaCambioTurno)){
-                            turno = "mañana";
-                        } else{
-                            turno = "tarde";
+        try{
+            Object value = jSpinner1.getValue();
+            if (value instanceof Date){
+                Date horaComienzo = (Date)value;
+                SimpleDateFormat format = new SimpleDateFormat("HH:mm");
+                String time = format.format(horaComienzo);
+                if (JOptionPane.showConfirmDialog(null, "¿Seguro que quieres insertar el tramo horario: "+time+"?", "WARNING",JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+                    //Se comprueba que ese tramo horario no exista ya
+                    if (!checkHorario(horaComienzo)){
+                        try {
+                            Date horaCambioTurno = format.parse("14:00");
+                            String turno = "";
+                            if (horaComienzo.before(horaCambioTurno) || horaComienzo.equals(horaCambioTurno)){
+                                turno = "mañana";
+                            } else{
+                                turno = "tarde";
+                            }
+
+                            Horarios horario = new Horarios(turno, horaComienzo);
+                            long result = horarioController.insertarHorario(horario);
+                            if (result != 0){
+                                JOptionPane.showMessageDialog(null, "¡Tu tramo horario ha sido creado correctamente!","INFO",JOptionPane.INFORMATION_MESSAGE);
+                            }else{
+                                JOptionPane.showMessageDialog(null, "Ha ocurrido un error en el registro, revisa tus datos.","ERROR",JOptionPane.ERROR_MESSAGE);
+                            }
+                        } catch (ParseException ex) {
+                            Logger.getLogger(AddHorarioForm.class.getName()).log(Level.SEVERE, null, ex);
+                            JOptionPane.showMessageDialog(null, ex, "ERROR", JOptionPane.ERROR_MESSAGE);
                         }
-                        
-                        Horarios horario = new Horarios(turno, horaComienzo);
-                        long result = horarioController.insertarHorario(horario);
-                        if (result != 0){
-                            JOptionPane.showMessageDialog(null, "¡Tu tramo horario ha sido creado correctamente!","INFO",JOptionPane.INFORMATION_MESSAGE);
-                        }else{
-                            JOptionPane.showMessageDialog(null, "Ha ocurrido un error en el registro, revisa tus datos.","ERROR",JOptionPane.ERROR_MESSAGE);
-                        }
-                    } catch (ParseException ex) {
-                        Logger.getLogger(AddHorarioForm.class.getName()).log(Level.SEVERE, null, ex);
                     }
-                }
-            } 
-        } else{
-            JOptionPane.showMessageDialog(null, "Introduce una hora válida (HH:mm) ", "Formato incorrecto",JOptionPane.ERROR_MESSAGE);
+                } 
+            } else{
+                JOptionPane.showMessageDialog(null, "Introduce una hora válida (HH:mm) ", "Formato incorrecto",JOptionPane.ERROR_MESSAGE);
+            }
+        }catch(HeadlessException ex){
+            Logger.getLogger(AddHorarioForm.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null, ex, "ERROR", JOptionPane.ERROR_MESSAGE);
         }
         
         if (ManageHorarioForm.jTableHorarios != null){

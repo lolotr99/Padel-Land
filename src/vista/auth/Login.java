@@ -181,35 +181,41 @@ public class Login extends javax.swing.JFrame {
 
     private void jButtonLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonLoginActionPerformed
         // TODO add your handling code here:
-        if (verifyFields()){
-            //Obtenemos los datos del formulario
-            String email = jTextFieldEmail.getText();
-            String password = String.valueOf(jPasswordField.getPassword());
-        
-            userController = new UsuarioController();
-            try {
-                Usuarios usuario = userController.obtenerUsuarioPorEmail(email);
-                if (usuario != null){
-                    if (CifradoUtil.checkPassword(password, usuario.getPassword())){
-                        if (form != null){
-                            VistaUsuarioBasicoForm vistaUser = new VistaUsuarioBasicoForm(usuario);
-                            vistaUser.pack();
-                            vistaUser.setVisible(true);
-                            vistaUser.setLocationRelativeTo(null);
-                            vistaUser.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                            this.dispose();
-                            form.dispose();
+        try{
+            if (verifyFields()){
+                //Obtenemos los datos del formulario
+                String email = jTextFieldEmail.getText();
+                String password = String.valueOf(jPasswordField.getPassword());
+
+                userController = new UsuarioController();
+                try {
+                    Usuarios usuario = userController.obtenerUsuarioPorEmail(email);
+                    if (usuario != null){
+                        if (CifradoUtil.checkPassword(password, usuario.getPassword())){
+                            if (form != null){
+                                VistaUsuarioBasicoForm vistaUser = new VistaUsuarioBasicoForm(usuario);
+                                vistaUser.pack();
+                                vistaUser.setVisible(true);
+                                vistaUser.setLocationRelativeTo(null);
+                                vistaUser.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                                this.dispose();
+                                form.dispose();
+                            }
+
+                        }else{
+                            JOptionPane.showMessageDialog(null,"Email o contraseña incorrectos","Error de inicio de sesión",JOptionPane.ERROR_MESSAGE);
                         }
-                            
                     }else{
                         JOptionPane.showMessageDialog(null,"Email o contraseña incorrectos","Error de inicio de sesión",JOptionPane.ERROR_MESSAGE);
                     }
-                }else{
-                    JOptionPane.showMessageDialog(null,"Email o contraseña incorrectos","Error de inicio de sesión",JOptionPane.ERROR_MESSAGE);
+                }catch(HeadlessException ex){
+                    Logger.getLogger(Login.class.getName()).log(Level.SEVERE,null,ex);
+                    JOptionPane.showMessageDialog(null, ex, "ERROR", JOptionPane.ERROR_MESSAGE);
                 }
-            }catch(HeadlessException ex){
-                Logger.getLogger(Login.class.getName()).log(Level.SEVERE,null,ex);
             }
+        }catch(Exception ex){
+            Logger.getLogger(Login.class.getName()).log(Level.SEVERE,null,ex);
+            JOptionPane.showMessageDialog(null, ex, "ERROR", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_jButtonLoginActionPerformed
 

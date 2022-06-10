@@ -6,6 +6,7 @@
 package vista.admin.pistas;
 
 import controlador.PistaController;
+import java.awt.HeadlessException;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -178,32 +179,43 @@ public class AddPistaForm extends javax.swing.JFrame {
 
     private void jButtonAnadirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAnadirActionPerformed
         // TODO add your handling code here:
-        if (verifyFields()){
-            String nombrePista = jTextFieldNombrePista.getText();
-            File file = new File(image_path);
-            Blob imageBlob = null;
-            Pistas pista;
-            try {
-                FileInputStream fis = new FileInputStream(file);
-                imageBlob = pistaController.obtenerBlob(fis, file);
-            } catch (FileNotFoundException ex) {
-                Logger.getLogger(AddPistaForm.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (IOException ex) {
-                Logger.getLogger(AddPistaForm.class.getName()).log(Level.SEVERE, null, ex);
+        try{
+            if (verifyFields()){
+                String nombrePista = jTextFieldNombrePista.getText();
+                File file = new File(image_path);
+                Blob imageBlob = null;
+                Pistas pista;
+                try {
+                    FileInputStream fis = new FileInputStream(file);
+                    imageBlob = pistaController.obtenerBlob(fis, file);
+                } catch (FileNotFoundException ex) {
+                    Logger.getLogger(AddPistaForm.class.getName()).log(Level.SEVERE, null, ex);
+                    JOptionPane.showMessageDialog(null, ex,"ERROR", JOptionPane.ERROR_MESSAGE);
+                } catch (IOException ex) {
+                    Logger.getLogger(AddPistaForm.class.getName()).log(Level.SEVERE, null, ex);
+                    JOptionPane.showMessageDialog(null, ex,"ERROR", JOptionPane.ERROR_MESSAGE);
+                }
+                pista = new Pistas(nombrePista, imageBlob, null);
+                long result = pistaController.insertarPista(pista);
+                if (result != 0){
+                    JOptionPane.showMessageDialog(null, "¡Tu pista ha sido creada correctamente!","INFO",JOptionPane.INFORMATION_MESSAGE);
+                    image_path = null;
+                    jTextFieldNombrePista.setText("");
+                }else{
+                    JOptionPane.showMessageDialog(null, "Error en el registro de la pista, revisa tus datos","ERROR",JOptionPane.ERROR_MESSAGE);
+                }
             }
-            pista = new Pistas(nombrePista, imageBlob, null);
-            long result = pistaController.insertarPista(pista);
-            if (result != 0){
-                JOptionPane.showMessageDialog(null, "¡Tu pista ha sido creada correctamente!","INFO",JOptionPane.INFORMATION_MESSAGE);
-                image_path = null;
-                jTextFieldNombrePista.setText("");
-            }else{
-                JOptionPane.showMessageDialog(null, "Error en el registro de la pista, revisa tus datos","ERROR",JOptionPane.ERROR_MESSAGE);
-            }
+        }catch(HeadlessException ex){
+            Logger.getLogger(AddPistaForm.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null, ex,"ERROR", JOptionPane.ERROR_MESSAGE);
+        }catch(Exception ex){
+            Logger.getLogger(AddPistaForm.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null, ex,"ERROR", JOptionPane.ERROR_MESSAGE);
         }
         if (ManagePistaForm.jTablePistas != null){
             pistaController.fillPistasJTable(ManagePistaForm.jTablePistas, "");
         }
+        
     }//GEN-LAST:event_jButtonAnadirActionPerformed
 
     private void jButtonQuitarImagenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonQuitarImagenActionPerformed

@@ -7,6 +7,7 @@ package vista.auth;
 
 import controlador.UsuarioController;
 import java.awt.Font;
+import java.awt.HeadlessException;
 import java.awt.font.TextAttribute;
 import java.io.File;
 import java.io.FileInputStream;
@@ -281,64 +282,74 @@ public class Registro extends javax.swing.JFrame {
 
     private void jButtonRegistroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonRegistroActionPerformed
         // TODO add your handling code heres
-        String email = jTextFieldEmail.getText();
-        if (verifyFields()){
-            if (!checkEmail(email)){
-                Usuarios user;
-                String nombreCompleto = jTextFieldNombreCompleto.getText();
-                String password ="";
-                try{
-                    password = CifradoUtil.getHash(String.valueOf(jPasswordField.getPassword()));
-                }catch(Exception ex){
-                    Logger.getLogger(Registro.class.getName()).log(Level.SEVERE, null, ex);
-                    JOptionPane.showMessageDialog(null,ex,"ERROR",JOptionPane.ERROR_MESSAGE);
-                }
-                String telefono = jTextFieldTelefono.getText();
-                String rol = "basico";
-                if (image_path != null && !image_path.equals("")){
-                    File file = new File(image_path);
-                    Blob imageBlob = null;
-                    try {
-                        FileInputStream fis = new FileInputStream(file);
-                        imageBlob = userController.obtenerBlob(fis, file);
-                    } catch (FileNotFoundException ex) {
-                        Logger.getLogger(Registro.class.getName()).log(Level.SEVERE, null, ex);
-                        JOptionPane.showMessageDialog(null,ex,"ERROR",JOptionPane.ERROR_MESSAGE);
-                    } catch (IOException ex) {
+        try{
+            String email = jTextFieldEmail.getText();
+            if (verifyFields()){
+                if (!checkEmail(email)){
+                    Usuarios user;
+                    String nombreCompleto = jTextFieldNombreCompleto.getText();
+                    String password ="";
+                    try{
+                        password = CifradoUtil.getHash(String.valueOf(jPasswordField.getPassword()));
+                    }catch(Exception ex){
                         Logger.getLogger(Registro.class.getName()).log(Level.SEVERE, null, ex);
                         JOptionPane.showMessageDialog(null,ex,"ERROR",JOptionPane.ERROR_MESSAGE);
                     }
-                    user = new Usuarios(nombreCompleto, email, password, telefono, imageBlob, rol, null);
-                }else{
-                    user = new Usuarios(nombreCompleto, email, password, telefono, rol);
-                }
-                long result = userController.insertUsuario(user);
-                if (result != 0){
-                    Mailer mailer = new Mailer();
-                    String mensaje = "¡Hola " + user.getNombreCompleto()+ "!\nNos complace darte la bienvenida a Padel Land, esperemos que te guste nuestro servicio y que disfrutes de nuestras maravillosas pistas\n¡A jugar!";
-                    try {
-                        mailer.enviarMail(Constantes.EMAIL_ADMIN,user.getEmail(),"¡Bienvenido a Padel Land!",mensaje);
-                    } catch (MessagingException ex) {
-                        Logger.getLogger(Registro.class.getName()).log(Level.SEVERE, null, ex);
-                        JOptionPane.showMessageDialog(null,ex,"ERROR",JOptionPane.ERROR_MESSAGE);
+                    String telefono = jTextFieldTelefono.getText();
+                    String rol = "basico";
+                    if (image_path != null && !image_path.equals("")){
+                        File file = new File(image_path);
+                        Blob imageBlob = null;
+                        try {
+                            FileInputStream fis = new FileInputStream(file);
+                            imageBlob = userController.obtenerBlob(fis, file);
+                        } catch (FileNotFoundException ex) {
+                            Logger.getLogger(Registro.class.getName()).log(Level.SEVERE, null, ex);
+                            JOptionPane.showMessageDialog(null,ex,"ERROR",JOptionPane.ERROR_MESSAGE);
+                        } catch (IOException ex) {
+                            Logger.getLogger(Registro.class.getName()).log(Level.SEVERE, null, ex);
+                            JOptionPane.showMessageDialog(null,ex,"ERROR",JOptionPane.ERROR_MESSAGE);
+                        }
+                        user = new Usuarios(nombreCompleto, email, password, telefono, imageBlob, rol, null);
+                    }else{
+                        user = new Usuarios(nombreCompleto, email, password, telefono, rol);
                     }
-                    
-                    JOptionPane.showMessageDialog(null, "¡Usuario creado correctamente!","INFO", JOptionPane.INFORMATION_MESSAGE);
-                    
-                    if (form != null){
-                        VistaUsuarioBasicoForm vistaUser = new VistaUsuarioBasicoForm(user);
-                        vistaUser.pack();
-                        vistaUser.setVisible(true);
-                        vistaUser.setLocationRelativeTo(null);
-                        vistaUser.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                        this.dispose();
-                        form.dispose();
+                    long result = userController.insertUsuario(user);
+                    if (result != 0){
+                        Mailer mailer = new Mailer();
+                        String mensaje = "¡Hola " + user.getNombreCompleto()+ "!\nNos complace darte la bienvenida a Padel Land, esperemos que te guste nuestro servicio y que disfrutes de nuestras maravillosas pistas\n¡A jugar!";
+                        try {
+                            mailer.enviarMail(Constantes.EMAIL_ADMIN,user.getEmail(),"¡Bienvenido a Padel Land!",mensaje);
+                        } catch (MessagingException ex) {
+                            Logger.getLogger(Registro.class.getName()).log(Level.SEVERE, null, ex);
+                            JOptionPane.showMessageDialog(null,ex,"ERROR",JOptionPane.ERROR_MESSAGE);
+                        }
+
+                        JOptionPane.showMessageDialog(null, "¡Usuario creado correctamente!","INFO", JOptionPane.INFORMATION_MESSAGE);
+
+                        if (form != null){
+                            VistaUsuarioBasicoForm vistaUser = new VistaUsuarioBasicoForm(user);
+                            vistaUser.pack();
+                            vistaUser.setVisible(true);
+                            vistaUser.setLocationRelativeTo(null);
+                            vistaUser.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                            this.dispose();
+                            form.dispose();
+                        }
+                    }else{
+                        JOptionPane.showMessageDialog(null, "Error en el registro, revisa tus datos","ERROR",JOptionPane.ERROR_MESSAGE);
                     }
-                }else{
-                    JOptionPane.showMessageDialog(null, "Error en el registro, revisa tus datos","ERROR",JOptionPane.ERROR_MESSAGE);
                 }
             }
+        }catch(HeadlessException ex){
+            Logger.getLogger(Registro.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null,ex,"ERROR",JOptionPane.ERROR_MESSAGE);
+        }catch(Exception ex){
+            Logger.getLogger(Registro.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null,ex,"ERROR",JOptionPane.ERROR_MESSAGE);
         }
+        
+
     }//GEN-LAST:event_jButtonRegistroActionPerformed
 
     private void jTextFieldTelefonoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldTelefonoKeyTyped

@@ -10,6 +10,7 @@ import controlador.PistaController;
 import controlador.ReservaController;
 import controlador.UsuarioController;
 import java.awt.Color;
+import java.awt.HeadlessException;
 import java.awt.Image;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -217,34 +218,42 @@ public class ManageReservasForm extends javax.swing.JFrame {
 
     private void jTableReservasMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableReservasMousePressed
         // TODO add your handling code here:
-        int column = jTableReservas.getColumnModel().getColumnIndexAtX(evt.getX());
-        int row = evt.getY()/jTableReservas.getRowHeight();
-        if (column == 5){
-            //Eliminar
-            Object value = jTableReservas.getValueAt(row, column);
-            if (value instanceof JButton) {
-                ((JButton) value).doClick();
-                String mensaje = "¿Seguro que quieres eliminar la reserva de las "+ jTableReservas.getModel().getValueAt(row,3)+" el día "
-                        + jTableReservas.getModel().getValueAt(row,4) + " para el cliente "+ jTableReservas.getModel().getValueAt(row,1) 
-                        + " en la pista " + jTableReservas.getModel().getValueAt(row, 2) + "?";
-                if (JOptionPane.showConfirmDialog(null, mensaje, "WARNING",JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
-                    Reservas reserva = reservaController.selectReserva(Long.valueOf(jTableReservas.getModel().getValueAt(row,0).toString()));
-                    String email = usuarioController.selectUsuario(reserva.getUsuarios().getId()).getEmail();
-                    reservaController.deleteReserva(reserva);
-                    String message = "¡Hola "+jTableReservas.getModel().getValueAt(row, 1)+"!\nDesde Padel Land confirmamos que se ha cancelado la reserva en la pista " +jTableReservas.getModel().getValueAt(row, 2)
-                            + " para el día "+ jTableReservas.getModel().getValueAt(row, 4) + " a las " + jTableReservas.getModel().getValueAt(row, 3);
-                    message+="\n ¡Pase usted un buen día!";
-                    Mailer mailer = new Mailer();
-                    try {                    
-                        mailer.enviarMail(Constantes.EMAIL_ADMIN, email, "Confirmación de Anulación de reserva", message);
-                    } catch (MessagingException ex) {
-                        Logger.getLogger(ManageReservasForm.class.getName()).log(Level.SEVERE, null, ex);
-                        JOptionPane.showMessageDialog(null,ex,"ERROR",JOptionPane.ERROR_MESSAGE);
+        try{
+            int column = jTableReservas.getColumnModel().getColumnIndexAtX(evt.getX());
+            int row = evt.getY()/jTableReservas.getRowHeight();
+            if (column == 5){
+                //Eliminar
+                Object value = jTableReservas.getValueAt(row, column);
+                if (value instanceof JButton) {
+                    ((JButton) value).doClick();
+                    String mensaje = "¿Seguro que quieres eliminar la reserva de las "+ jTableReservas.getModel().getValueAt(row,3)+" el día "
+                            + jTableReservas.getModel().getValueAt(row,4) + " para el cliente "+ jTableReservas.getModel().getValueAt(row,1) 
+                            + " en la pista " + jTableReservas.getModel().getValueAt(row, 2) + "?";
+                    if (JOptionPane.showConfirmDialog(null, mensaje, "WARNING",JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+                        Reservas reserva = reservaController.selectReserva(Long.valueOf(jTableReservas.getModel().getValueAt(row,0).toString()));
+                        String email = usuarioController.selectUsuario(reserva.getUsuarios().getId()).getEmail();
+                        reservaController.deleteReserva(reserva);
+                        String message = "¡Hola "+jTableReservas.getModel().getValueAt(row, 1)+"!\nDesde Padel Land confirmamos que se ha cancelado la reserva en la pista " +jTableReservas.getModel().getValueAt(row, 2)
+                                + " para el día "+ jTableReservas.getModel().getValueAt(row, 4) + " a las " + jTableReservas.getModel().getValueAt(row, 3);
+                        message+="\n ¡Pase usted un buen día!";
+                        Mailer mailer = new Mailer();
+                        try {                    
+                            mailer.enviarMail(Constantes.EMAIL_ADMIN, email, "Confirmación de Anulación de reserva", message);
+                        } catch (MessagingException ex) {
+                            Logger.getLogger(ManageReservasForm.class.getName()).log(Level.SEVERE, null, ex);
+                            JOptionPane.showMessageDialog(null,ex,"ERROR",JOptionPane.ERROR_MESSAGE);
+                        }
+                        fillTablaReservasFiltro(jTableReservas, "", "", "");
+                        JOptionPane.showMessageDialog(null,"Reserva anulada correctamente","INFO",JOptionPane.INFORMATION_MESSAGE);
                     }
-                    fillTablaReservasFiltro(jTableReservas, "", "", "");
-                    JOptionPane.showMessageDialog(null,"Reserva anulada correctamente","INFO",JOptionPane.INFORMATION_MESSAGE);
                 }
             }
+        }catch(HeadlessException | NumberFormatException ex){
+            Logger.getLogger(ManageReservasForm.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null,ex,"ERROR",JOptionPane.ERROR_MESSAGE);
+        }catch(Exception ex){
+            Logger.getLogger(ManageReservasForm.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null,ex,"ERROR",JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_jTableReservasMousePressed
 

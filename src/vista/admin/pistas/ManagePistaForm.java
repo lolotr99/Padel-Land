@@ -8,6 +8,7 @@ package vista.admin.pistas;
 import com.sun.glass.events.KeyEvent;
 import controlador.PistaController;
 import controlador.ReservaController;
+import java.awt.HeadlessException;
 import java.awt.Point;
 import java.io.File;
 import java.io.FileInputStream;
@@ -290,28 +291,32 @@ public class ManagePistaForm extends javax.swing.JFrame {
 
     private void jButtonEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEliminarActionPerformed
         // TODO add your handling code here:
-        String id = jTextFieldId.getText();
-        if (id.equals("")){
-            JOptionPane.showMessageDialog(null, "No se ha seleccionado ninguna pista","WARNING", JOptionPane.WARNING_MESSAGE);
-        }else{
-            Pistas pista = pistaController.selectPista(Integer.valueOf(id));
-            if (JOptionPane.showConfirmDialog(null, "¿Seguro que quieres eliminar la pista '"+pista.getNombrePista()+"' ?","WARNING",JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
-                if (reservaController.pistaTieneReservas(Long.valueOf(id))){
-                    JOptionPane.showMessageDialog(null,"No se puede eliminar una pista que tiene reservas asociadas","¡NOO!",JOptionPane.ERROR_MESSAGE);
-                }else{
-                    pistaController.deletePista(pista);
-                    pistaController.fillPistasJTable(jTablePistas, jTextFieldValorBusqueda.getText());
-                    limpiarCampos();
-                    JOptionPane.showMessageDialog(null,"Pista eliminada correctamente","INFO",JOptionPane.INFORMATION_MESSAGE);
+        try{
+            String id = jTextFieldId.getText();
+            if (id.equals("")){
+                JOptionPane.showMessageDialog(null, "No se ha seleccionado ninguna pista","WARNING", JOptionPane.WARNING_MESSAGE);
+            }else{
+                Pistas pista = pistaController.selectPista(Integer.valueOf(id));
+                if (JOptionPane.showConfirmDialog(null, "¿Seguro que quieres eliminar la pista '"+pista.getNombrePista()+"' ?","WARNING",JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+                    if (reservaController.pistaTieneReservas(Long.valueOf(id))){
+                        JOptionPane.showMessageDialog(null,"No se puede eliminar una pista que tiene reservas asociadas","¡NOO!",JOptionPane.ERROR_MESSAGE);
+                    }else{
+                        pistaController.deletePista(pista);
+                        pistaController.fillPistasJTable(jTablePistas, jTextFieldValorBusqueda.getText());
+                        limpiarCampos();
+                        JOptionPane.showMessageDialog(null,"Pista eliminada correctamente","INFO",JOptionPane.INFORMATION_MESSAGE);
+                    }
                 }
             }
+        }catch(HeadlessException | NumberFormatException ex){
+            JOptionPane.showMessageDialog(null, ex,"ERROR", JOptionPane.ERROR_MESSAGE);
+            Logger.getLogger(ManagePistaForm.class.getName()).log(Level.SEVERE,null,ex);
         }
     }//GEN-LAST:event_jButtonEliminarActionPerformed
 
     private void jTextFieldValorBusquedaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldValorBusquedaKeyPressed
         // TODO add your handling code here:
         pistaController.fillPistasJTable(jTablePistas, jTextFieldValorBusqueda.getText());
-        
     }//GEN-LAST:event_jTextFieldValorBusquedaKeyPressed
 
     private void jTextFieldValorBusquedaKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldValorBusquedaKeyReleased
@@ -321,32 +326,42 @@ public class ManagePistaForm extends javax.swing.JFrame {
 
     private void jButtonActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonActualizarActionPerformed
         // TODO add your handling code here:
-        if (!jTextFieldId.getText().trim().equals("")){
-            String nombrePista = jTextFieldNombrePista.getText();
-            Pistas pista = pistaController.selectPista(Integer.valueOf(jTextFieldId.getText()));
-                   
-            pista.setNombrePista(nombrePista);
-            
-            if (img_path != null && !img_path.equals("")){
-                File file = new File(img_path);
-                Blob imageBlob = null;
-            
-                try {
-                    FileInputStream fis = new FileInputStream(file);
-                    imageBlob = pistaController.obtenerBlob(fis, file);
-                } catch (FileNotFoundException ex) {
-                    Logger.getLogger(ManagePistaForm.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (IOException ex) {
-                    Logger.getLogger(ManagePistaForm.class.getName()).log(Level.SEVERE, null, ex);
+        try{
+            if (!jTextFieldId.getText().trim().equals("")){
+                String nombrePista = jTextFieldNombrePista.getText();
+                Pistas pista = pistaController.selectPista(Integer.valueOf(jTextFieldId.getText()));
+
+                pista.setNombrePista(nombrePista);
+
+                if (img_path != null && !img_path.equals("")){
+                    File file = new File(img_path);
+                    Blob imageBlob = null;
+
+                    try {
+                        FileInputStream fis = new FileInputStream(file);
+                        imageBlob = pistaController.obtenerBlob(fis, file);
+                    } catch (FileNotFoundException ex) {
+                        Logger.getLogger(ManagePistaForm.class.getName()).log(Level.SEVERE, null, ex);
+                        JOptionPane.showMessageDialog(null,ex,"ERROR",JOptionPane.ERROR_MESSAGE);
+                    } catch (IOException ex) {
+                        Logger.getLogger(ManagePistaForm.class.getName()).log(Level.SEVERE, null, ex);
+                        JOptionPane.showMessageDialog(null,ex,"ERROR",JOptionPane.ERROR_MESSAGE);                    
+                    }
+                    pista.setImagenPista(imageBlob);
                 }
-                pista.setImagenPista(imageBlob);
+
+                pistaController.updatePista(pista);
+                JOptionPane.showMessageDialog(null, "Pista modificada correctamente","INFO",JOptionPane.INFORMATION_MESSAGE);
+                pistaController.fillPistasJTable(jTablePistas, "");
+            } else{
+                JOptionPane.showMessageDialog(null,"No se ha seleccionado ninguna pista","WARNING",JOptionPane.WARNING_MESSAGE);
             }
-            
-            pistaController.updatePista(pista);
-            JOptionPane.showMessageDialog(null, "Pista modificada correctamente","INFO",JOptionPane.INFORMATION_MESSAGE);
-            pistaController.fillPistasJTable(jTablePistas, "");
-        } else{
-            JOptionPane.showMessageDialog(null,"No se ha seleccionado ninguna pista","WARNING",JOptionPane.WARNING_MESSAGE);
+        }catch(HeadlessException | NumberFormatException ex){
+            Logger.getLogger(ManagePistaForm.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null,ex,"ERROR",JOptionPane.ERROR_MESSAGE);
+        }catch(Exception ex){
+            Logger.getLogger(ManagePistaForm.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null,ex,"ERROR",JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_jButtonActualizarActionPerformed
 

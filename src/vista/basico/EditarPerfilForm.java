@@ -6,6 +6,7 @@
 package vista.basico;
 
 import controlador.UsuarioController;
+import java.awt.HeadlessException;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -250,33 +251,43 @@ public class EditarPerfilForm extends javax.swing.JFrame {
 
     private void jButtonAnadirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAnadirActionPerformed
         // TODO add your handling code here:
-        if (verifyFields()){
-            String email = jTextFieldEmail.getText();
-            if (!checkEmail(email)){
-                user.setEmail(email);
-                user.setNombreCompleto(jTextFieldNombreCompleto.getText());
-                if(jPasswordField.getPassword() != null && jPasswordField.getPassword().length != 0){
-                    user.setPassword(CifradoUtil.getHash(String.valueOf(jPasswordField.getPassword())));
-                }
-                user.setTelefono(jTextFieldTelefono.getText());
-                if (img_path != null && !img_path.equals("")){
-                    File file = new File(img_path);
-                    Blob imageBlob = null;
-                    try {
-                        FileInputStream fis = new FileInputStream(file);
-                        imageBlob = userController.obtenerBlob(fis, file);
-                    } catch (FileNotFoundException ex) {
-                        Logger.getLogger(AddUserForm.class.getName()).log(Level.SEVERE, null, ex);
-                    } catch (IOException ex) {
-                        Logger.getLogger(AddUserForm.class.getName()).log(Level.SEVERE, null, ex);
+        try{
+            if (verifyFields()){
+                String email = jTextFieldEmail.getText();
+                if (!checkEmail(email)){
+                    user.setEmail(email);
+                    user.setNombreCompleto(jTextFieldNombreCompleto.getText());
+                    if(jPasswordField.getPassword() != null && jPasswordField.getPassword().length != 0){
+                        user.setPassword(CifradoUtil.getHash(String.valueOf(jPasswordField.getPassword())));
                     }
-                    user.setImagenUsuario(imageBlob);
-                }
+                    user.setTelefono(jTextFieldTelefono.getText());
+                    if (img_path != null && !img_path.equals("")){
+                        File file = new File(img_path);
+                        Blob imageBlob = null;
+                        try {
+                            FileInputStream fis = new FileInputStream(file);
+                            imageBlob = userController.obtenerBlob(fis, file);
+                        } catch (FileNotFoundException ex) {
+                            Logger.getLogger(AddUserForm.class.getName()).log(Level.SEVERE, null, ex);
+                            JOptionPane.showMessageDialog(null, ex,"ERROR",JOptionPane.ERROR_MESSAGE);
+                        } catch (IOException ex) {
+                            Logger.getLogger(AddUserForm.class.getName()).log(Level.SEVERE, null, ex);
+                            JOptionPane.showMessageDialog(null, ex,"ERROR",JOptionPane.ERROR_MESSAGE);
+                        }
+                        user.setImagenUsuario(imageBlob);
+                    }
 
-                userController.updateUsuario(user);
-                JOptionPane.showMessageDialog(null, "¡Tu usuario ha sido actualizado correctamente!","INFO",JOptionPane.INFORMATION_MESSAGE);
-                actualizarCamposPerfil();
+                    userController.updateUsuario(user);
+                    JOptionPane.showMessageDialog(null, "¡Tu usuario ha sido actualizado correctamente!","INFO",JOptionPane.INFORMATION_MESSAGE);
+                    actualizarCamposPerfil();
+                }
             }
+        }catch(HeadlessException ex){
+            Logger.getLogger(AddUserForm.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null, ex,"ERROR",JOptionPane.ERROR_MESSAGE);
+        }catch(Exception ex){
+            Logger.getLogger(AddUserForm.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null, ex,"ERROR",JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_jButtonAnadirActionPerformed
 
