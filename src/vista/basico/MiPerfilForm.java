@@ -23,6 +23,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
+import javax.mail.MessagingException;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -336,7 +337,12 @@ public class MiPerfilForm extends javax.swing.JFrame {
                             + " para el día "+ jTableReservasUser.getModel().getValueAt(row, 3) + " a las " + jTableReservasUser.getModel().getValueAt(row, 2);
                     message+="\n ¡Pase usted un buen día!";
                     Mailer mailer = new Mailer();
-                    mailer.enviarMail(Constantes.EMAIL_ADMIN, email, "Confirmación de Anulación de reserva", message);                    
+                    try {                    
+                        mailer.enviarMail(Constantes.EMAIL_ADMIN, email, "Confirmación de Anulación de reserva", message);
+                    } catch (MessagingException ex) {
+                        Logger.getLogger(MiPerfilForm.class.getName()).log(Level.SEVERE, null, ex);
+                        JOptionPane.showMessageDialog(null,ex,"ERROR",JOptionPane.ERROR_MESSAGE);
+                    }
                     fillTablaReservas(jTableReservasUser, user.getId());
                     JOptionPane.showMessageDialog(null,"Reserva anulada correctamente","INFO",JOptionPane.INFORMATION_MESSAGE);
 

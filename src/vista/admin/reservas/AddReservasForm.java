@@ -18,6 +18,9 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.mail.MessagingException;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
@@ -287,7 +290,12 @@ public class AddReservasForm extends javax.swing.JFrame {
                     Mailer mailer = new Mailer();
                     String diaFormateado = new SimpleDateFormat("dd-MM-yyyy").format(dia);
                     String mensaje = "¡Hola "+user.getNombreCompleto()+"!\nDesde Padel Land te confirmamos la reserva para el día "+diaFormateado+" a las "+horario.getHoraComienzo()+ " en la pista "+pista.getNombrePista()+"\n¡A jugar!";
-                    mailer.enviarMail(Constantes.EMAIL_ADMIN, user.getEmail(), "Asignación de reserva", mensaje);
+                    try {
+                        mailer.enviarMail(Constantes.EMAIL_ADMIN, user.getEmail(), "Asignación de reserva", mensaje);
+                    } catch (MessagingException ex) {
+                        Logger.getLogger(AddReservasForm.class.getName()).log(Level.SEVERE, null, ex);
+                        JOptionPane.showMessageDialog(null,ex,"ERROR",JOptionPane.ERROR_MESSAGE);
+                    }
                     if (ManageReservasForm.jTableReservas != null){
                         fillTablaReservas(ManageReservasForm.jTableReservas);
                     }

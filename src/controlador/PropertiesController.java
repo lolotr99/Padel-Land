@@ -8,6 +8,7 @@ package controlador;
 import modelo.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import utilidades.NewHibernateUtil;
@@ -25,6 +26,7 @@ public class PropertiesController {
             sesion.beginTransaction();
         }catch(HibernateException ex){
             Logger.getLogger(PropertiesController.class.getName()).log(Level.SEVERE,null,ex);
+            JOptionPane.showMessageDialog(null,ex,"ERROR",JOptionPane.ERROR_MESSAGE);
         }
     }
     private void terminarOperacion(){
@@ -33,6 +35,7 @@ public class PropertiesController {
             sesion.close();
         }catch(HibernateException ex){
             Logger.getLogger(PropertiesController.class.getName()).log(Level.SEVERE,null,ex);
+            JOptionPane.showMessageDialog(null,ex,"ERROR",JOptionPane.ERROR_MESSAGE);
         }
     }
     
@@ -42,6 +45,7 @@ public class PropertiesController {
             sesion.update(propertie);
         }catch(Exception ex){
             Logger.getLogger(PropertiesController.class.getName()).log(Level.SEVERE,null,ex);
+            JOptionPane.showMessageDialog(null,ex,"ERROR",JOptionPane.ERROR_MESSAGE);
         }
         terminarOperacion();
     }
@@ -53,6 +57,7 @@ public class PropertiesController {
             propertie = (Properties)sesion.createQuery("from Properties P WHERE P.propertie='"+namePropertie+"'").uniqueResult();
         }catch(Exception ex){
             Logger.getLogger(PropertiesController.class.getName()).log(Level.SEVERE,null,ex);
+            JOptionPane.showMessageDialog(null,ex,"ERROR",JOptionPane.ERROR_MESSAGE);
         }
         terminarOperacion();
         return propertie;

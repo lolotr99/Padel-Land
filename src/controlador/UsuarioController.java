@@ -25,6 +25,7 @@ import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import modelo.Usuarios;
@@ -48,6 +49,8 @@ public class UsuarioController {
             sesion.beginTransaction();
         }catch(HibernateException ex){
             Logger.getLogger(UsuarioController.class.getName()).log(Level.SEVERE,null,ex);
+            JOptionPane.showMessageDialog(null,ex,"ERROR",JOptionPane.ERROR_MESSAGE);
+
         }
     }
     private void terminarOperacion(){
@@ -56,6 +59,7 @@ public class UsuarioController {
             sesion.close();
         }catch(HibernateException ex){
             Logger.getLogger(UsuarioController.class.getName()).log(Level.SEVERE,null,ex);
+            JOptionPane.showMessageDialog(null,ex,"ERROR",JOptionPane.ERROR_MESSAGE);
         }
     }
     
@@ -67,6 +71,7 @@ public class UsuarioController {
             id = (long) sesion.save(usuario);
         }catch(Exception ex){
             Logger.getLogger(UsuarioController.class.getName()).log(Level.SEVERE,null,ex);
+            JOptionPane.showMessageDialog(null,ex,"ERROR",JOptionPane.ERROR_MESSAGE);
         }
         terminarOperacion();
         return id;
@@ -77,6 +82,7 @@ public class UsuarioController {
             sesion.update(usuario);
         }catch(Exception ex){
             Logger.getLogger(UsuarioController.class.getName()).log(Level.SEVERE,null,ex);
+            JOptionPane.showMessageDialog(null,ex,"ERROR",JOptionPane.ERROR_MESSAGE);
         }
         terminarOperacion();
     }
@@ -86,6 +92,7 @@ public class UsuarioController {
             sesion.delete(usuario);
         }catch(Exception ex){
             Logger.getLogger(UsuarioController.class.getName()).log(Level.SEVERE,null,ex);
+            JOptionPane.showMessageDialog(null,ex,"ERROR",JOptionPane.ERROR_MESSAGE);
         }
         terminarOperacion();
     }
@@ -96,6 +103,7 @@ public class UsuarioController {
             usuario = (Usuarios) sesion.get(Usuarios.class, idUsuario);
         }catch(Exception ex){
             Logger.getLogger(UsuarioController.class.getName()).log(Level.SEVERE,null,ex);
+            JOptionPane.showMessageDialog(null,ex,"ERROR",JOptionPane.ERROR_MESSAGE);
         }
         terminarOperacion();
         return usuario;
@@ -108,7 +116,8 @@ public class UsuarioController {
             usuario = (Usuarios)sesion.createQuery("FROM Usuarios U WHERE U.email='"+email+"' and U.password='"+password+"'").uniqueResult();
          }catch(Exception ex){
             Logger.getLogger(UsuarioController.class.getName()).log(Level.SEVERE,null,ex);
-        }
+            JOptionPane.showMessageDialog(null,ex,"ERROR",JOptionPane.ERROR_MESSAGE);
+         }
         terminarOperacion();
         return usuario;
     }
@@ -121,6 +130,7 @@ public class UsuarioController {
             usuario = (Usuarios)sesion.createQuery("from Usuarios U WHERE U.email='"+email+"'").uniqueResult();
         }catch(Exception ex){
             Logger.getLogger(UsuarioController.class.getName()).log(Level.SEVERE,null,ex);
+            JOptionPane.showMessageDialog(null,ex,"ERROR",JOptionPane.ERROR_MESSAGE);
         }
         terminarOperacion();
         return usuario;
@@ -133,6 +143,7 @@ public class UsuarioController {
             listaUsuarios = sesion.createQuery("from Usuarios").list();
         }catch(Exception ex){
             Logger.getLogger(UsuarioController.class.getName()).log(Level.SEVERE,null,ex);
+            JOptionPane.showMessageDialog(null,ex,"ERROR",JOptionPane.ERROR_MESSAGE);
         }
         terminarOperacion();
         return listaUsuarios;
@@ -146,6 +157,7 @@ public class UsuarioController {
             listaUsuarios = sesion.createQuery(query).list();
         }catch(Exception ex){
             Logger.getLogger(UsuarioController.class.getName()).log(Level.SEVERE,null,ex);
+            JOptionPane.showMessageDialog(null,ex,"ERROR",JOptionPane.ERROR_MESSAGE);
         }
         terminarOperacion();
         return listaUsuarios;

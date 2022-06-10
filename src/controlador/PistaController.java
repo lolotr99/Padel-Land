@@ -24,6 +24,7 @@ import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import modelo.Pistas;
@@ -44,7 +45,9 @@ public class PistaController {
             sesion = NewHibernateUtil.getSessionFactory().openSession();
             sesion.beginTransaction();
         }catch (HibernateException ex){
-             Logger.getLogger(PistaController.class.getName()).log(Level.SEVERE,null,ex);
+            Logger.getLogger(PistaController.class.getName()).log(Level.SEVERE,null,ex);
+            JOptionPane.showMessageDialog(null,ex,"ERROR",JOptionPane.ERROR_MESSAGE);
+
         }
     }
     private void terminarOperacion(){
@@ -53,6 +56,8 @@ public class PistaController {
             sesion.close();
         }catch (HibernateException ex){
              Logger.getLogger(PistaController.class.getName()).log(Level.SEVERE,null,ex);
+             JOptionPane.showMessageDialog(null,ex,"ERROR",JOptionPane.ERROR_MESSAGE);
+
         }
     }
     
@@ -63,6 +68,7 @@ public class PistaController {
             id = (long) sesion.save(pista);
        }catch (Exception ex){
            Logger.getLogger(PistaController.class.getName()).log(Level.SEVERE,null,ex);
+           JOptionPane.showMessageDialog(null,ex,"ERROR",JOptionPane.ERROR_MESSAGE);
         }
         terminarOperacion();
         return id;
@@ -74,6 +80,7 @@ public class PistaController {
             sesion.update(pista);
         }catch (Exception ex){
            Logger.getLogger(PistaController.class.getName()).log(Level.SEVERE,null,ex);
+           JOptionPane.showMessageDialog(null,ex,"ERROR",JOptionPane.ERROR_MESSAGE);
         }
         terminarOperacion();
     }
@@ -84,6 +91,7 @@ public class PistaController {
             sesion.delete(pista);
         }catch (Exception ex){
            Logger.getLogger(PistaController.class.getName()).log(Level.SEVERE,null,ex);
+           JOptionPane.showMessageDialog(null,ex,"ERROR",JOptionPane.ERROR_MESSAGE);
         }
         terminarOperacion();
     }
@@ -94,7 +102,8 @@ public class PistaController {
         try{
             pista = (Pistas) sesion.get(Pistas.class, idPista);
         }catch (Exception ex){
-           Logger.getLogger(PistaController.class.getName()).log(Level.SEVERE,null,ex);
+            Logger.getLogger(PistaController.class.getName()).log(Level.SEVERE,null,ex);
+            JOptionPane.showMessageDialog(null,ex,"ERROR",JOptionPane.ERROR_MESSAGE);
         }
         terminarOperacion();
         return pista;
@@ -107,6 +116,7 @@ public class PistaController {
             listaPistas = sesion.createQuery("from Pistas p ORDER BY p.nombrePista ASC").list();
         }catch (Exception ex){
            Logger.getLogger(PistaController.class.getName()).log(Level.SEVERE,null,ex);
+           JOptionPane.showMessageDialog(null,ex,"ERROR",JOptionPane.ERROR_MESSAGE);
         }
         terminarOperacion();
         return listaPistas;
@@ -127,6 +137,7 @@ public class PistaController {
             listaPistas = sesion.createQuery(query).list();
         }catch(Exception ex){
             Logger.getLogger(PistaController.class.getName()).log(Level.SEVERE,null,ex);
+            JOptionPane.showMessageDialog(null,ex,"ERROR",JOptionPane.ERROR_MESSAGE);
         }
         terminarOperacion();
         return listaPistas;
@@ -139,6 +150,7 @@ public class PistaController {
             pista = (Pistas) sesion.createQuery("FROM Pistas p where p.nombrePista = '"+nombrePista+"'").uniqueResult();
         }catch(Exception ex) {
             Logger.getLogger(PistaController.class.getName()).log(Level.SEVERE,null,ex);
+            JOptionPane.showMessageDialog(null,ex,"ERROR",JOptionPane.ERROR_MESSAGE);
         }
         terminarOperacion();
         return pista;

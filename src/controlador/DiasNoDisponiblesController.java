@@ -15,6 +15,7 @@ import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import modelo.DiasNoDisponibles;
@@ -35,7 +36,9 @@ public class DiasNoDisponiblesController {
             sesion = NewHibernateUtil.getSessionFactory().openSession();
             sesion.beginTransaction();
         }catch (HibernateException ex){
-             Logger.getLogger(DiasNoDisponiblesController.class.getName()).log(Level.SEVERE,null,ex);
+            Logger.getLogger(DiasNoDisponiblesController.class.getName()).log(Level.SEVERE,null,ex);
+            JOptionPane.showMessageDialog(null,ex,"ERROR",JOptionPane.ERROR_MESSAGE);
+
         }
     }
     private void terminarOperacion(){
@@ -43,7 +46,9 @@ public class DiasNoDisponiblesController {
             sesion.getTransaction().commit();
             sesion.close();
         }catch (HibernateException ex){
-             Logger.getLogger(DiasNoDisponiblesController.class.getName()).log(Level.SEVERE,null,ex);
+            Logger.getLogger(DiasNoDisponiblesController.class.getName()).log(Level.SEVERE,null,ex);
+            JOptionPane.showMessageDialog(null,ex,"ERROR",JOptionPane.ERROR_MESSAGE);
+
         }
     }
     
@@ -53,7 +58,8 @@ public class DiasNoDisponiblesController {
         try{
             dia = (DiasNoDisponibles) sesion.get(DiasNoDisponibles.class, idDia);
         }catch (Exception ex){
-           Logger.getLogger(DiasNoDisponiblesController.class.getName()).log(Level.SEVERE,null,ex);
+            Logger.getLogger(DiasNoDisponiblesController.class.getName()).log(Level.SEVERE,null,ex);
+            JOptionPane.showMessageDialog(null,ex,"ERROR",JOptionPane.ERROR_MESSAGE);
         }
         terminarOperacion();
         return dia;
@@ -65,7 +71,8 @@ public class DiasNoDisponiblesController {
         try{
             id = (long) sesion.save(dia);
        }catch (Exception ex){
-           Logger.getLogger(DiasNoDisponiblesController.class.getName()).log(Level.SEVERE,null,ex);
+            Logger.getLogger(DiasNoDisponiblesController.class.getName()).log(Level.SEVERE,null,ex);
+            JOptionPane.showMessageDialog(null,ex,"ERROR",JOptionPane.ERROR_MESSAGE);
         }
         terminarOperacion();
         return id;
@@ -76,7 +83,8 @@ public class DiasNoDisponiblesController {
         try{
             sesion.delete(dia);
         }catch (Exception ex){
-           Logger.getLogger(DiasNoDisponiblesController.class.getName()).log(Level.SEVERE,null,ex);
+            Logger.getLogger(DiasNoDisponiblesController.class.getName()).log(Level.SEVERE,null,ex);
+            JOptionPane.showMessageDialog(null,ex,"ERROR",JOptionPane.ERROR_MESSAGE);
         }
         terminarOperacion();
     }
@@ -88,6 +96,7 @@ public class DiasNoDisponiblesController {
             diaNoDisponible = (DiasNoDisponibles)sesion.createQuery("from DiasNoDisponibles d where d.dia='"+dia+"'").uniqueResult();
         }catch(Exception ex){
             Logger.getLogger(DiasNoDisponiblesController.class.getName()).log(Level.SEVERE,null,ex);
+            JOptionPane.showMessageDialog(null,ex,"ERROR",JOptionPane.ERROR_MESSAGE);
         }
         terminarOperacion();
         return diaNoDisponible;
@@ -99,7 +108,8 @@ public class DiasNoDisponiblesController {
         try{
             listaDias = sesion.createQuery("from DiasNoDisponibles d ORDER BY d.dia ASC").list();
         }catch (Exception ex){
-           Logger.getLogger(DiasNoDisponiblesController.class.getName()).log(Level.SEVERE,null,ex);
+            Logger.getLogger(DiasNoDisponiblesController.class.getName()).log(Level.SEVERE,null,ex);
+            JOptionPane.showMessageDialog(null,ex,"ERROR",JOptionPane.ERROR_MESSAGE);
         }
         terminarOperacion();
         return listaDias;
@@ -128,6 +138,7 @@ public class DiasNoDisponiblesController {
                 imgEliminar = ImageIO.read(DiasNoDisponiblesController.class.getClassLoader().getResource("resources/img/icono-borrar.png"));
             } catch (IOException ex) {
                 Logger.getLogger(DiasNoDisponiblesController.class.getName()).log(Level.SEVERE, null, ex);
+                JOptionPane.showMessageDialog(null,ex,"ERROR",JOptionPane.ERROR_MESSAGE);
             }
             row[2] = new JButton(new ImageIcon(imgEliminar));          
             model.addRow(row);

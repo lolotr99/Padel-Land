@@ -6,6 +6,7 @@ package utilidades;
  * and open the template in the editor.
  */
 
+import javax.swing.JOptionPane;
 import org.hibernate.cfg.AnnotationConfiguration;
 import org.hibernate.SessionFactory;
 
@@ -27,6 +28,7 @@ public class NewHibernateUtil {
         } catch (Throwable ex) {
             // Log the exception. 
             System.err.println("Initial SessionFactory creation failed." + ex);
+            JOptionPane.showMessageDialog(null,"Initial SessionFactory creation failed. ->" + ex,"ERROR",JOptionPane.ERROR_MESSAGE);
             throw new ExceptionInInitializerError(ex);
         }
     }

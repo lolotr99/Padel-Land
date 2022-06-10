@@ -13,6 +13,7 @@ import java.io.IOException;
 import java.sql.Blob;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.mail.MessagingException;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -277,7 +278,12 @@ public class AddUserForm extends javax.swing.JFrame {
                 if (result != 0){
                     Mailer mailer = new Mailer();
                     String mensaje = "¡Hola " + user.getNombreCompleto()+ "!\nNos complace darte la bienvenida a Padel Land, esperemos que te guste nuestro servicio y que disfrutes de nuestras maravillosas pistas\n¡A jugar!";
-                    mailer.enviarMail(Constantes.EMAIL_ADMIN, user.getEmail(), "¡Bienvenido a Padel Land!", mensaje);
+                    try {
+                        mailer.enviarMail(Constantes.EMAIL_ADMIN, user.getEmail(), "¡Bienvenido a Padel Land!", mensaje);
+                    } catch (MessagingException ex) {
+                        Logger.getLogger(AddUserForm.class.getName()).log(Level.SEVERE, null, ex);
+                        JOptionPane.showMessageDialog(null,ex,"ERROR",JOptionPane.ERROR_MESSAGE);
+                    }
                     JOptionPane.showMessageDialog(null, "¡Tu usuario ha sido creado correctamente!","INFO",JOptionPane.INFORMATION_MESSAGE);
 
                 }else{

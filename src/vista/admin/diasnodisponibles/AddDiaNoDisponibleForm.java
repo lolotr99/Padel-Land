@@ -13,6 +13,9 @@ import controlador.UsuarioController;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.mail.MessagingException;
 import javax.swing.JOptionPane;
 import modelo.DiasNoDisponibles;
 import modelo.Horarios;
@@ -159,7 +162,12 @@ public class AddDiaNoDisponibleForm extends javax.swing.JFrame {
                             message+=" debido a que cerramos el club este día.\n ¡Pase usted un buen día!";
                             reservaController.deleteReserva(reserva);
                             Mailer mailer = new Mailer();
-                            mailer.enviarMail(Constantes.EMAIL_ADMIN, user.getEmail(), "Confirmación de Anulación de reserva",message);
+                            try {
+                                mailer.enviarMail(Constantes.EMAIL_ADMIN, user.getEmail(), "Confirmación de Anulación de reserva",message);
+                            } catch (MessagingException ex) {
+                                Logger.getLogger(AddDiaNoDisponibleForm.class.getName()).log(Level.SEVERE, null, ex);
+                                JOptionPane.showMessageDialog(null,ex,"ERROR",JOptionPane.ERROR_MESSAGE);
+                            }
                         }   
                     }else{
                         return;

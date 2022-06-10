@@ -15,6 +15,9 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.mail.MessagingException;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import modelo.DiasNoDisponibles;
@@ -291,7 +294,12 @@ public class ReservaForm extends javax.swing.JFrame {
                             Mailer mailer = new Mailer();
                             String diaFormateado = new SimpleDateFormat("dd-MM-yyyy").format(dia);
                             String mensaje = "¡Hola "+user.getNombreCompleto()+"!\nDesde Padel Land te confirmamos la reserva para el día "+diaFormateado+" a las "+horario.getHoraComienzo()+ " en la pista "+pista.getNombrePista()+"\n¡A jugar!";
-                            mailer.enviarMail(Constantes.EMAIL_ADMIN, user.getEmail(), "Confirmación de reserva", mensaje);
+                            try {
+                                mailer.enviarMail(Constantes.EMAIL_ADMIN, user.getEmail(), "Confirmación de reserva", mensaje);
+                            } catch (MessagingException ex) {
+                                Logger.getLogger(ReservaForm.class.getName()).log(Level.SEVERE, null, ex);
+                                JOptionPane.showMessageDialog(null,ex,"ERROR",JOptionPane.ERROR_MESSAGE);
+                            }
                             dispose();
                             JOptionPane.showMessageDialog(null,"Reserva añadida correctamente","INFO",JOptionPane.INFORMATION_MESSAGE);
                             MiPerfilForm form = new MiPerfilForm(user);

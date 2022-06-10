@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import modelo.Horarios;
 import modelo.Pistas;
 import modelo.Reservas;
@@ -28,7 +29,8 @@ public class ReservaController {
             sesion = NewHibernateUtil.getSessionFactory().openSession();
             sesion.beginTransaction();
         }catch (HibernateException ex){
-             Logger.getLogger(ReservaController.class.getName()).log(Level.SEVERE,null,ex);
+            Logger.getLogger(ReservaController.class.getName()).log(Level.SEVERE,null,ex);
+            JOptionPane.showMessageDialog(null,ex,"ERROR",JOptionPane.ERROR_MESSAGE);
         }
     }
     private void terminarOperacion(){
@@ -36,8 +38,10 @@ public class ReservaController {
             sesion.getTransaction().commit();
             sesion.close();
         }catch (HibernateException ex){
-             Logger.getLogger(ReservaController.class.getName()).log(Level.SEVERE,null,ex);
+            Logger.getLogger(ReservaController.class.getName()).log(Level.SEVERE,null,ex);
+            JOptionPane.showMessageDialog(null,ex,"ERROR",JOptionPane.ERROR_MESSAGE);
         }
+       
     }
     
     public Reservas selectReserva(long idReserva){
@@ -46,7 +50,8 @@ public class ReservaController {
         try{
             reserva = (Reservas) sesion.get(Reservas.class, idReserva);
         }catch (Exception ex){
-           Logger.getLogger(ReservaController.class.getName()).log(Level.SEVERE,null,ex);
+            Logger.getLogger(ReservaController.class.getName()).log(Level.SEVERE,null,ex);
+            JOptionPane.showMessageDialog(null,ex,"ERROR",JOptionPane.ERROR_MESSAGE);
         }
         terminarOperacion();
         return reserva;
@@ -59,6 +64,8 @@ public class ReservaController {
             reserva = (Reservas) sesion.createQuery("FROM Reservas r WHERE r.horarios.id = "+idHorario+" AND r.pistas.id = "+idPista+" AND r.dia = '"+dia+"'").uniqueResult();
         }catch(Exception ex){
             Logger.getLogger(ReservaController.class.getName()).log(Level.SEVERE,null,ex);
+            JOptionPane.showMessageDialog(null,ex,"ERROR",JOptionPane.ERROR_MESSAGE);
+
         }
         terminarOperacion();
         return reserva;
@@ -71,6 +78,7 @@ public class ReservaController {
             listaReservasUsuario = sesion.createQuery("select r from Reservas r, Usuarios u, Pistas p, Horarios h WHERE u.id = r.usuarios.id AND p.id = r.pistas.id AND h.id = r.horarios.id AND u.id='"+idUsuario+"' ORDER BY r.dia DESC, h.horaComienzo ASC").list();
         }catch(Exception ex){
             Logger.getLogger(ReservaController.class.getName()).log(Level.SEVERE,null,ex);
+            JOptionPane.showMessageDialog(null,ex,"ERROR",JOptionPane.ERROR_MESSAGE);
         }
         terminarOperacion();
         return listaReservasUsuario;
@@ -84,6 +92,7 @@ public class ReservaController {
             listaReservas = sesion.createQuery("SELECT r FROM Reservas r , Usuarios u WHERE r.usuarios.id = u.id AND r.dia >= '"+dia+"'").list();
         }catch(Exception ex){
             Logger.getLogger(ReservaController.class.getName()).log(Level.SEVERE,null,ex);
+            JOptionPane.showMessageDialog(null,ex,"ERROR",JOptionPane.ERROR_MESSAGE);
         }
         terminarOperacion();
         return listaReservas;
@@ -96,6 +105,7 @@ public class ReservaController {
             listaReservas = sesion.createQuery("SELECT r FROM Reservas r , Horarios h WHERE r.horarios.id = h.id AND r.dia >= '"+dia+"' ORDER BY r.dia DESC, h.horaComienzo ASC").list();
         }catch(Exception ex){
             Logger.getLogger(ReservaController.class.getName()).log(Level.SEVERE,null,ex);
+            JOptionPane.showMessageDialog(null,ex,"ERROR",JOptionPane.ERROR_MESSAGE);
         }
         terminarOperacion();
         return listaReservas;
@@ -108,6 +118,7 @@ public class ReservaController {
             listaReservas = sesion.createQuery("SELECT r FROM Reservas r, Usuarios u, Horarios h WHERE r.usuarios.id = u.id AND r.horarios.id = h.id AND u.email like '%"+email+"%' AND r.dia BETWEEN '"+fechaInicio+"' AND '"+fechaFin+"' ORDER BY r.dia ASC, h.horaComienzo ASC").list();
         }catch(Exception ex){            
             Logger.getLogger(ReservaController.class.getName()).log(Level.SEVERE,null,ex);
+            JOptionPane.showMessageDialog(null,ex,"ERROR",JOptionPane.ERROR_MESSAGE);
         }
         terminarOperacion();
         return listaReservas;
@@ -119,7 +130,8 @@ public class ReservaController {
         try{
             listaReservas = sesion.createQuery("SELECT r FROM Reservas r, Usuarios u, Horarios h WHERE r.usuarios.id = u.id AND r.horarios.id = h.id AND u.email like '%"+email+"%' AND r.dia >= '"+fechaInicio+"' ORDER BY r.dia ASC, h.horaComienzo ASC").list();
         }catch(Exception ex){            
-            Logger.getLogger(ReservaController.class.getName()).log(Level.SEVERE,null,ex);
+            Logger.getLogger(ReservaController.class.getName()).log(Level.SEVERE,null,ex);            
+            JOptionPane.showMessageDialog(null,ex,"ERROR",JOptionPane.ERROR_MESSAGE);
         }
         terminarOperacion();
         return listaReservas;
@@ -131,6 +143,7 @@ public class ReservaController {
             listaReservas = sesion.createQuery("SELECT r FROM Reservas r, Usuarios u, Horarios h WHERE r.usuarios.id = u.id AND r.horarios.id = h.id AND u.email like '%"+email+"%' AND r.dia <= '"+fechaFin+"' ORDER BY r.dia ASC, h.horaComienzo ASC").list();
         }catch(Exception ex){            
             Logger.getLogger(ReservaController.class.getName()).log(Level.SEVERE,null,ex);
+            JOptionPane.showMessageDialog(null,ex,"ERROR",JOptionPane.ERROR_MESSAGE);
         }
         terminarOperacion();
         return listaReservas;
@@ -143,6 +156,7 @@ public class ReservaController {
             listaReservas = sesion.createQuery("SELECT r FROM Reservas r, Usuarios u, Horarios h WHERE r.usuarios.id = u.id AND r.horarios.id = h.id AND u.email like '%"+email+"%' ORDER BY r.dia ASC, h.horaComienzo ASC").list();
         }catch(Exception ex){            
             Logger.getLogger(ReservaController.class.getName()).log(Level.SEVERE,null,ex);
+            JOptionPane.showMessageDialog(null,ex,"ERROR",JOptionPane.ERROR_MESSAGE);
         }
         terminarOperacion();
         return listaReservas;
@@ -155,6 +169,7 @@ public class ReservaController {
             listaReservas = sesion.createQuery("SELECT r FROM Reservas r, Horarios h WHERE r.horarios.id = h.id AND r.dia BETWEEN '"+fechaInicio+"' AND '"+fechaFin+"' ORDER BY r.dia ASC, h.horaComienzo ASC").list();
         }catch(Exception ex){            
             Logger.getLogger(ReservaController.class.getName()).log(Level.SEVERE,null,ex);
+            JOptionPane.showMessageDialog(null,ex,"ERROR",JOptionPane.ERROR_MESSAGE);
         }
         terminarOperacion();
         return listaReservas;
@@ -167,6 +182,7 @@ public class ReservaController {
             listaReservas = sesion.createQuery("SELECT r FROM Reservas r, Horarios h WHERE r.horarios.id = h.id AND r.dia >= '"+fechaInicio+"' ORDER BY r.dia ASC, h.horaComienzo ASC").list();
         }catch(Exception ex){            
             Logger.getLogger(ReservaController.class.getName()).log(Level.SEVERE,null,ex);
+            JOptionPane.showMessageDialog(null,ex,"ERROR",JOptionPane.ERROR_MESSAGE);
         }
         terminarOperacion();
         return listaReservas;
@@ -179,6 +195,7 @@ public class ReservaController {
             listaReservas = sesion.createQuery("SELECT r FROM Reservas r, Horarios h WHERE r.horarios.id = h.id AND r.dia <= '"+fechaFin+"' ORDER BY r.dia ASC, h.horaComienzo ASC").list();
         }catch(Exception ex){            
             Logger.getLogger(ReservaController.class.getName()).log(Level.SEVERE,null,ex);
+            JOptionPane.showMessageDialog(null,ex,"ERROR",JOptionPane.ERROR_MESSAGE);
         }
         terminarOperacion();
         return listaReservas;
@@ -189,7 +206,8 @@ public class ReservaController {
         try{
             sesion.delete(reserva);
         }catch (Exception ex){
-           Logger.getLogger(ReservaController.class.getName()).log(Level.SEVERE,null,ex);
+            Logger.getLogger(ReservaController.class.getName()).log(Level.SEVERE,null,ex);
+            JOptionPane.showMessageDialog(null,ex,"ERROR",JOptionPane.ERROR_MESSAGE);
         }
         terminarOperacion();
     }
@@ -201,6 +219,7 @@ public class ReservaController {
             id = (long) sesion.save(reserva);
         }catch (Exception ex){           
             Logger.getLogger(ReservaController.class.getName()).log(Level.SEVERE,null,ex);
+            JOptionPane.showMessageDialog(null,ex,"ERROR",JOptionPane.ERROR_MESSAGE);
         }
         terminarOperacion();
         return id;
@@ -213,6 +232,7 @@ public class ReservaController {
             exists = (Long) sesion.createQuery("select count(r.id) from Reservas r where r.usuarios.id = '"+idUsuario+"'").uniqueResult() > 0;
         }catch(Exception ex){
             Logger.getLogger(ReservaController.class.getName()).log(Level.SEVERE,null,ex);
+            JOptionPane.showMessageDialog(null,ex,"ERROR",JOptionPane.ERROR_MESSAGE);
         }
         terminarOperacion();
         return exists;
@@ -225,6 +245,7 @@ public class ReservaController {
             exists = (Long) sesion.createQuery("select count(r.id) from Reservas r where r.pistas.id = '"+idPista+"'").uniqueResult() > 0;
         }catch(Exception ex){
             Logger.getLogger(ReservaController.class.getName()).log(Level.SEVERE,null,ex);
+            JOptionPane.showMessageDialog(null,ex,"ERROR",JOptionPane.ERROR_MESSAGE);
         }
         terminarOperacion();
         return exists;
@@ -237,6 +258,7 @@ public class ReservaController {
             exists = (Long) sesion.createQuery("select count(r.id) from Reservas r where r.horarios.id = '"+idHorario+"'").uniqueResult() > 0;
         }catch(Exception ex){
             Logger.getLogger(ReservaController.class.getName()).log(Level.SEVERE,null,ex);
+            JOptionPane.showMessageDialog(null,ex,"ERROR",JOptionPane.ERROR_MESSAGE);
         }
         terminarOperacion();
         return exists;
@@ -249,6 +271,7 @@ public class ReservaController {
             exists = (Long) sesion.createQuery("select count(r.id) from Reservas r where r.dia = '"+dia+"'").uniqueResult() > 0;
         }catch(Exception ex){
             Logger.getLogger(ReservaController.class.getName()).log(Level.SEVERE,null,ex);
+            JOptionPane.showMessageDialog(null,ex,"ERROR",JOptionPane.ERROR_MESSAGE);
         }
         terminarOperacion();
         return exists;
@@ -262,6 +285,7 @@ public class ReservaController {
             listaPistasDisponibles=(ArrayList<Pistas>)sesion.createQuery(queryHQL).list();
         }catch(Exception ex){
             Logger.getLogger(ReservaController.class.getName()).log(Level.SEVERE,null,ex);
+            JOptionPane.showMessageDialog(null,ex,"ERROR",JOptionPane.ERROR_MESSAGE);
         }
         terminarOperacion();
         return listaPistasDisponibles;
@@ -275,6 +299,7 @@ public class ReservaController {
             listaHorariosConPistasDisponibles = (ArrayList<Horarios>) sesion.createQuery(queryHQL).list();
         }catch(Exception ex) {
             Logger.getLogger(ReservaController.class.getName()).log(Level.SEVERE,null,ex);
+            JOptionPane.showMessageDialog(null,ex,"ERROR",JOptionPane.ERROR_MESSAGE);
         }
         terminarOperacion();
         return listaHorariosConPistasDisponibles;
@@ -289,6 +314,7 @@ public class ReservaController {
             listaHorariosConPistasDisponibles = (ArrayList<Horarios>) sesion.createQuery(queryHQL).list();
         }catch(Exception ex) {
             Logger.getLogger(ReservaController.class.getName()).log(Level.SEVERE,null,ex);
+            JOptionPane.showMessageDialog(null,ex,"ERROR",JOptionPane.ERROR_MESSAGE);
         }
         terminarOperacion();
         return listaHorariosConPistasDisponibles;
@@ -303,6 +329,7 @@ public class ReservaController {
             contador+= (long) sesion.createQuery("select count(r) from Reservas r inner join r.horarios h where r.usuarios.id = "+id+" and r.dia = '"+dia+"' and h.horaComienzo > '"+hora+"'").uniqueResult();
         }catch(Exception ex) {
             Logger.getLogger(ReservaController.class.getName()).log(Level.SEVERE,null,ex);
+            JOptionPane.showMessageDialog(null,ex,"ERROR",JOptionPane.ERROR_MESSAGE);
         }
         terminarOperacion();
         return contador;
@@ -316,6 +343,7 @@ public class ReservaController {
             contador+= (long) sesion.createQuery("select count(r) from Reservas r inner join r.horarios h where r.usuarios.email = '"+email+"' and r.dia = '"+dia+"' and h.horaComienzo > '"+hora+"'").uniqueResult();
         }catch(Exception ex) {
             Logger.getLogger(ReservaController.class.getName()).log(Level.SEVERE,null,ex);
+            JOptionPane.showMessageDialog(null,ex,"ERROR",JOptionPane.ERROR_MESSAGE);
         }
         terminarOperacion();
         return contador;

@@ -15,6 +15,7 @@ import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import modelo.Horarios;
@@ -35,7 +36,9 @@ public class HorarioController {
             sesion = NewHibernateUtil.getSessionFactory().openSession();
             sesion.beginTransaction();
         }catch (HibernateException ex){
-             Logger.getLogger(HorarioController.class.getName()).log(Level.SEVERE,null,ex);
+            Logger.getLogger(HorarioController.class.getName()).log(Level.SEVERE,null,ex);
+            JOptionPane.showMessageDialog(null,ex,"ERROR",JOptionPane.ERROR_MESSAGE);
+
         }
     }
     private void terminarOperacion(){
@@ -43,7 +46,9 @@ public class HorarioController {
             sesion.getTransaction().commit();
             sesion.close();
         }catch (HibernateException ex){
-             Logger.getLogger(HorarioController.class.getName()).log(Level.SEVERE,null,ex);
+            Logger.getLogger(HorarioController.class.getName()).log(Level.SEVERE,null,ex);
+            JOptionPane.showMessageDialog(null,ex,"ERROR",JOptionPane.ERROR_MESSAGE);
+
         }
     }
     
@@ -54,6 +59,7 @@ public class HorarioController {
             horario = (Horarios) sesion.get(Horarios.class, idHorario);
         }catch (Exception ex){
            Logger.getLogger(HorarioController.class.getName()).log(Level.SEVERE,null,ex);
+           JOptionPane.showMessageDialog(null,ex,"ERROR",JOptionPane.ERROR_MESSAGE);
         }
         terminarOperacion();
         return horario;
@@ -65,7 +71,8 @@ public class HorarioController {
         try{
             id = (long) sesion.save(horario);
        }catch (Exception ex){
-           Logger.getLogger(HorarioController.class.getName()).log(Level.SEVERE,null,ex);
+           Logger.getLogger(HorarioController.class.getName()).log(Level.SEVERE,null,ex);        
+           JOptionPane.showMessageDialog(null,ex,"ERROR",JOptionPane.ERROR_MESSAGE);
         }
         terminarOperacion();
         return id;
@@ -76,7 +83,8 @@ public class HorarioController {
         try{
             sesion.delete(horario);
         }catch (Exception ex){
-           Logger.getLogger(HorarioController.class.getName()).log(Level.SEVERE,null,ex);
+            Logger.getLogger(HorarioController.class.getName()).log(Level.SEVERE,null,ex);
+            JOptionPane.showMessageDialog(null,ex,"ERROR",JOptionPane.ERROR_MESSAGE);
         }
         terminarOperacion();
     }
@@ -88,6 +96,7 @@ public class HorarioController {
             horario = (Horarios)sesion.createQuery("from Horarios h where h.horaComienzo='"+hora+"'").uniqueResult();
         }catch(Exception ex){
             Logger.getLogger(HorarioController.class.getName()).log(Level.SEVERE,null,ex);
+            JOptionPane.showMessageDialog(null,ex,"ERROR",JOptionPane.ERROR_MESSAGE);
         }
         terminarOperacion();
         return horario;
@@ -99,7 +108,8 @@ public class HorarioController {
         try{
             listaHorarios = sesion.createQuery("from Horarios h ORDER BY h.turno ASC, h.horaComienzo ASC").list();
         }catch (Exception ex){
-           Logger.getLogger(HorarioController.class.getName()).log(Level.SEVERE,null,ex);
+            Logger.getLogger(HorarioController.class.getName()).log(Level.SEVERE,null,ex);
+            JOptionPane.showMessageDialog(null,ex,"ERROR",JOptionPane.ERROR_MESSAGE);
         }
         terminarOperacion();
         return listaHorarios;
@@ -127,6 +137,7 @@ public class HorarioController {
                 imgEliminar = ImageIO.read(HorarioController.class.getClassLoader().getResource("resources/img/icono-borrar.png"));
             } catch (IOException ex) {
                 Logger.getLogger(HorarioController.class.getName()).log(Level.SEVERE, null, ex);
+                JOptionPane.showMessageDialog(null,ex,"ERROR",JOptionPane.ERROR_MESSAGE);
             }
             row[3] = new JButton(new ImageIcon(imgEliminar));            
             model.addRow(row);

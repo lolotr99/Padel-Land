@@ -16,6 +16,7 @@ import java.sql.Blob;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.mail.MessagingException;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -285,7 +286,13 @@ public class Registro extends javax.swing.JFrame {
             if (!checkEmail(email)){
                 Usuarios user;
                 String nombreCompleto = jTextFieldNombreCompleto.getText();
-                String password = CifradoUtil.getHash(String.valueOf(jPasswordField.getPassword()));
+                String password ="";
+                try{
+                    password = CifradoUtil.getHash(String.valueOf(jPasswordField.getPassword()));
+                }catch(Exception ex){
+                    Logger.getLogger(Registro.class.getName()).log(Level.SEVERE, null, ex);
+                    JOptionPane.showMessageDialog(null,ex,"ERROR",JOptionPane.ERROR_MESSAGE);
+                }
                 String telefono = jTextFieldTelefono.getText();
                 String rol = "basico";
                 if (image_path != null && !image_path.equals("")){
@@ -296,8 +303,10 @@ public class Registro extends javax.swing.JFrame {
                         imageBlob = userController.obtenerBlob(fis, file);
                     } catch (FileNotFoundException ex) {
                         Logger.getLogger(Registro.class.getName()).log(Level.SEVERE, null, ex);
+                        JOptionPane.showMessageDialog(null,ex,"ERROR",JOptionPane.ERROR_MESSAGE);
                     } catch (IOException ex) {
                         Logger.getLogger(Registro.class.getName()).log(Level.SEVERE, null, ex);
+                        JOptionPane.showMessageDialog(null,ex,"ERROR",JOptionPane.ERROR_MESSAGE);
                     }
                     user = new Usuarios(nombreCompleto, email, password, telefono, imageBlob, rol, null);
                 }else{
@@ -307,7 +316,12 @@ public class Registro extends javax.swing.JFrame {
                 if (result != 0){
                     Mailer mailer = new Mailer();
                     String mensaje = "¡Hola " + user.getNombreCompleto()+ "!\nNos complace darte la bienvenida a Padel Land, esperemos que te guste nuestro servicio y que disfrutes de nuestras maravillosas pistas\n¡A jugar!";
-                    mailer.enviarMail(Constantes.EMAIL_ADMIN,user.getEmail(),"¡Bienvenido a Padel Land!",mensaje);
+                    try {
+                        mailer.enviarMail(Constantes.EMAIL_ADMIN,user.getEmail(),"¡Bienvenido a Padel Land!",mensaje);
+                    } catch (MessagingException ex) {
+                        Logger.getLogger(Registro.class.getName()).log(Level.SEVERE, null, ex);
+                        JOptionPane.showMessageDialog(null,ex,"ERROR",JOptionPane.ERROR_MESSAGE);
+                    }
                     
                     JOptionPane.showMessageDialog(null, "¡Usuario creado correctamente!","INFO", JOptionPane.INFORMATION_MESSAGE);
                     

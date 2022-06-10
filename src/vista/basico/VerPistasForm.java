@@ -18,6 +18,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
 import modelo.Pistas;
 import utilidades.ImagenFondo;
 
@@ -58,6 +59,7 @@ public class VerPistasForm extends javax.swing.JFrame {
                 imagenes.add(new ImageIcon(img.getScaledInstance(jLabelImagenPista.getWidth(), jLabelImagenPista.getHeight(), Image.SCALE_SMOOTH)));
             } catch (IOException | SQLException | NullPointerException ex) {
                 Logger.getLogger(MiPerfilForm.class.getName()).log(Level.SEVERE, null, ex);
+                JOptionPane.showMessageDialog(null,ex,"ERROR",JOptionPane.ERROR_MESSAGE);
             }
         }
     }
